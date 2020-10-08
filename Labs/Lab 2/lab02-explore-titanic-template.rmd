@@ -1,0 +1,98 @@
+---
+title: "INFX 573 Lab: Exploring Data"
+author: "Ji H. Kang"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+urlcolor: blue
+output: html_document
+---
+
+Collaborators: 
+1. Ji H. Kang
+
+# Exploring Titanic Data: Survival and Passenger Class
+
+```{r Setup, message=FALSE}
+library(tidyverse)  # or load other libraries you want to use
+```
+### 1. and 2. Downloaded and loaded titanic.csv.bz2
+
+```{r Read in Data}
+titanic <- read.csv("titanic.csv.bz2")
+```
+
+### 3. Inspect data.
+
+#### a) rows and columns
+
+
+There are `r nrow(titanic)` rows and `r ncol(titanic)` columns in this dataset.
+Here is an example of how to display non-working code:
+
+_your findings here_...
+
+#### b) first and last lines
+
+Here are the first 5 records from the data
+```{r}
+head(titanic, 5)
+```
+Here are the last 5 records from the data
+```{r}
+tail(titanic, 5)
+```
+We can immediately see that there are 1309 records which correlates to 1309 people. Official records state there were approximately 2400 passengers onboard with 900 crewmembers. This is only a portion of the actual people onboard. 
+
+#### c) It seems that the most important variables to answer the question are **pclass** and **survival**. We can compute the relative frequency of how many people in each ticket class survived and determine whether or not upper class passengers were more likely to survive.
+
+
+#### d) We can see how many fields are missing from the data. 
+Here is the number of missing values for "survival" - Those who survived. 
+```{r}
+sum(is.na(titanic$survival))
+```
+Here is the number of missing values for "pclass" - designates their ticket standing
+```{r}
+sum(is.na(titanic$pclass))
+```
+
+#### Here are missing records for the other variables/fields but aren't pertinent to this lab. 
+* There are `r sum(is.na(titanic$sex))` missing counts in "sex".
+* There are `r sum(is.na(titanic$age))` missing counts in "age". 
+* There are `r sum(is.na(titanic$sibsp))` missing counts in "siblings". 
+* There are `r sum(is.na(titanic$parch))` missing counts in "parents-children". 
+* There are `r sum(is.na(titanic$ticket))` missing counts in "ticket". 
+* There are `r sum(is.na(titanic$fare))` missing counts in "fare".
+* There are `r sum(is.na(titanic$cabin))` missing counts in "cabin".
+* There are `r sum(is.na(titanic$embarked))` missing counts in "embarking port".
+
+
+#### For our purposes, we're interested in seeing the relation of the number of people who survived and their ticket class to determine if upper class passengers were more likely to survive. This there are no missing records from either one of these variables; so we are ok to do analysis.  
+
+### 4. How is survival probability related to passenger class?
+```{r}
+## split the data into classes
+numUpperclass <- titanic[titanic$pclass == 1,]
+numMiddleclass <- titanic[titanic$pclass == 2,]
+numLowerclass <- titanic[titanic$pclass == 3,]
+```
+The survival rate of upper class passengers is... 
+```{r}
+mean(numUpperclass$survived, na.rm=TRUE)
+```
+The survival rate of middle class passengers is...
+```{r}
+mean(numMiddleclass$survived, na.rm=TRUE)
+```
+The survival rate of lower class passengers is... 
+```{r}
+mean(numLowerclass$survived, na.rm=TRUE)
+```
+**Analysis and Explanation**
+To answer the question, we can see that ticket class standing did have an effect. Specifically, the higher your ticket class, the greater chance at survival. Upper class with the highest rate, middle class with the second highest, and lower class with the lowest survival rate. 
+
+
+### 5. Why do you think this was the case?
+We can see that **upper class** passengers had a survival rate of 0.619195 or roughly 62%, **middle class** passengers had a survival rate of 0.4296029 or roughly 43%, and **lower class** passengers had a survival rate of 0.2552891 or roughly 25%. Since the upper class passengers had paid more for their tickets, it can be assumed that they were given priority for lifeboats, then middle class, then lower class. 
+It's stated that women and children were prioritized within those groups as well. This can explain why upper class passengers isn't at or near a survival rate of 1.0 or 100%. 
+
+
