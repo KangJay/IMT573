@@ -1,0 +1,56 @@
+---
+title: "Rmarkdowndemo"
+author: "Ji H. Kang"
+date: "10/7/2020"
+output: html_document
+---
+
+# 1st level header 
+
+## 2nd level header 
+
+### 3rd level header
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+A paragraph of plain text. You can also use **bold**, _italic_, `typewriter`, and other tricks.
+
+Add images: 
+![Dolphin image](https://wallpaperaccess.com/full/1421353.jpg)
+# Play with sharks 
+
+![](https://media.wired.com/photos/5c6750d23e8add2cdb91724f/125:94/w_2393,h_1800,c_limit/shark-551025353.jpg)
+
+```{r, echo=FALSE}
+1 + 1
+```
+
+```{r}
+gsa <- read.delim("GSAF5.csv.bz2")
+nrow(gsa)
+ncol(gsa)
+```
+We loaded the sharks file. It contains `r nrow(gsa)` rows and `r ncol(gsa)` columns
+
+Variable names in the data: 
+```{r}
+names(gsa)
+```
+
+First few lines of data
+```{r}
+head(gsa, 3)
+```
+
+Analyze the type of attack:
+```{r}
+table(gsa$Type)
+```
+
+Extract subset of data: only provoked attacks 
+```{r}
+provoked <- gsa[gsa$Type == "Provoked",]
+nrow(provoked)
+```
