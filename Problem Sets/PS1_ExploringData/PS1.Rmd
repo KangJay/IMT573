@@ -1,0 +1,108 @@
+---
+title: "PS1_ExploringData"
+author: "Ji H. Kang"
+date: "10/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1.1 Computing 
+
+### Question 1: Compute how many seconds are there in a year and assign it to a suitable variable. Thereafter print the result. 
+```{r}
+SIH <- 60 * 60 #Seconds in an hour. 60 minutes in an hour
+cat("There are", prettyNum(SIH, big.mark=",", scientific=FALSE), "seconds in an hour.\n")
+SID <- SIH * 24 #Seconds in a day. #24 hours in a day
+cat("There are", prettyNum(SID, big.mark=",", scientific=FALSE), "seconds in a day.\n")
+SIW <- SID * 7 #Seconds in a week. 7 Days in a week
+cat("There are", prettyNum(SIW, big.mark=",", scientific=FALSE), "seconds in a week.\n")
+SIY <- SIW * 52 #Seconds in a year. 52 weeks in a year 
+cat("There are", prettyNum(SIY, big.mark=",", scientific=FALSE), "seconds in a year.\n")
+```
+
+### Question 2: How long is a typical human lifetime in seconds? Use the seconds-in-year variable you created above to compute it. 
+```{r}
+cat("The average human lifespan is 79 years according to google...\n")
+SILT <- SIY * 79 #Seconds-in-lifetime
+cat("There are approximately", prettyNum(SILT, big.mark=",", scientific=FALSE), "seconds in a human lifetime.\n")
+```
+
+### Question 3: The age of the Universe is 13.7 billion years. How old is the Universe in seconds?
+```{r}
+universeAge <- 13700000000 #13.7 billion 
+universeAgeInSeconds <- universeAge * SILT 
+cat("The Universe is", prettyNum(universeAgeInSeconds, big.mark=",", scientific=FALSE), "seconds old.\n")
+```
+
+# 1.2 Functions 
+
+### Question 1: Write a function that takes two arguments: first name, and last name; and returns a sentence like "Hi, my name is *first name* *last name*, nice to meet you!". 
+```{r}
+greetPerson <- function(first_name="", last_name="") {
+  return(sprintf("Hi, my name is %s %s, nice to meet you!", first_name, last_name))
+}
+print(greetPerson("Ji-Hoon", "Kang"))
+```
+
+
+# 1.3 Vectors, loops, if/else 
+### Setting up the vector 
+```{r}
+set.seed(1) 
+v <- sample(10, 20, replace=TRUE) - 5 
+v
+```
+### Question 1: Use a for-loop to extract only positive numbers from this vector 
+```{r}
+positiveV <- c() #Empty vector 
+for (number in v){
+  if (number > 0) {
+    positiveV <- c(positiveV, number)
+  }
+}
+positiveV
+```
+### Not part of the assignment but can also do something like this 
+```{r}
+newV <- v[which(v > 0)]
+newV
+```
+
+### Question 2: Perform the same task without a for-loop using logical indexing 
+```{r}
+logicalIndexes <- v > 0 
+positiveV <- v[logicalIndexes] #Overwrite the previous vector
+positiveV
+```
+
+```{r}
+v1 <- 9
+v2 <- c(1,2)
+v3 <- c(2,3,-4)
+```
+### Question 3: Write a function that tests if the vectors have negative elements, and prints an appropriate message. Test the negativity of these three vectors to show the function works correctly. 
+```{r}
+containsNegative <- function(vec = NULL){
+  if (is.null(vec)){
+    print("No given vector or was NULL. Please try with a diff argument")
+  } else {
+    if (all(vec >= 0)){
+      print("There are no negative values in this vector!")
+    } else {
+      print("There are negative values in this vector!")
+    }
+  }
+}
+print(paste("v1 contains:", v1))
+containsNegative(v1) 
+print(paste("v2 contains:", v2))
+containsNegative(v2) 
+print(paste("v3 contains:", v3))
+containsNegative(v3) 
+```
+
+# 2.1 Exploring the NYC Flights Data 
+
