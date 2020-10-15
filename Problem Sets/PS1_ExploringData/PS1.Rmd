@@ -96,13 +96,130 @@ containsNegative <- function(vec = NULL){
     }
   }
 }
-print(paste("v1 contains:", v1))
+```
+
+```{r}
+cat("v1 contains:", v1)
 containsNegative(v1) 
-print(paste("v2 contains:", v2))
+cat("v2 contains:", v2)
 containsNegative(v2) 
-print(paste("v3 contains:", v3))
+cat("v3 contains:", v3)
 containsNegative(v3) 
 ```
 
+# 2 Data Exploration 
+```{r}
+#install.packages("nycflights13") #Uncomment if package is not installed. 
+data(flights, package="nycflights13")
+#names(flights)
+```
+
+
 # 2.1 Exploring the NYC Flights Data 
+
+### Question 2: Perform basic inspections of the data 
+* How many distinct flights do we have in the dataset? 
+```{r}
+nrow(flights)
+```
+* What are the variables (variable names) in the data? 
+```{r}
+names(flights)
+```
+* How many missing values are there in each variable? 
+```{r}
+#Methodology for this was from https://sebastiansauer.github.io/sum-isna/
+library(tidyverse) 
+map(flights, ~sum(is.na(.)))
+```
+
+## Any unreasonable values? 
+
+### Minimum of each column
+```{r}
+apply(flights, 2, function(x) min(x, na.rm = TRUE))
+```
+### Maximum of each column
+```{r}
+apply(flights, 2, function(x) max(x, na.rm = TRUE))
+```
+### Range of each column
+```{r}
+apply(flights, 2, function(x) range(x, na.rm = TRUE))
+```
+#### Upon initial analysis of the data, nothing seems out of the ordinary except for delays in either arrival or departure times - however, delays in airport flights happen all the time to the point where it may even be delayed... even up to past a week due to natural factors such as snow storms. 
+#### Initially, having a minimum flight distance of 17 miles is underwhelming. Are there really flights that span only 17 miles? Could this be across water?
+
+
+
+# 3. Formulate a reasonable question about this dataset: 
+#### Question: Which airport from the data set, on average, has the largest **departure delays** for flights that are leaving from them in 2013. Eg. Flights from JFK would have a **'origin'** value of JFK. 
+
+# 4. Explore Data
+
+### Here are the available airports in this data set
+```{r}
+unique(flights$origin)
+```
+
+### Which variables are the most important ones from the question's perspective. 
+From the standpoint of the question, the only important variables to consider for this approach are the **origin** to get the airport, and **dep_delay** for the departure delay times for those records.
+
+### Splitting up the data set by airport origin 
+```{r}
+airport_split <- split(flights, flights$origin) # Split data set based on the origin 
+# Each airport is split based on their origin airport 
+EWR <- airport_split$EWR
+JFK <- airport_split$JFK 
+LGA <- airport_split$LGA
+```
+
+### Inspecting the data
+#### We see from section 2.1 that there are no missing values for origin. So we should focus on seeing how many values for dep_delay there are for each airport. 
+### JFK
+```{r}
+sum(is.na(JFK$dep_delay))
+```
+### LGA 
+```{r}
+sum(is.na(LGA$dep_delay))
+```
+### EWR
+````{r}
+sum(is.na(EWR$dep_delay))
+```
+#### We can see JFK has 1863 missing, LGA has 3153, and EWR has 3239. We'll have to exclude these records from our analysis. 
+```{r}
+#If the dep_delay is NA for these, it will get rid of them via logical indexing. 
+EWR <- EWR[!is.na(EWR$dep_delay),]
+JFK <- JFK[!is.na(JFK$dep_delay),]
+LGA <- LGA[!is.na(LGA$dep_delay),]
+```
+#### Airport travels are always riddled with delays, layovers, and unforeseen circumstances where a passenger may find themself waiting or missing an early departure flight. Doing this simple analysis will give some reassurance to passengers.
+
+```{r}
+#Don't need na.rm=TRUE since the individual subsets have been cleaned of records with a dep_delay of NA. 
+JFK_avg <- round(mean(JFK$dep_delay), digits = 2) 
+EWR_avg <- round(mean(EWR$dep_delay), digits = 2)
+LGA_avg <- round(mean(LGA$dep_delay), digits = 2)
+cat(paste("The average delay time for JFK is", JFK_avg, "minutes, EWR is", EWR_avg, "minutes, and LGA is", LGA_avg, "minutes."))
+```
+```{r}
+avgs <- matrix(c(JFK_avg, EWR_avg, LGA_avg), ncol=1, byrow=TRUE)
+labels <- c("JFK", "EWR", "LGA")
+rownames(avgs) <- c("JFK", "EWR", "LGA")
+colnames(avgs) <- "Delay (minutes)"
+table_var <- as.table(avgs)
+table_var
+```
+# 5. Conclusion 
+
+We can see that EWR has an average delay of 15.11 minutes with JFK and LGA trailing with 12.11 minutes and 10.35 minutes respectively. 
+
+Within the realm of this dataset, we can conclude that no matter which airport you choose, you can expect to wait at least 10 minutes.Passengers may use this data to plan ahead of time. 
+
+Whether they should show up x minutes earlier or can assume they'll be reassured of running late by looking at these averages. 
+
+Another experiment would be to do this across all major airports in the United States with more recent data. No matter how advanced scheduling algorithms, IT solutions, etc. gets it seems that flight delays are still prevalent. 
+
 

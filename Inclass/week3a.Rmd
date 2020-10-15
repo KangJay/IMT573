@@ -58,7 +58,7 @@ gsa %>%
 Filter out China and Taiwan only. Use 'x %in% c("a", "b")' to select two (or more) countries 
 ```{r}
 gsa %>% 
-  select(Date:Country, Fatal..Y.N.) %>% 
+  ///select(Date:Country, Fatal..Y.N.) %>% 
   filter(!tolower(Country) %in% c("china", "taiwan")) %>%
   filter(!is.na(Year)) %>%
   arrange(Year) %>% 

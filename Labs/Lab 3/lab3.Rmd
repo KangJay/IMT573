@@ -1,0 +1,77 @@
+---
+title: "JiKang_Lab3"
+author: "Ji H. Kang"
+date: "10/14/2020"
+output: html_document
+---
+
+# 1 Create a time variable 
+
+## Import the data
+```{r, message=FALSE}
+library(dplyr) 
+library(tidyverse)
+temp <- read.delim("../../Data/UAH-lower-troposphere.csv.bz2")
+```
+
+## Check the data is properly loaded 
+```{r}
+cat(paste("Number of rows:", nrow(temp), "Number of columns:", 
+          ncol(temp)))
+cat("First 10 lines from the data")
+head(temp, 10)
+```
+
+## Compute a continuous time measure, eg. years + months/12
+```{r}
+temp <- mutate(temp, time=Year+Mo/12)
+cat("What the new column value looks like:")
+head(temp, 10)
+```
+
+# 2 Plot 
+
+## Initial results on plotting a line for every area type in the data, each having a distinct color. 
+```{r}
+temp %>%
+  ggplot(aes(time, temp, col=type)) + # 'time' is the continuous date variable we created above.
+  geom_line()
+```
+
+## Plotting global temperature over time. But only using type=Globe. 
+```{r}
+temp %>% 
+  filter(type == "Globe") %>% # Only using the "Globe" type for this. 
+  ggplot(aes(x=time, y=temp, col=type)) + 
+  geom_line(col="blue") #Making the line blue
+```
+
+## Plot only the Northern Hemisphere (NH) and Southern Hemisphere (SH) temps over time. 
+```{r}
+temp %>% 
+  filter(type == "NH" | type =="SH") %>% # Only extracting northern and southern hemisphere data 
+  ggplot(aes(x=time, y=temp, col=type)) + 
+  geom_line()
+```
+
+## Plotting only yearly global average temperatures using a barplot, colors according to the temperature. 
+```{r}
+temp %>% 
+  filter(type == "Globe") %>% 
+  group_by(Year) %>%
+  ggplot(aes(x=time, y=temp,fill=temp)) + 
+  scale_fill_gradientn(colors=c("blue", "white", "red")) +
+  geom_bar(stat="identity") 
+```
+
+# 4. Making my own plot! Boxplot of global temperatures, averaged and grouped by year 
+```{r}
+temp %>% 
+  filter(type == "Globe") %>% 
+  group_by(Year) %>% 
+  ggplot(aes(x=Year, y=temp, group=Year)) + 
+  geom_boxplot(outlier.colour="red", outlier.shape=1, 
+               outlier.size=2, notch = FALSE)
+```
+
+It's fascinating to see this upon an initial glance. With just a line-graph, it was hard to see the trend but with a box-and-whiskers plot, it's much clearer. The historical high temperatures from 1980 to 2000 occurred in 1997. Fast forward to 2020 and the few years prior, it's statistically similar. The last 5 years have consistently been around the same as the high temperature year from 1980 to this point. Would help debunk a lot of people who assume the planet hasn't been experiencing global warming.

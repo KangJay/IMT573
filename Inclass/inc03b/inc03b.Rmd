@@ -1,0 +1,83 @@
+---
+title: "in-class03b"
+author: "Ji H. Kang"
+date: "10/14/2020"
+output: html_document
+---
+# ggplot 
+```{r, message=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+## Diamonds data
+```{r}
+data(diamonds)
+
+```
+
+```{r}
+d1k <- diamonds %>% #1000 diamonds  
+  sample_n(1000)
+#Arguments are 1. Data, 2. Aesthetics mapping,
+ggplot(data=d1k, aes(x=carat, y=price)) +
+  geom_point() +
+  #geom_line()
+  
+```
+
+# Aesthetics 
+**Visual properties of the plot**
+
+Examples: 
+* Horizontal position (x) 
+* Vertical position (y) 
+* Outline color (col)
+* Fill color (fill) 
+* Point size/line width (size) 
+* Transparency (alpha) 
+* Line type (linestyle) - maybe
+* ...
+```{r}
+ggplot(d1k, aes(x=carat, y=price, col=depth)) +
+  geom_point()
+```
+```{r}
+ggplot(d1k, aes(x=carat, y=price, col=cut)) +
+  geom_point()
+```
+
+Map one variable (price) to two aesthetics
+
+```{r}
+ggplot(d1k, aes(x=carat, y=price, col=price)) + 
+  geom_point()
+```
+
+```{r}
+data(Orange) 
+names(Orange)
+```
+
+* Plot circumference as a function of age 
+* Make point color dependent on treeid 
+
+```{r}
+ggplot(Orange, aes(age, circumference, col=Tree)) + 
+  geom_point()
+```
+
+```{r}
+ggplot(d1k, aes(carat, price)) + 
+  geom_point(col="blue", size=3, alpha=0.1) 
+```
+
+
+Exercise: 
+* Plot orange trees with black dots 
+* Add colored lines as you did above 
+```{r}
+ggplot(Orange, aes(age, circumference, col=Tree, group=Tree)) + 
+  geom_point(col="black") + 
+  geom_line(col="lightblue")
+```
