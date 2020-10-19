@@ -1,0 +1,14 @@
+# Problem Set 2: Data Manipulation 
+
+
+## 1. Working with the NYC Flights Data
+
+### 1.1 Load the data and necessary libraries 
+```{r}
+data(flights, package="nycflights13") # Loading the data set 
+library(dplyr) 
+library(tidyverse) 
+```
+
+The variables (or names) availabe for use in this dataset are: `r names(flights)`.
+
