@@ -1,0 +1,59 @@
+---
+title: "Lab 4: Get game scores from the web"
+author: "Ji H. Kang"
+date: "10/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Scrape recent college football scores 
+
+### Load the data from the college football page 
+```{r, message=FALSE}
+library(rvest)
+library(tidyverse)
+url <- "https://www.sports-reference.com/cfb/"
+scores <- read_html(url)
+```
+
+### Find the table "Recent Games". What is the element that contains the "Recent Games" text? 
+Inspecting the page, it seems that it is a **level 2 header (h2)** under **"div class=game_summaries"** 
+
+### This element is contained inside a DIV. What is the class of that DIV? 
+The class is named **game_summaries**
+
+### Extract that DIV. Call this "summaries" 
+```{r}
+summaries <- scores %>% 
+  html_node("div.game_summaries") 
+```
+Now we have extracted the recent games, we don't need to use the entire html stored previously. 
+
+### Underneath the title "Recent Games", there are a lot of scores. Inside which elements are those texts embedded?  
+Each score is embedded in this hierarchy: **div class="game_summary no hover"** to **table class="teams"** to a **tbody** to **tr class** to a **td** tag, and finally is embedded in a **a href** tag.
+
+
+### Extract all those elements and texts from therein. Print those texts
+```{r}
+games <- summaries %>% 
+  html_nodes("div.game_summary.nohover")
+for (game in games) {
+  game %>% html_node("table.teams") %>% 
+    html_node("tbody") %>% 
+    html_nodes("tr") -> teams
+  for (team in teams) { #Each team is separated by a tr class. Need to parse each one. 
+    team %>% 
+      html_node("a") %>% #Extract the href
+      html_text() %>% cat() #Get the content from the href and print
+    cat(" ") #Add space between team and score 
+    team %>% 
+      html_node("td.right") %>%
+      html_text() %>% cat("\t") #Separate each team+score by a tab
+  }
+  cat("\n=============================================\n") #Separate each game 
+}
+```
+Checking this generated score table and the website, it seems everything was scraped and parsed correctly. I don't watch football but maybe this can be built on and impress some friends!

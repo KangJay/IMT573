@@ -1,14 +1,391 @@
+---
+title: "INFX 573 Problem Set 2"
+author: "Ji H. Kang"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+urlcolor: blue
+output: html_document
+---
 # Problem Set 2: Data Manipulation 
 
 
 ## 1. Working with the NYC Flights Data
 
 ### 1.1 Load the data and necessary libraries 
-```{r}
+```{r, message=FALSE}
 data(flights, package="nycflights13") # Loading the data set 
 library(dplyr) 
 library(tidyverse) 
 ```
 
-The variables (or names) availabe for use in this dataset are: `r names(flights)`.
+The variables (or names) available for use in this data set are: `r names(flights)`.
+
+## 2. Explore the data 
+
+### How many flights out of NYC are there in the data? 
+
+```{r}
+cat("There are", nrow(flights), "flights out of NYC.")
+```
+
+### How many NYC airports are included in this data? Which airports are these? 
+```{r}
+cat("There are", length(unique(flights$origin)), "airports in NYC.\n")
+cat("These airports are:", paste(unique(flights$origin), collapse=", "), "\n")
+```
+Looking at the "origin" values for the data set, we can see there's only 3 airports 
+flights are coming out of from NYC. 
+
+### How many airports did the airplanes fly **from** NYC in 2013? 
+```{r}
+cat("There were", length(unique(flights$dest)), 
+    "airports that airplanes flew to from NYC in 2013.\n")
+```
+Since we're looking at the number of airports that airplanes **from** NYC came to, 
+we need to look at the unique number of destination airports.
+
+### How many flights were there from NYC to Seattle (Airport code = SEA)?
+```{r}
+flights %>% 
+  filter(tolower(dest) == "sea") %>% # Seattle's airport code
+  nrow() -> numSeattleFlights 
+cat("There were", numSeattleFlights, "flights going to Seattle from NYC in 2013.\n")
+```
+
+### Were there any flights from NYC to Boise, ID (Airport code = BOI)?
+```{r}
+flights %>% 
+  filter(tolower(dest) == "boi") %>% # Boise's airport code
+  nrow() -> numBoiseFlights
+if (numBoiseFlights > 0){
+  cat("There were", numBoiseFlights, "flights going to Boise from NYC in 2013.\n") 
+} else {
+  cat("There were no flights going to Boise, ID (BOI) from NYC in 2013.\n")
+}
+```
+
+### What about missing destination codes? Are there any destinations that do not look like valid airport codes (three-letter-all-upper case)?
+```{r}
+dest_codes <- unique(flights$dest) 
+has_invalid_code <- F  # Used to check if there's ANY invalid dest_codes. 
+for (dest in dest_codes) {
+  #Checks if it's not 3 letters long AND if it's not all upper case
+  if (nchar(dest) != 3 || dest != toupper(dest)){ 
+    has_invalid_code <- T 
+    cat("Invalid airport code:", dest, "\n")
+  }
+}
+if (!has_invalid_code) {
+  cat("No invalid airport codes found.\n")
+}
+```
+#### Can also be done this way using regular expression matching 
+```{r}
+lairport_codes <- grepl("^[[:upper:]]{3}$", dest_codes) #Store the logical indexes
+if (FALSE %in% lairport_codes){
+  cat("There is an invalid airport code in the data.\n")
+  airport_codes[!lairport_codes] #Print invalid ones if there are any.
+} else {
+  cat("No invalid airport codes found.\n")
+}
+```
+
+### Reflecting back on the questions and answers 
+All questions were able to be answered. Reflecting back, there may be some explanations for some of the results found. For example, there were more than 3 airpots in NYC obviously in 2013 but seems to include the 3 largest ones responsible for foot traffic, hence why only 3 unique airport values in the origin was found (JFK, LGA, EWR). 
+Next, I initially found it odd there weren't any flights from NYC to Boise, ID. Taking a look at 2020, flight options available, all options include connecting flights. The distance spanned over 2,400 miles. It makes sense that no flights directly connected the two cities together. 
+
+
+## 2.1 Flights are delayed...
+
+### What is the typical delay of flights in this data? 
+```{r}
+avg_delay <- mean(flights$dep_delay, na.rm=TRUE)
+cat("The average delay for flights is", avg_delay, "minutes.\n")
+```
+
+### Are there any missing values? Any implausible or invalid entries?
+```{r}
+flights %>% 
+  select(dep_delay) %>%  # found at https://www.programmingr.com/examples/remove-na-rows-in-r/
+  na.omit() -> delays 
+cat("The highest value for delays is:", max(delays), "minutes.\n")
+cat("The lowest value for delays is:", min(delays), "minutes.\n")
+```
+While these outliers are definitely strange, they are plausible. It's not entirely uncommon for flights to be delayed by a day or even more. A delay of 1303 minutes is equated to ~21 hours. A number of explanations could be used here: A snowstorm made it unsafe for airplanes to take off, hurricane winds made the flight path unviable, etc. 
+A delay of -41 minutes is more unique however. It would mean every passenger registered to board showed up early enough for the entire flight to take  off over half an hour early. While not impossible, it is definitely an interesting value.
+Other than these values, I removed NA entires which signify missing values. Datasets aren't always 100% clean and will contain missing values. Nothing out of the ordinary here however.
+
+### Now compute the delay by destination. Which ones are the worst three destinations in terms of the longest delay? 
+```{r}
+data(flights, package="nycflights13") # Loading the data set 
+flights %>% 
+  select(dest, dep_delay) %>% 
+  na.omit() %>% #Removing any entries with NA values for dep_delay 
+  group_by(dest) %>% 
+  mutate(delay_mean = mean(dep_delay, na.rm=TRUE)) %>%
+  arrange(-dep_delay) %>% # Arrange it in descending order 
+  subset(select=-c(dep_delay)) -> dest_by_delay #Get rid of dep_delay so we can get unique entries
+dest_by_delay <- unique(dest_by_delay[order(-dest_by_delay$delay_mean),]) 
+cat("The airports with the longest average delays are:")
+head(dest_by_delay, 3) #Get the top 3 results.
+```
+**Note:** Each _delay_mean_ shown in the chart above is in minutes.
+
+### Delays related to the seasons 
+
+```{r}
+#Got method for seasons from. Modified for 2013 dates  https://stackoverflow.com/questions/9500114/find-which-season-a-particular-date-belongs-to
+getSeason <- function(DATES) {
+  winter <- as.Date("2013-12-21", format = "%Y-%m-%d") # Winter Solstice
+  spring <- as.Date("2013-3-20",  format = "%Y-%m-%d") # Spring Equinox
+  summer <- as.Date("2013-6-20",  format = "%Y-%m-%d") # Summer Solstice
+  fall <- as.Date("2013-9-22",  format = "%Y-%m-%d") # Fall Equinox 
+  d <- as.Date(strftime(DATES, format="2013-%m-%d"))
+
+    ifelse (d >= winter | d < spring, "Winter",
+      ifelse (d >= spring & d < summer, "Spring",
+        ifelse (d >= summer & d < fall, "Summer", "Fall")))
+}
+```
+
+```{r}
+flights %>%
+  select(time_hour, dep_delay) %>% #Get the necessary dates 
+  na.omit() -> seasonal_delays # Remove NA entries 
+
+#Add new column with season.
+seasonal_delays <- mutate(seasonal_delays, season=getSeason(seasonal_delays$time_hour))
+cat("Here are the first and last 5 few entries from season")
+head(seasonal_delays, 5) 
+tail(seasonal_delays, 5)
+```
+
+### Graphical Visualization of delays by season
+
+#### Averaged dep_delay per season as bar graph
+```{r}
+seasonal_delays %>% 
+  group_by(season) %>% 
+  summarise_at(vars(dep_delay), funs(mean(., na.rm=TRUE))) -> averaged_seasonal_delays 
+
+ggplot(data=averaged_seasonal_delays, aes(x=season, y=dep_delay)) + 
+  geom_bar(stat="identity", fill="white", colour="black") + 
+  theme(axis.text.x = element_text(face="bold", color="#993333", 
+                           size=14, angle=45),
+          axis.text.y = element_text(face="bold", color="#993333", 
+                           size=14, angle=45)) + 
+  ylab("Average departure delay in minutes") + 
+  scale_x_discrete("Seasons of the year") + 
+  geom_text(aes(label=round(dep_delay, 2)), position=position_dodge(width=0.9), vjust=-0.25)
+  
+```
+
+#### Averaged dep_delay as a table
+```{r}
+averaged_seasonal_delays
+```
+
+
+### Graphical visualization of delays by time of day
+Because morning, afternoon, evening, and night-time are all subjective per person, I'll be utilizing:
+https://www.learnersdictionary.com/qa/parts-of-the-day-early-morning-late-morning-etc
+to dictate the cutoff times. 
+
+* **Morning**: From 4:00 AM to 11:59 AM
+
+* **Afternoon**: From 12:00 PM to 4:59 PM 
+
+* **Evening**: From 5:00 PM to 8:59 PM
+
+* **Night**: From 9:00 PM to 3:59 AM
+
+```{r}
+#To convert the dep_time to time of day. 
+getTimeOfDay <- function (time) {
+  ifelse (time %in% 0400:1159, "Morning", 
+    ifelse (time %in% 1200:1659, "Afternoon", 
+        ifelse (time %in% 1700:2059, "Evening", "Night")))
+}
+```
+
+We need to now get the variables valuable for analyzing if the time of day affects the delay times.
+```{r}
+#Extract only the variables we're interested in for analysis later
+flights %>% 
+    select(dep_time, dep_delay, year, month, day) %>% 
+    na.omit() -> datetime_delays
+#Enrich data using mutate
+datetime_delays %>%
+  mutate(datetime_delays, datetime = getTimeOfDay(dep_time)) %>%
+  group_by(datetime) -> datetime_delays
+ 
+cat("First 5 records of this new data.")
+head(datetime_delays, 5) 
+cat("Last 5 records from this new data.")
+tail(datetime_delays, 5)
+
+#Creating subsets by the time of day. So we can plot each individually.
+datetime_delays %>% 
+  filter(datetime == "Morning") -> morning_delays 
+datetime_delays %>% 
+  filter(datetime == "Afternoon") -> afternoon_delays 
+datetime_delays %>% 
+  filter(datetime == "Evening") -> evening_delays 
+datetime_delays %>% 
+  filter(datetime == "Night") -> night_delays 
+```
+#### Function to plot each graph
+```{r}
+plotDelays <- function(delay_time) {
+ggplot(delay_time, aes(dep_time, y=dep_delay, color=datetime)) + 
+  stat_summary(fun=mean, geom="line", alpha=0.5) + 
+  guides(colour=guide_legend(override.aes=list(alpha=1, lwd=1)))
+}
+```
+
+### Visualization of Morning time 
+```{r}
+plotDelays(morning_delays) 
+```
+
+### Visualization of Afternoon time 
+```{r}
+plotDelays(afternoon_delays) 
+```
+
+### Visualization of Evening time 
+```{r}
+plotDelays(evening_delays) 
+```
+
+### Visualization of Night time 
+```{r}
+plotDelays(night_delays) 
+```
+
+#### Analysis of results 
+For **morning times**, the delay seems to hovers near 0 delays for the majority of the time. From about 5:00 AM to 8:00 AM, all flights seem to take off with no problems. When 10:00 AM starts, you can see that it tends to be more in the 5-10 minute delay range. Still not too bad. It dies out right before 12:00 PM which could indicate a sort of lunch break or break in general for flight staff. It wouldn't necessarily make sense to take off when the passengers and staff are hungry. 
+For **Afternoon times**, it's much more volatile than morning times. However, it's shown that every single flight has had a delay of some sort during the afternoon times. This typically ranges from 2 minutes all the way to roughly 26 minutes. People boarding during the afternoon can rest assured if they're running a few minutes late. 
+For **Evening times**, it's shown the earliest flight leaving during this time period has roughly a 10 minute delay regardless. If you're leaving anywhere from 5:00 PM to 7:30PM, you can expect around a 20 minute delay. However, if you're traveling past 8:00 PM, you can expect to be waiting around 30 minutes before taking off. 
+For **Night times**, the most hectic delay times occur during graveyard hours of 12:00 AM to 4:00 AM. A number of reasons could explain this behavior as in it takes longer to inspect the runway due to the poor vision. People tend to be less motivated at work due to the atmosphere as well.
+
+### Reflection of questions asked 
+In my opinion, the questions asked were fine overall. The questions asking about delays according to the seasons did require a bit of self-learning initially. Since I didn't want to separate it by just the month since the seasonal equinoxes change the day it occurs annually. 
+Next, the time of day question seemed to be a 2-dimensional problem. Eg. Asking if delays during the "foggy morning hours" but seemed more straight forward. Perhaps an iteration for the next class could be to add a weather component to it. "Rainy mornings vs sunny mornings" and so on. 
+
+## 2.2 Let's fly to Minneapolis! 
+
+### How many flights were there from NYC airports to Minneapolis in 2013? 
+```{r}
+flights %>% 
+  filter(toupper(dest) == "MSP") -> msp_flights 
+```
+Created a subset of the data including flights only to Minneapolis (MSP). Here are a few records from this subset. 
+```{r}
+cat("There were", nrow(msp_flights), "flights from NYC to MSP in 2013.\n")
+```
+```{r, echo=FALSE}
+# Used for testing. Disregard this r chunk 
+#msp_flights$carrier
+```
+
+### How many airlines fly from NYC to Minneapolis? 
+```{r}
+cat("There were", length(unique((msp_flights$carrier))), "airlines that flew to MSP from NYC in 2013.\n")
+```
+### Which are these airlines (find the 2-letter abbreviations)? How many times did each of these fly to Minneapolis?
+```{r}
+msp_flights %>% 
+  select(carrier) %>% 
+  group_by(carrier) %>% 
+  summarise(count=n()) -> msp_carriers
+
+#Attempted to enumerate over but kept getting an atomic vector error. Used indexes. Would've preferred to not however.
+for (i in 1:6){
+  cat("Carrier:", msp_carriers$carrier[i], "visited NYC", msp_carriers$count[i], "times in 2013.\n")
+}
+```
+
+
+### How many different airplanes arrived from each of the three NYC airports to Minneapolis? 
+```{r}
+flights %>% 
+  select(arr_delay, dest, origin, tailnum) %>% 
+  group_by(origin) -> msp_flights 
+#Get subsets of each of the data. 
+msp_flights %>% 
+  filter(origin == "JFK", dest == "MSP") -> from_jfk 
+msp_flights %>%
+  filter(origin == "LGA", dest == "MSP") -> from_lga 
+msp_flights %>% 
+  filter(origin == "EWR", dest == "MSP") -> from_ewr 
+```
+```{r}
+from_jfk %>% 
+  select(arr_delay, origin, tailnum) %>% 
+  group_by(tailnum) -> jfk_count
+cat("There were", length(unique(jfk_count$tailnum)), "different airplanes flying to MSP from JFK in 2013.\n")
+```
+```{r}
+from_lga %>% 
+  select(arr_delay,origin, tailnum) %>% 
+  group_by(tailnum) -> lga_count
+cat("There were", length(unique(lga_count$tailnum)), "different airplanes flying to MSP from LGA in 2013.\n")
+```
+```{r}
+from_ewr %>% 
+  select(arr_delay,origin, tailnum) %>% 
+  group_by(tailnum) -> ewr_count
+cat("There were", length(unique(ewr_count$tailnum)), "different airplanes flying to MSP from EWR in 2013.\n")
+```
+
+### What percentage of flights to Minneapolis were delayed at arrival by more than 15 minutes? 
+```{r}
+jfk_total <- nrow(from_jfk)
+lga_total <- nrow(from_lga) 
+ewr_total <- nrow(from_ewr) 
+nyc_total_count <- ewr_total + lga_total + jfk_total
+nyc_total_count
+from_jfk %>% 
+  filter(arr_delay > 15) -> from_jfk 
+from_lga %>% 
+  filter(arr_delay > 15) -> from_lga
+from_ewr %>% 
+  filter(arr_delay > 15) -> from_ewr
+nyc_delayed_count <- nrow(from_jfk) + nrow(from_lga) + nrow(from_ewr) 
+cat(paste("The percentage of flights to Minneapolis from NYC that were delayed by more than 15 minutes is ", round((nyc_delayed_count / nyc_total_count) * 100, 2), "%" ,sep=""))
+```
+
+
+### Percentage of flights to Minneapolis delayed at arrival by more than 15 minutes by NYC airport
+```{r}
+cat(paste("The percentage of flights to Minneapolis from JFK that were delayed by more than 15 minutes is ", round((nrow(from_jfk) / jfk_total) * 100, 2), "%" ,sep=""))
+cat(paste("The percentage of flights to Minneapolis from LGA that were delayed by more than 15 minutes is ", round((nrow(from_lga) / lga_total) * 100, 2), "%" ,sep=""))
+cat(paste("The percentage of flights to Minneapolis from EWR that were delayed by more than 15 minutes is ", round((nrow(from_ewr) / ewr_total) * 100, 2), "%" ,sep=""))
+```
+
+### Is one of the airports noticeably worse than the others? 
+JFK had 24.93%, LGA had 21.33%, and EWR had 22.3%. Differing from each other by only a few percentage points, none of the airports were noticeably worse than the others. JFK does have the most foot traffic out of all three airports so it explains its higher percentage of arrival delays. 
+
+## 2.3 Think about all this 
+
+### Do I see any issues with data? 
+Going through some of the problems, I definitely found restricted. I had to mutate the data and add column(s) in order to complete the objective of my analysis. Eg. For the seasonal departure delay question, I looked up the equinox dates for 2013, make a function to get the season given an input of a date value, then mutate each record using this. From there, I could finally start doing analysis on the data. 
+
+### Ethical concerns? 
+There are always ethical concerns in anything related to data. It always has been historically but for NYC flight data from 2013, I do see some ethical concerns. If this was with malicious intent, someone could do a rough analysis to see which airports are the busiest and possibly do attacks like shutting down the airports network, trying to attack their database(s), etc. which would result in huge chaos. 
+
+### Can these questions be answered? Are these questions meaningful? Do I see potential applications for these answers?
+For a lot of the questions, I do believe it's useful. As shown with seeing the delays based on the time of day, it can be used to plan out your schedule for travels. If you want to experience little to no delays, the morning time from 5:00 AM to 8:00 AM is best. 
+Some of the data checking does indeed seem useful as well. One thing I'm curious is the application of analyzing flights from NYC to Minneapolis. I'm still relatively new to data science so I'm wondering the potential use cases for something as niche as this. 
+On the topics of ethics...
+As shown with the effects of social media's use of data, it's hard to ever know the full impact data may have. It could provide millions with enhanced quality of life but have unintentional consequences such as the increase in mental health problems in young teens. 
+On the topic of ethics, I  believe it's hard to ever answer if an analysis of the data is ethical or not. 
+
+
+
+
+
+
+
+
 

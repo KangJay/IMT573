@@ -1,0 +1,96 @@
+# Web scraping 
+```{r}
+library(rvest)
+monk <- read_html("/Users/jaydenk/Downloads/scrape-example.html")
+```
+
+## Extract the title 
+```{r}
+monk %>% 
+  html_node("title") %>% 
+  html_text()
+```
+ Extract the first paragraph
+ 
+```{r}
+p1 <- monk %>% 
+  html_node("p") #Extract the first paragraph 
+p1 %>% 
+  html_text() %>% #print in human readable form 
+  cat()
+```
+
+Extract paragraph of class "quote": 
+```{r}
+Pquote <- monk %>% 
+  html_node("p.quote") 
+Pquote %>% 
+  html_text() %>% 
+  cat()
+```
+Extract text from all paragraphs:
+Note: They are lists 
+```{r}
+Ps <- monk %>% 
+  html_nodes("p")
+
+for (P in Ps) {
+  P %>% 
+    html_text() %>% 
+    cat()
+  cat("\n---\n") #To separate each paragraph from each other
+}
+```
+Extract individual elements from the list: 
+```{r}
+Ps[[2]] %>% html_text() %>% cat()
+```
+
+Can also use the '[[(2)' trick 
+```{r}
+P2 <- monk %>% 
+  html_nodes("p") %>% 
+  "[["(2) 
+P2
+```
+Loop using numeric index: 
+```{r}
+for (i in 1:length(Ps)) {
+  cat("Paragraph", i, "\n")
+  Ps[[i]] %>% 
+    html_text() %>% 
+    cat() 
+  cat("\n----\n")
+}
+```
+# HTML Attributes 
+
+## Execise: Extract A (anchor == links) element. Print its text. 
+```{r}
+A <- monk %>% 
+  html_node("p") %>%
+  html_nodes("a")
+A %>% 
+  html_text %>%
+  cat() 
+
+```
+```{r}
+A %>% 
+  html_attr("href") %>% cat()
+```
+## Extract number of articles in English wiki
+Load from internet and cache in memory 
+```{r}
+url <- "https://en.wikipedia.org/wiki/Main_Page"
+wiki <- read_html(url)
+#div id=articlecount 
+```
+Now we work with the results 
+```{r}
+wiki %>% #div.articlecount is for 'class'. div#articlcount is for 'id'
+  html_node("div#articlecount") %>%  # the '#' means "id". So div id=articlecount = this
+  html_node("a") %>% #extract the 1st A that contains the number 
+  html_text() %>% 
+  cat("\n")
+```
