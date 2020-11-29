@@ -1,0 +1,128 @@
+---
+title: "Inc06a"
+author: "Ji H. Kang"
+date: "11/2/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+# sapply 
+Run a function over each element in a sequence
+```{r}
+sapply(1:10, sqrt)
+```
+
+If we don't care about the input value 
+```{r}
+f <- function(x) "wow!"
+sapply(1:5, f)
+```
+
+We can use our own function 
+```{r}
+sqr <- function(x) x^2 
+sapply(1:5, sqr)
+```
+
+Use argument: 
+```{r}
+g <- function(i) paste("attempt", i) 
+sapply(1:6, g)
+```
+
+Exercise. Write a function that returns sum of three random numbers 
+```{r}
+sum_random <- function(x) sum(rnorm(3))  
+sapply(1:10, sum_random)
+```
+
+# Statistical Inference 
+
+Create polling data
+```{r}
+vote <- sample(c("K", "P"), 500, replace=TRUE, #K=Kreidler, P=Patel
+               prob=c(0.56, 0.44)) #56% favor Kreidler, 44% favor Patel   
+polling <- data.frame(vote=vote) 
+head(polling, 10)
+# Pr(V=K) = 0.56 
+# Pr(V=P) = 0.44
+
+# Can we confidently say that Kreidler will win? 
+# We've only sampled 500 voters when there's 4.5 million registered WA voters?
+
+# Denote X = 1 if prefers Kreidler, X = 0 if prefers Patel. So then sample average = 0.56
+# What can we say about the expected value, E(X)
+# Can we say that E(x) > 0.5?
+
+# Two outcomes: Kreidler wins or Patel wins.
+```
+
+Create Polls 
+```{r}
+poll <- function(x) {
+  s <- rbinom(500, 1, 0.5) #1 winner, 50% chance for either one 
+  mean(s)
+}
+poll()
+```
+
+Conduct 100 polls 
+```{r}
+means <- sapply(1:100, poll)
+mean_100 <- mean(means) 
+sd_100 <- sd(means) 
+data <- as.data.frame(means) 
+ggplot(data, aes(x=means)) + 
+  geom_histogram(color="black", fill="white") + 
+  geom_vline(xintercept=mean_100, color="red")
+```
+Conduct 1,000 polls 
+```{r}
+means <- sapply(1:1000, poll)
+mean_1000 <- mean(means) 
+sd_1000 <- sd(means) 
+data <- as.data.frame(means) 
+ggplot(data, aes(x=means)) + 
+  geom_histogram(color="black", fill="white") + 
+  geom_vline(xintercept=mean_1000, color="red")
+```
+
+Conduct 10,000 polls
+```{r}
+means <- sapply(1:10000, poll)
+mean_10000 <- mean(means) 
+sd_10000 <- sd(means) 
+data <- as.data.frame(means) 
+ggplot(data, aes(x=means)) + 
+  geom_histogram(color="black", fill="white") + 
+  geom_vline(xintercept=mean_10000, color="red")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

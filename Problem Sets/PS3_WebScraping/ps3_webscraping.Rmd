@@ -1,0 +1,71 @@
+---
+title: "Problem Set 3"
+author: "Ji H. Kang"
+date: "10/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+```
+
+# 1 Using rvest to load and parse https://www.drroyspencer.com/
+```{r, message=FALSE}
+library(rvest) # For web scraping
+library(tidyverse)
+library(dplyr) # For pipes
+url <- "https://www.drroyspencer.com/"
+webpage <- read_html(url) #Now we can use this stored copy in memory for further analysis
+```
+Following tasks are to **1.** Load the web-page, **2.** Find the first "UAH Global temperature entry", **3.** Extract its date, **4.** Find links to data files, **5.** Download the data files.
+
+# 2. Finding most recent post and extracting the date and current temperature anomaly. 
+
+## a. Extracting its date (month and year)
+```{r}
+sep_uah <- webpage %>%
+  html_node("div#post-13580") %>% # div tag with id=post-13580 was the latest post. 
+  html_node("small") %>% #Wrapped in <small> tags 
+  html_text() #clean
+cat(sep_uah) # print
+```
+This is the date the update was posted 
+## b. Extracting current anomaly
+```{r}
+sep_uah <- webpage %>% 
+  html_node("div#post-13580") %>% #Grab latest post 
+  html_node("div.entry") %>% # Get just the anomaly at the top 
+  html_node("p") %>% # fist paragraph 
+  html_text() %>% 
+  cat()
+```
+
+# Extracting the 4 links 
+```{r}
+paragraphs <- webpage %>% 
+  html_node("div#post-13580") %>% 
+  html_node("div.entry") %>% 
+  html_nodes("p") #Extracted all paragraph elements BUT not all paragraph elements contain what we want. 
+index <- grep("Troposphere", paragraphs) #index in list where it contains the data we want 
+links <- paragraphs[[index]] %>% 
+  html_nodes("a") %>% html_text() #Extract all a href links 
+cat("The four links on this post are:", links, sep="\n")
+```
+
+# 4. Downloading all 4 files. 
+```{r}
+for (i in 1:length(links)){
+  #Distinguish filename by their index number within the vector 'links' 
+  writeLines(readLines(links[i]), paste("local-data", i, ".csv", sep=""))
+  #Write to the file named local-data<index_number>.csv by reading in each url within 'links'
+}
+```
+
+# How much time did I spend on this PS? 
+I usually work on these throughout the week in bits or pieces but this one took perhaps 1.5 - 2 hours? 
+It was much lighter in workload but the type of work done was more enjoyable than others. 
+Learned some basic HTML as a result of it :)

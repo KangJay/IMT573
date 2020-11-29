@@ -75,3 +75,14 @@ temp %>%
 ```
 
 It's fascinating to see this upon an initial glance. With just a line-graph, it was hard to see the trend but with a box-and-whiskers plot, it's much clearer. The historical high temperatures from 1980 to 2000 occurred in 1997. Fast forward to 2020 and the few years prior, it's statistically similar. The last 5 years have consistently been around the same as the high temperature year from 1980 to this point. Would help debunk a lot of people who assume the planet hasn't been experiencing global warming.
+--------------
+datetime_delays %>% 
+  group_by(datetime) %>% 
+  ggplot(aes(x=datetime, y=dep_delay)) +
+  geom_boxplot(aes(middle=mean(dep_delay))) +
+  stat_summary(fun=mean, geom="point", shape=20, size=5, color="blue")
+  ---
+  ggplot(data=datetime_delays, aes(datetime, dep_delay, size=dep_delay, color=datetime)) +
+  geom_point() + 
+  stat_summary(fun="mean", geom="point", colour="red", size=2) +
+  theme_bw()

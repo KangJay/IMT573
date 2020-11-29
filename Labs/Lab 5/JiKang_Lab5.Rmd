@@ -1,0 +1,84 @@
+---
+title: 'Lab 5: Probability'
+author: "Ji H. Kang"
+date: "10/28/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+library(ggplot2)
+```
+
+
+# Toss two coins 
+Generating own data: Tossing two quarters, there were 3 different outcomes. 
+0 heads & 2 tails, 1 head & 1 tail, and 2 heads & 0 tails. 
+Flipping two coins 20 times, the following data was gathered: 
+Number of heads per trial: 1, 2, 1, 1, 1, 0, 1, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 0, 2, 1
+Next I format the data into a readable table... 
+```{r}
+trial_results <- c(1, 2, 1, 1, 1, 0, 1, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 0, 2, 1)
+coin_tosses <- data.frame("Trial" = 1:20, "Number_of_Heads" = trial_results)
+cat("The data generated, formatted in a table, looks like:")
+knitr::kable(coin_tosses, "simple")
+```
+
+## Summary of the results 
+```{r}
+outcomes <- as.data.frame(table(trial_results))
+names(outcomes)[1] <- "Number_of_heads"
+outcomes
+```
+This table shows how many of the various outcomes possible occurred. 
+
+
+## Computing the means of the results  
+```{r}
+coin_mean <- mean(trial_results)
+coin_mean
+```
+A value of **0.9** indicates that, on average, I got less than 1 head per trial (which flips 2 coins).
+
+## Computing the variance of the result with mean = 0.9 
+Using the formula we've gone over in class... 
+It is the average of the x values squared minus the value of the mean squared. 
+For a refresher, this was the data: 
+1, 2, 1, 1, 1, 0, 1, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 0, 2, 1
+Squaring each value we get: 
+1, 4, 1, 1, 1, 0, 1, 1, 1, 1, 4, 1, 0, 1, 0, 1, 0, 0, 4, 1
+Next, can quickly get the mean using R... 
+```{r}
+x2_mean <- mean(c(1, 4, 1, 1, 1, 0, 1, 1, 1, 1, 4, 1, 0, 1, 0, 1, 0, 0, 4, 1))
+x2_mean
+```
+Our "x-squared-mean" has a value of 1.2 
+Need to now calculate the mean squared which is simple... 
+```{r}
+mean_squared <- coin_mean^2
+mean_squared
+```
+We get a value of 0.81. So doing a simple subtraction gives us... 
+```{r}
+coin_variance <- x2_mean - mean_squared 
+cat("The variance is:", coin_variance)
+```
+
+# Plotting a histogram of the results 
+```{r}
+hist(trial_results, breaks=3, col="lightblue")
+```
+
+## What type of distribution is this? Do you know how it is called? 
+Since the number of possible outcomes is limited to 3 different outcomes for this lab: 
+* Outcomes 1: 0 heads 
+* Outcomes 2: 1 head
+* Outcomes 3: 2 heads
+Since it can only be one of these three outcomes, it is a discrete distribution.
+I'm not entirely sure what "Do you know how it is called?" is referring to but if it's asking for what kind of distribution it is, I would say it's a **binomial** distribution. I would've said it was a Bernoulli's but since there are 3 variables (0, 1, or 2 heads), it cannot be. 
+
+## Does it look symmetric, or right/left skewed? 
+Minding the gap in the histogram, it looks symmetrical. With the largest amount centered with 1 head. 

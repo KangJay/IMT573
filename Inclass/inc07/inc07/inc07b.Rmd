@@ -1,0 +1,84 @@
+---
+title: "inc07b"
+author: "Ji H. Kang"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r load data, message=FALSE}
+library(dplyr)
+data(Credit, package="ISLR") #Synthetic credit data but it works for introduction to categorical data
+head(Credit, 4)
+```
+
+
+
+```{r histogram of balance}
+hist(Credit$Balance, breaks=20, col="lightblue")
+```
+
+```{r Grouping students by balance}
+Credit %>% 
+  group_by(Student) %>% 
+  summarize(mean(Balance))
+```
+
+We want to estimate the regression model of **Balance ~ Students** 
+
+B(i) = B(o) + B(i)*Student(i) + epsilon(i)
+Student epsilon {no, yes}
+s(i) = {1 = Student = yes, 0 = student = no}
+
+```{r linear model}
+m <- lm(Balance ~ Student, data=Credit)
+summary(m)
+```
+What is _intercept_? Intercept or StudentYes?\
+In this case, **intercept** is equal to Beta null (B(o))\
+So **StudentYes** is Beta 1 (B(1))\
+The intercept represents the value if every other value is 0. If StudentYes is 0, it means that if the person is not a student, their balance will be $480.37.\
+So Balance for non-students is $480.37. Students' balance is larger by $396.46 (480 + 396)\
+\
+StudentYes t = 5.35\
+StudentYes p < 0.001\
+What does this mean? Reject null hypothesis of StudentYes being 0 (Not a student AKA slope is 0). This means that being a student does not have an impact on your balance. If we reject, it means being a student typically have a statistically significant impact on your balance.\
+
+## Multi-category dummies 
+Balance by ethnicity 
+```{r}
+Credit %>% 
+  group_by(Ethnicity) %>% 
+  summarize(mean(Balance))
+```
+New formula is B(i) = B(o) + B(i) * Ethnicity(i) + epsilon(i). With 'i' signalling the ethnicity.
+We have to find a different way to categorize which ethnicity (Can't do 0, 1, 2).\
+a(i) = (0 = not asian, 1 = asian)\
+c(i) = (0 = not caucasian, 1 = caucasian)\
+
+B(i) + B(o) + B(1)a(i) + B(2)c(i) + epsilon(i)
+
+```{r}
+m <- lm(Balance ~ Ethnicity, data=Credit) 
+summary(m)
+```
+We have 3 numbers, EthnicityAsian, EthnicityCaucasian, and intercept. 
+Beta null (B(o)) = $531.00 which is the balance for African americans. EA = B(1), EC = B(2)\
+B(1) = -18.69, B(2) = -12.50. So if B(1) = 0, and B(2) = 0, it means they are African American. 
+
+Boxplot: 
+```{r}
+library(ggplot2)
+ggplot(Credit) + 
+  geom_boxplot(aes(x=Balance, fill=Ethnicity),
+               notch=TRUE)
+```
+How to choose another reference category (our example chose african american by default because of alphabetical order) 
+```{r choosing reference category}
+eth <- factor(Credit$Ethnicity, 
+              levels=c("Caucasian", "African American", "Asian")) # This one will use Caucasian
+summary(lm(Balance ~ eth, data=Credit))
+```
+
+
+
+ 

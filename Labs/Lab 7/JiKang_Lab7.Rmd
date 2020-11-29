@@ -1,0 +1,59 @@
+---
+title: "Lab 7"
+author: "Ji H. Kang"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r}
+```
+
+```{r load libraries and data, message=FALSE}
+library(tidyverse)
+library(ggplot2) 
+diamonds <- read.delim("../../Data/diamonds.csv.bz2")
+```
+
+# 1 Diamonds Price
+This lab will focus on multiple regression testing on data pertaining to diamonds.
+
+## 1.1 Diamonds Data
+There are various variables to look at in this dataset.\
+It contains the following variables:\
+**carat** diamond's mass, in carats (=0.2 g)\
+**cut** shape of the diamonds (consult Blue nile website for more explanations about diamonds cut, color
+and other characteristics).\
+**color** color of diamonds, D (colorless) is the best.\
+**clarity** transparency of diamonds, FL (flawless) is the best.\
+**depth** diamonds relative height (see brilliance.com for explanations)\
+**table** diamonds width, see above.\
+**price** in dollars\
+**x, y, z** dimension, mm\
+
+### Validity Check 
+```{r}
+cat("There are", nrow(diamonds), "records in this dataset.\n")
+cat("Of those", nrow(diamonds), "records, they are categorized by cut by these figures:\n")
+table(diamonds$cut)
+```
+
+## 1.2 Regression Analysis
+We will be doing a regression analysis on the price of a diamond depending on the carat and cut values of the diamonds.\
+The model will have the form of: $$price_{i} = \beta_{0}\ + \beta_{1}carat_{1} + \beta_{2}cut_{i} + \epsilon_{1}$$
+```{r regression}
+m <- lm(price ~ cut + carat, data=diamonds)
+summary(m)
+```
+(a) **carat** refers to the mass of the diamond. The value of 7871.08 refers to how much the diamond would be worth if it has a carat value of 1. Some diamonds have differing carat values. The national average is cited to be between 1.08 and 1.2. The 7871.08 would be multiplied by the carat value to get the expected value of the diamond **without** any consideration of the cut quality taken into consideration. The intercept of -3875.47 indicates that a diamond with a carat value of 1, without any factor regarding their cut quality taken into consideration, would be worth -$3875.47 + $7871.08 which is equal to $`r 7871.08 - 3875.47`.\
+(b) **cutIdeal** represents the amount of money in USD to add onto the total if the diamond's quality is "ideal". With our analysis in part a, the value of "1800.92" would be added to the total calculated in part a.\ 
+(c) Looking at how the cut quality affects the overall price, we would want to know how much more expensive one cut quality over another is. We'll be looking at **ideal-cut** and **good_cut** diamonds on average. As shown in parts a & b, both of these qualities would be added onto the same value. So for the purpose of looking at the price difference, we can just take the difference between the two. Ideal-cut diamonds, as shown in the summary table, has a value of **1800.92** and good-cut has a value of **1120.33**. Taking the difference gives us **680.59** which represents how much more expensive ideal-cut diamonds are than good-cut diamonds on average.\
+(d) Lastly, we'll look at what the average price for a 1ct premium cut diamond would be worth.\
+**PremiumCut** = 1439.08\
+**Intercept** = -3875.47\
+**Carat** = 7871.08 * 1 (1 refers to the carat value) = 7871.08\
+Adding these values together, we get `r 1439.08 + 7871.08 - 3875.47`. This value refers to the averagr price, in USD, of a premium cut diamond that's 1 carat. 
+
+
+
+
+

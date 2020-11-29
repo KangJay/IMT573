@@ -1,0 +1,109 @@
+---
+title: "inc06b"
+author: "Ji H. Kang"
+date: "11/4/2020"
+output: html_document
+---
+
+```{r library}
+library(tidyverse)
+```
+
+```{r load_data}
+babies <- read.delim("../../Data/ncbirths.csv.bz2")
+```
+
+Some descriptives: 
+```{r}
+table(babies$habit)
+table(babies$whitemom)
+```
+Do some cleaning 
+```{r}
+babies <- babies %>% 
+  filter(!is.na(habit), !is.na(weight), !is.na(whitemom))
+nrow(babies)
+```
+
+Describe smokers/non-smokers
+```{r}
+stats <- babies %>% 
+  group_by(habit) %>% 
+  summarize(mean=mean(weight), sd=sd(weight), n=n())
+```
+
+Compute mean difference: 
+```{r}
+diff <- stats[1, "mean"] - stats[2, "mean"]
+```
+
+Find mean, sd 
+```{r}
+mu <- mean(babies$weight) 
+sd <- sd(babies$weight)
+```
+
+How does the distribution look like? 
+```{r}
+hist(babies$weight, breaks=30, col="lightblue")
+```
+```{r}
+N0 <- sum(babies$habit=="nonsmoker")
+N1 <- sum(babies$habit=="smoker")
+```
+
+# Generate fake babies (Smoking & non-smoking)
+```{r}
+fakenonsmokers <- rnorm(N0, mean=mu, sd=sd)
+fakesmokers <- rnorm(N1, mean=mu, sd=sd)
+```
+
+We have now lots of fake babies 
+```{r}
+length(fakenonsmokers)
+```
+
+Mean difference in fake babies 
+```{r}
+mean(fakesmokers) - mean(fakenonsmokers)
+```
+
+Repeat this 1000 times 
+```{r}
+sim <- function(x) {
+  fakenonsmokers <- rnorm(N0, mean=mu, sd=sd) 
+  fakesmokers <- rnorm(N1, mean=mu, sd=sd) 
+  mean(fakesmokers) - mean(fakenonsmokers)
+}
+diffs <- sapply(1:1000, sim)
+```
+How do the diffs look like 
+```{r}
+hist(diffs, breaks=30, col="lightblue")
+```
+Compute 95% CI: 
+```{r}
+quantile(diffs, c(0.025, 0.975))
+```
+
+What can we say about H0 and the data? Real difference is 0.31, this is outside the CI. Reject H0!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

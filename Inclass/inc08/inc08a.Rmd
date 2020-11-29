@@ -1,0 +1,69 @@
+---
+title: "inc08a"
+author: "Ji H. Kang"
+date: "11/23/2020"
+output: html_document
+---
+
+```{r, message=F}
+library(ggplot2)
+library(tidyverse)
+```
+
+# Categorical variables: Review 
+```{r}
+data(Treatment, package="Ecdat") #re74/75 = real income for 1974 and 1975
+head(Treatment)
+```
+
+Do a regression: 
+```{r}
+m <- lm(re78 ~ ethn + age, data=Treatment)
+summary(m)
+```
+
+# Logistic Regression
+
+We analyzed income as a function of age and race. What about participation?
+How does `treat` depend on `age`? 
+```{r}
+ggplot(Treatment, aes(age, treat)) + 
+  geom_jitter() #Like geom_point but "shakes" it so you can see the points clearly. 
+```
+Binary target: The outcome variabe has two and only two distinct values. 
+Eg. Attends school, employed, is an email spam?, etc. We model probability of an outcome as 1 or 0. 
+
+**Logisitc** regression is for binary target 
+**Linear** regression is for continuous numeric target
+
+
+## Running logistic regression 
+How is treatment probability related to age? 
+```{r}
+m <- glm(treat ~ age, family=binomial(), data=Treatment)
+summary(m)
+```
+Z-values are essentially the same as t-values but with infinite degrees of freedom. 
+
+## Interpretation: Marginal effects 
+```{r}
+library(margins) 
+m <- glm(treat ~ age + ethn, family=binomial(), data=Treatment)
+me <- margins(m)
+summary(me)
+```
+AME = Average Marginal Effect
+Those who are 1 year older have a 0.75% lower likelihood to participate on average.
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+---
+title: 'PS7: Logistic Regression'
+author: "Ji H. Kang"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r load data and libraries, message=FALSE}
+library(tidyverse) #includes dplyr
+titanic <- read.csv("../../Data/titanic.csv.bz2")
+wvs <- read.delim("../../Data/wvs-logit.csv.bz2") #wvs = world value survey
+```
+
+# 1 Titanic: What Happened During Her Last Hours? 
+The Titanic did not carry enough life boats for all the passengers aboard. It's stated that there were boats for 1,178 people but had ~2,2000 people passengers and crew members onbaord. These lifeboats weren't intended for life-saving purposes but for the purpose of transferring passengers to other ships nearby. With no continegency plan or formal training, the crew members were unsure of how to handle a catastrophic situation such as collision; and as a result, only ~700 people were able to get to the boats. With most information being anecdotal from the survivors, it's hard to quantitatively determine if the statements are completely true. 
+
+# 1.1 Titanic Data 
+The variables in the data set include:\
+**survived** : Survived (1) or died (0)\
+**pclass** : Passengers class\
+**name** : Passengers name\
+**sex** : Passengers sex\
+**age** : Passengers age\
+**sibsp** : Number of siblings/spouses aboard\
+**parch** : Number of parents/children aboard\
+**ticket** : Ticket number\
+**fare** : Fare\
+**cabin** : Cabin\
+**embarked** : Port of embarkation\
+**boat** : number of lifeboat the person was found in\
+**body** : number of body if body identified\
+**home.dest** : the final destination\
+This data set encompasses information about 1309 individuals with these specific traits.
+
+## Sanity Checks on Data 
+```{r data validation}
+summary(titanic)
+```
+"NA" signifies a missing value for that observation. If a summary category doesn't have a NA row, it means there were no missing values for that specific variable. If there are missing values (NAs), then the number next to it signifies how many values within that variable are missing from the dataset.\
+For this report, *survived*, *pclass*, *sex*, and *age* are definitely going to be used.\
+**survived** has a minimum value of 0 and a maximum value of 1. This follows the binary options of 1 for survived and 0 for deceased. There are 1188 NAs which indicate that their ticket number was not able to be identified to the body.\
+**pclass** has a minimum of 1, and a max of 3. With 1st innerquartile value of 2, and 3rd innerquartile value of 3. This follows the semantic of values of 1, 2, and 3 correlating with the ticket class. There are no missing values here.\
+**sex** has only a male or female option represented by characters. The unique values within this variable are "`r unique(titanic$sex)`"\
+**age** has a minimum of 0.1667 and a maximum of 80. It's not unrealistic for an infant to be on-board and for a affluent family to be able to purchase a ticket for the infant. There does not seem to be unrealistic values in this variable.\
+
+## 1.2 Logistic Regression 
+Since there was an emphasis on women and children being saved first, _sex_ and _age_ would play a large factor. According to anecdotal accounts, even lifeboats that were half full were lowered prematurely because they had already evacuated all the women and children for that specific area - leaving men stranded on the ship that could've had a spot on a lifeboat. Additionally, 1st and 2nd class women and children had boarding lodges closer to the lifeboats. Based on the reports, 3rd class passengers seemed to not understand English well which led to misunderstanding or being unable to comprehend evacuation instructions. This would emphasize _pclass_ as well. One variable I believe that would have an impact is _parch_, the number of parents/children on board. Using a hypothetical situation, a single-traveling parent with his/her children would ideally be given priority as well as they are the sole caretaker of the child/children. This would work inversely with the parents as well. It can be considered an ethical case study but it would follow the natural train of thought to save parents along with their children.\
+
+### Creating a new variable 'child'
+**child** is given a value of 1 if the passenger was younger than 14 years old and 0 if they are 14 or older.
+```{r child_variable_creation}
+titanic <- mutate(titanic, child = ifelse (age < 14, 1, 0))
+```
+One problem arises in doing a logistic regression using _pclass_ as a predictor. The value of pclass is given as a numerical value and while the ordering does signify the class the passenger's ticket was, for the purpose of qualitative labels, it is inaccurate for a logistic regression. This insists that the difference between a 1st class and 2nd class passenger is the same as the difference between a 2nd class and 3rd class passenger. There isn't a reliable way to convert qualitative values into equal quantitative ones. For this reason, pclass is going to be converted to categorical values. 
+```{r convert pclass to categorical}
+titanic <- mutate(titanic, pclass = factor(pclass))
+```
+
+

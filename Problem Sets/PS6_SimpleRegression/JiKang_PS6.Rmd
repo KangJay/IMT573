@@ -1,0 +1,170 @@
+---
+title: "PS6_SimpleRession"
+author: "Ji H. Kang"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r}
+
+```
+
+```{r load data and libraries, message=FALSE}
+library(tidyverse) 
+boston <- read.delim("../../Data/boston.csv.bz2")
+```
+
+# Problem Set 6: Linear Regression
+This problem set goes over two parts:\
+1. Estimating linear regression models myself and discussing the results\
+2. Interpreting a model resulting from a literature 
+
+## 1 Housing Values in Boston 
+This dataset contains information about median house values for 506 neighborhoods in Boston, MA. Collected in the 1970s, the typical house prices were less than $50,000 for context.\
+The data in this dataset include:\
+**crim** per capita crime rate by neighborhood.\
+**zn** proportion of residential land zoned for lots over 25,000 sq.ft.\
+**indus** proportion of non-retail business acres per neighborhood.\
+**chas** Charles River dummy variable (= 1 if tract bounds river; 0 otherwise).\
+**nox** nitrogen oxides concentration (parts per 10 million).\
+**rm** average number of rooms per dwelling.\
+**age** proportion of owner-occupied units built prior to 1940.\
+**dis** weighted mean of distances to five Boston employment centres.\
+**rad** index of accessibility to radial highways.\
+**tax** full-value property-tax rate per $10,000.\
+**ptratio** pupil-teacher ratio by neighborhood.\
+**black** 1000(Bk − 0.63)2 where Bk is the proportion of blacks by neighborhood.\
+**lstat** lower status of the population (percent).\
+**medv** median value of owner-occupied homes in $1000s.\
+
+### Basic Data Validation
+Checking for missing values
+```{r check_missing_values}
+for (i in 1:length(boston)) {
+  cat("The number of missing values for the variable:", names(boston)[i], "is:", sum(is.na(boston[[i]])), "\n")
+}
+```
+Checking for any unreasonable values 
+```{r check_range}
+for (i in 1:length(boston)) {
+  cat("The min, max values for the variable:", names(boston)[i], "is:", range(boston[[i]]), "\n")
+}
+```
+For the most part, the data does seem fine. There doesn't seem to be anything out of the ordinary in these values so we'll continue with the analysis. This problem set will be looking specifically at how the neighborhood median house price, **medv**, is affected by **rm, lstat, indus, age, and dis**. 
+
+### How rm, average number of rooms, affects median house value
+```{r rm}
+m <- lm(medv ~ rm, data=boston)
+summary(m)
+ggplot(boston, aes(medv, rm)) + 
+  geom_point() + 
+  geom_smooth(method="lm", se=FALSE) + 
+  xlab("Median House Value (in thousands)") + ylab("Average Number of Rooms")
+```
+
+(a) As expected, the trend shows that as there are more rooms in the house, the median value of the house goes up with it. One interesting thing to note is that the intercept has a value of -34.671 with a slope coefficient of 9.102. It would mean that for houses with rooms 3 or fewer, the value of the house would actually be negative. Another thing to note is that this is a extrapolated relationship. Some unique outliers are shown. We can see a large clustering at around ~22 for median value and ~6 for average number of rooms. This seems to be the most common combination of rooms to housing price.\
+(b) As shown with the summary table shown for this regression, the two beta variables are the intercept (-34.671) and rm (9.102). If there were 0 rooms, rm * 0 = 0, and the value of the house would be -34.671 thousand which is unrealistic. As explained, majority of the households have 4 or more rooms meaning the value of rm (9.102) is multiplied by the average number of rooms and the two figures are added together. Based on this summary, there was a p value of < 0.0001 which signifies a statistically significant relationship exists.\
+(c) For this analysis, it seems evident as to why there is a positive correlation between the average number of rooms and the median house value. You can expect that a house with more rooms is valued higher. Some outliers exist of course but the relationship is clear.\
+
+### How lstat, the percent of the "lower status of the population", affects median house value
+```{r lstat}
+m <- lm(medv ~ lstat, data=boston)
+summary(m)
+ggplot(boston, aes(medv, lstat)) + 
+  geom_point() + 
+  geom_smooth(method="lm", se=FALSE) + 
+  xlab("Median House Value (in thousands)") + ylab("Lower Status of the Population (percent)")
+```
+
+(a) We can see a negative correlation from the graph. As the percent of occupants in the "lower status" of the population decreases, the median house value increases. With the typical outliers, it does follow the trend expected.\
+(b) The intercept given is 34.55384 with a slope coefficient of -0.95005. This means that if 0% of the people occupying the houses were in "low status", the expected median house value would be 34.55384 thousand. For each percent of lower status occupants, the value drops by 0.95005. This can be formulated in this way: 34.55384 - (0.95005 * percent_of_low_status). This means as more lower-status people occupy the housing, you can expect the house value to be lower. Given the p-value, this relationship is statistically significant.\
+(c) There's a simple explanation for this. You can expect lower-status people to be not as affluent. This means they aren't able to afford housing that is out of their budget. Typically neighborhoods are set up so that every house in the neighborhood are similarly priced. If a specific neighborhood offers low-income housing, you can expect more lower-status people to be congregated in that area; attributing to this relationship.\
+
+### How indus, the proportion of non-retail business acres per neighborhood, affects median house value
+```{r indus}
+m <- lm(medv ~ indus, data=boston)
+summary(m)
+ggplot(boston, aes(medv, indus)) + 
+  geom_point() + 
+  geom_smooth(method="lm", se=FALSE) + 
+  xlab("Median House Value (in thousands)") + ylab("Proportion of non-retail business acres per neighborhood")
+```
+
+(a) An interesting occurrence is a plateau of values sitting at around y = ~8, ~18, ~20, ~23, ~26. It would lead me to believe that these houses were in relatively close proximity so they share the same proportion of non-retail business acres per neighborhood. The R squared value shows a weak correlation however. There doesn't seem to be a trend given the regression line.\
+(b) The intercept has a value of 29.75490 with a slope coefficient of -0.64849. This means that, if there were no non-retail business acres per neighborhood, the median house value is expected to be 29.75490 thousand. As the proportion of acres increases, it would decrease the median price of houses in that area. Given the p-values, it seems this relationship is statistically significant, although has a weak correlation.\
+(c) Given the weak correlation between the two variables, it seems that the proportion of non-retail business acres in the neighborhood doesn't have as adverse of an effect on the house values. While it still negatively affects them, the correlation is not as strong as we've seen before. It could be that this factor isn't as large of a factor to consider for home occupants.\
+
+### How age, proportion of owner-occupied units built prior to 1940, affects median house value
+```{r age}
+m <- lm(medv ~ age, data=boston)
+summary(m)
+ggplot(boston, aes(medv, age)) + 
+  geom_point() + 
+  geom_smooth(method="lm", se=FALSE) + 
+  xlab("Median House Value (in thousands)") + ylab("Proportion of units built prior to 1940")
+```
+
+(a) While the correlation isn't strong, it's evident there is a negative correlation. As the proportion of housing built prior to 1940 decreases, median house value increases. This can be seen with the large cluster of points to the left of median house value = 20. One thing to note is that there seems to be a vertical column of values hovering between median house value = 20 and 25. It shows that there is a price range (20-25 thousand) that includes a significant portion of both new and old housing units.\
+(b) With an intercept value of 30.97868 and a slope coefficient of -0.12316, it means that an area with no units built prior to 1940, would have a value of 30.97868 thousand. For each proportion unit, the value of this decreases by 0.12316. With the given p-value, there is statistical significance.\
+(c) One can expect that older buildings and/or housing units located near older buildings would be lower in value. Affluent families would typically want to move into newly built units.\
+
+### How dis, the weighted mean of distances to five Boston employment centres, affects median house value
+```{r crim}
+m <- lm(medv ~ dis, data=boston)
+summary(m)
+ggplot(boston, aes(medv, dis)) + 
+  geom_point() + 
+  geom_smooth(method="lm", se=FALSE) + 
+  xlab("Median House Value (in thousands)") + ylab("Weighted mean of distance to employment centers")
+```
+
+(a) There is a positive correlation. As the median house value increases, so does the weighted mean distance to one of Boston's 5 employment centers.There does seem to be a sharp incline occurring at around median house value = 20. This pulls the regression line upward.\
+(b) With an intercept of 18.3901 and slope coefficient of 1.0916, we can expect the median house value to be 18.3901 if they are right next to an employment center. For each distance unit, the value of housing increases by 1.0916. Given the significantly small p-value, there is statistical significance about this relationship.\
+(c) Typically those who need to utilize employment center services do not hold a stable income. This can lead to financial difficulty; and as a result, living in housing that is lower in cost. It would also be intuitive to have employment aid centers situated near neighborhoods whose occupants need to utilize those same services.\
+
+
+### Comments 
+The plots where we saw a trend and correlation were statistically significant.
+
+## Multiple Regression
+```{r multiple regression}
+m <- lm(medv ~ rm + lstat + indus + age + dis, data=boston)
+summary(m) 
+```
+
+Fitting a multiple regression model with all the previously tested variables, we can see a few predictors in which we can reject the null hypothesis. Every value except **age** had a p-value that was statistically significant. Meaning that every predictor, except age, has an impact on the median house price. With _rm_ having a positive slope coefficient of 4.67397, lstat having one of -0.63937, indus having one of -0.23488, and dis having one of -1.02850. It means that these predictors do not have a coefficient of 0 while _age_ does. Age, in this multiple regression, is not statistically significant to have any effect on the median house value.\
+Comparing this result to the individual regression analyses conducted earlier, the values definitely change. Beforehand, we were correlating just a single variable's impact to the median house value. In a multiple regression, the predictors (variables) have a higher-depth of relation. It's not just number of rooms to median house value, it's now number of rooms, considering non-retail business acre land, percent of low-status occupants, and distance to employment centers. Each predictor has a relationship with each other now which ultimately affects the median house value. While in each analysis, it showed statistical significance since it was the only predictor taken into account but now that other predictors are present, it explains behaviors that were unexplained beforehand. 
+
+# 2 Interpret Regression Results
+For the second half of this problem set, we'll be analyzing "van Holm and Monaghan (2020)" to analyze how evictions influence social capital across neighborhoods.\
+The study went over 3 models. We'll be focusing on model 3 noted in the 3rd column of Table 3 of the paper.\
+The hypotheses were given as:\
+H1: There will be lower levels of community engagement in neighborhoods with more evictions\
+H2: Increases in eviction will be associated with increases in community engagement\
+H3: Increases in eviction will be associated with decreases in community engagement\
+
+**1. Do neighborhoods with more evictions see more or less 311 calls? By how much?**\
+Based on column 3, the No. of evictions is 0.048. Compared to column 1 and 2, this covariate relationship is positive which means that neighborhoods that have more evictions have a higher number of 311 calls. The value given is 0.048 which is assumed to be the coefficient for the slope of "No. of evictions". It would suggest that for every eviction in a given neighborhood, there will be 0.048 more 311 calls.\
+
+**2. Is the figure statistically significant (at 5% level)?**\
+Yes. Based on the legend at the bottom of the table, this figure is actually significant at the 1% level.\
+
+**3. How is poverty rate associated with 311 calls? How much more (or less) calls there are in neighborhoods with 10 percentage points more of poverty?**\
+The _% in poverty_ figure has a value of -0.14. Meaning as the percentage of people in poverty increases, the number of calls to 311 decreases. You can expect neighborhoods with 10 percentage points more of poverty to have 10x this figure in fewer calls ~ 10 * -0.14 = -1.4. Based on the table, you can expect neighborhoods with 10 percentage points more to have 1.4 **fewer** calls than neighborhoods that do not.\
+
+**4. What can you tell about association of race (white) and calls?**\
+The relationship between % White and number of calls is negative. Meaning the higher concentration of white occupants in a neighborhood leads to a fewer number of calls and vice-versa.\
+
+**5. Is older median age associated with more or less 311 calls? At which level is this statistically significant?**\
+Median age is associated with fewer 311 calls. It is statistically significant at the P < 0.01 level.\
+
+**6. The value for housing density is -0.13. What does this number mean?**\
+Housing density is described by "Housing units per square mile". Having a negative value means that as the number of housing units per square mile increases, the number of calls to 311 decreases. For every housing unit within a square mile, there is a decrease in 311 calls by 0.13. If there're 10 housing units in a square mile, you can expect there to be 1.3 **fewer** calls to 311 as a result. 
+
+**7. The omitted category for city is Austin, TX. Are there more or less calls in similar neighborhoods in Philadelphia, compared to Austin? By how much?**\
+If Austin is the omitted value, then it is the constant value of 22.1. Philadelphia is stated to be the only city with **fewer** calls than Austin. There are _less_ calls in similar neighborhoods in Philadelphia than in Austin. The value given is -0.56 for Philadelphia so by about that much. Those neighborhoods in Philadelphia will average approximately half fewer calls than similar neighborhoods in Austin. 
+
+
+
+
+

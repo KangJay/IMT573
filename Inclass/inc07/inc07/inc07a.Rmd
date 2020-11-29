@@ -1,0 +1,58 @@
+---
+title: "inc07"
+author: "Ji H. Kang"
+date: "11/16/2020"
+output: html_document
+---
+
+```{r}
+
+```
+
+# Multiple Regression
+```{r, message=FALSE}
+data(state)
+library(tidyverse)
+```
+
+```{r}
+states <- as.data.frame(state.x77) 
+```
+
+## How is income related to education? 
+```{r}
+ggplot(states) +
+  geom_point(aes(`HS Grad`, Income), col="blue", size =3) #HS Grad is a variable with a space. You have to put it in quotes
+```
+
+Plotting with ggplot
+```{r}
+ggplot(states, aes(`HS Grad`, Income)) + 
+  geom_point() + 
+  geom_smooth(method="lm", se=FALSE) #Standard Error = False
+```
+```{r}
+m <- lm(Income ~ `HS Grad`, data=states) 
+summary(m)
+coef(m)
+```
+
+Plotting with Base R
+```{r}
+plot(Income ~ `HS Grad`, data=states)
+abline(m, col="red")
+```
+
+## Exercise
+```{r}
+m <- lm(`Life Exp` ~ Murder, data=states)
+plot(`Life Exp` ~ Murder, data=states, pch=16, cex=2)
+abline(m, col="red")
+```
+# Multiple Regression
+Model: Incone ~ HS Grad + Illiteracy 
+```{r}
+m <- lm(Income ~ `HS Grad` + Illiteracy, data=states) # Use '+' to include more variables
+summary(m)
+#Intercept would be when HS Grad and Illiteracy is 0.
+```

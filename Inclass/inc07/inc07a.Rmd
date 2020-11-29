@@ -1,0 +1,50 @@
+---
+title: "inc07"
+author: "Ji H. Kang"
+date: "11/9/2020"
+output: html_document
+---
+
+```{r}
+
+
+```
+
+# Iris Data 
+```{r}
+data(iris)
+head(iris)
+dim(iri)
+```
+
+```{r}
+library(tidyverse)
+ggplot(iris, aes(Sepal.Length, Sepal.Width, col=Species)) + 
+  geom_jitter(size=3)
+```
+# All three different species give a messy relationship
+## Filter out a single one
+```{r}
+setosa <- iris %>% 
+  filter(Species == "setosa") 
+```
+
+Plot Setosas only 
+```{r}
+ggplot(setosa, aes(Sepal.Length, Sepal.Width)) + 
+  geom_jitter()
+```
+```{r}
+ggplot(setosa, aes(Sepal.Length, Sepal.Width)) + 
+  geom_jitter(size=3) + 
+  geom_smooth(method="lm", se='FALSE')
+```
+Linear regression is called "Least squares". **Minimize** the sum of **squared** deviations.
+
+# Estimate OLS model 
+(= ordinary least squares)
+```{r}
+m <- lm(Sepal.Width ~ Sepal.Length, data=setosa) #lm = linear model 
+summary(m)
+```
+

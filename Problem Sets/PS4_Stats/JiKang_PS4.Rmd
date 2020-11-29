@@ -1,0 +1,220 @@
+---
+title: "PS4: Descriptive Statistics and Central Limit Theorem"
+author: "Ji H. Kang"
+date: "11/1/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+library(ggplot2) 
+library(tidyverse)
+```
+
+# 1. Compare differently distributed data
+
+## 1.1 Human Bodies
+
+### What kind of measure is human height?
+This problem set goes over working with human heights. *Nominal* values have no numerical meaning such as colors, gender, or car model. *Ordinal* data utilizes numerical values but the order matters. This can be seen in surveys where you indicate "1 for unsatisfactory up to 5 for satisfactory". *Interval* or "Difference", the difference in values are the same throughout the entire scale. The one downfall is that it does not have an absolute 0.
+Because height does not fit into these, it is **ratio** data. There is an absolute 0 for height, the values can be compared with each other (Eg. Who is taller or shorter than one another). Additionally, since no one can be "negative height", it's expected the height values are all positive numerical values. 
+
+### How should human height be measured?
+Since continuous variables can be represented with an infinite number of real values, human height is **continuous**. Discrete values contain a finite set of values. A human height could be 170 cm or it could actually be 169.48374987984789... cm.  
+
+#### Loading data to be used
+```{r data}
+heights <- read.delim("../../Data/fatherson.csv.bz2") #have to tab delim. Reading just the csv would tab separate records with only one column. 
+cat("The available stats are:", names(heights), "\n")
+```
+**Context:** "fheight" means "father's height" and "sheight" means "son's height"
+The data this problem set is using is comprised of a father's height and son's height in centimeters (cm). This will go over some basic analysis on the **fathers** first. 
+
+
+#### How many observations do we have?
+There are `r nrow(heights)` records in the data. 
+
+
+#### Are there any missing observations?
+There are `r sum(is.na(heights$fheight))` record(s) missing in the data.
+
+
+#### Are there any unreasonable values?
+```{r summary}
+summary(heights$fheight)
+```
+With a minimum height of 149.9 cm, or roughly 4.92 feet, and a maximum of 191.6 cm, or roughly 6.29 feet, there does not seem to be any unreasonable values. An average of 171.9 cm is equal to 5.64 feet which may seem short by 21st century standards. However, this was during the 19th century when people were much shorter on average. There does not seem to be any abnormal or unreasonable values in the data for the fathers' heights. 
+
+#### Computing the mean, median, standard deviation, and range of the heights
+```{r basic_statistics}
+fheight_mean <- mean(heights$fheight)
+fheight_median <- median(heights$fheight)
+cat("The mean for the fathers' height is:", fheight_mean , "cm.\n")
+cat("The median for the fathers' height is:", fheight_median, "cm.\n")
+cat("The standard deviation for the fathers' height is:", sd(heights$fheight), "cm.\n")
+#Used max() and min() over range() since range() returns the max and min. It doesn't calculate it. 
+cat("The range for the fathers' heights is:", max(heights$fheight) - min(heights$fheight), "cm.\n")
+```
+It seems that the median for the heights is larger than the mean for the heights. This indicates half the sample population is below 172.1 cm and the other half above. While the average notes that the height is 171.9252 cm, it means that the data has a skew to the left although it seems subtle. It indicates there are more outliers in the bottom half of the data than the top; and as a result, brings the average to be lower than the mean. 
+Another thing to note is the standard deviations in terms of the mean. With the standard deviation being roughly 6.97 cm and the mean being roughly 171.92 cm, we can expect 68% of the heights to fall within 1 standard deviation, 95% within 2, and 99.7% within 3. 
+
+#### Plotting a histogram to visualize fathers' heights
+```{r graph}
+ggplot(heights, aes(x=fheight)) + 
+  geom_histogram(binwidth=1, color="black", fill="white") + #Plotting  the data 
+  xlab("Height (cm)") + ylab("Number of fathers") + #Change axis titles
+  geom_vline(xintercept=fheight_mean, linetype="dashed", color="red") + #Plotting the mean
+  geom_vline(xintercept=fheight_median, linetype="dashed", color="blue") #Plotting the median
+```
+
+Plotting the height of all the fathers along with the mean and median, showcases a lot. Because the data we're dealing with is _continuous_, it'll be a _continuous distribution_. In this case, it resembles a **normal distribution**. The mean and median are very close together which helps imply this further.
+
+
+## 1.2 Human Influence 
+We'll be looking into human influence on the data. We'll be utilizing the **Microsoft Academic Graph (MAG)**. It contains two columns: _paper id_ and the _citations_, the number of times the paper has been cited. We'll only be utilizing the number of citations however. 
+
+
+#### What kind of measure is this? What kind of valid figures would be expected?
+Since the number of citations can be 0 to any whole positive integer, it has a **positive discrete** value. Since there is a "true zero", I believe this to also be **ratio**. 
+Since research papers are constantly being published as new discoveries are made, there're many niche applications of each paper. This can lead to some never being utilized, utilized a few times, and perhaps utilized a thousands of times. It can be expected that the majority of them will be cited anywhere from 0 to a few dozen -- with perhaps groundbreaking research having the thousands of citations. 
+
+#### Loading data to be used
+```{r}
+cites <- read.csv("../../Data/mag-in-citations.csv.bz2") %>% 
+  select(citations)#Utilizied read.csv here. Using read.delim combined both columns for some reason. Unsure about this. 
+```
+
+#### Basic Analysis 
+```{r}
+cat("The available columns are:", names(cites), "\n")
+cat("There are", nrow(cites), "observations.\n")
+cat("There are", sum(is.na(cites$citations)), "observations missing.\n")
+```
+There are `r nrow(cites)` observations in the data. 
+There are `r sum(is.na(cites$citations))` observation(s) missing in the data.
+The highest number of citations is `r max(cites$citations)` while the lowest number of citations is `r min(cites$citations)`. The range of this is `r max(cites$citations) - min(cites$citations)`. 
+
+#### Computing the mean, median, mode, standard deviation, and range of the number of citations
+```{r citation_stats}
+cite_mean <- mean(cites$citations)
+cite_median <- median(cites$citations)
+cat("The mean is:", cite_mean, "\n")
+cat("The median is:", cite_median, "\n")
+cat("The mode is:", modeest::mlv(cites$citations, method="mfv"), "\n")
+cat("The standard deviation is:", sd(cites$citations), "\n")
+```
+We can see that the mean, 15.61223 citations, is larger than the median, 3 citations. This would indicate that half of the papers have 3 or fewer citations and the other half have 3 or more. The mean being 15.61223 would signify that there are some quite a number of positive outliers that would influence the average to be more than 12 citations more than the median. 
+The standard deviation being much larger than the mean (~78 citations compaed to 15 citations) would indicate that the data points are much more spread out. A smaller standard deviation would indicate the data points are closely clustered together. As shown with a median number of citations of 3, we can safely assume there are a few large outliers. 
+Looking at the mean verses the median, the mean is larger. This would indicate a skew to the right. 
+
+```{r}
+ggplot(cites, aes(x=citations)) + 
+  geom_histogram(color="black", fill="white") + #Plotting  the data
+  scale_x_log10() +
+  xlab("Number of citations") + ylab("Number of papers") + #Change axis titles
+  geom_vline(xintercept=cite_mean, linetype="dashed", color="red") + #Plotting the mean
+  geom_vline(xintercept=cite_median, linetype="dashed", color="blue") #Plotting the median
+```
+This resembles a **Pareto distribution**. There is a cluster of points to the left indicating that the "mode" is 0. Most often, a research paper will be cited 0 times. Showing the divide, we can see the graph confirms my initial statement. Since the mean is higher than the median, there are some very high positive outliers skewing the data to the right.
+
+
+#### Summary of findings on human bodies and influence 
+If this is asking me to correlate the two data sets together, I'm afraid I don't see a connection. 
+Through this problem set, it's taught me a few things about the time of data we work with. Something like human height resembles a normal distribution as shown with the mean and median being very close together - further emphasized by looking at the standard deviation. Perhaps things in nature follow statistical principles of the bell curve. Eg. More often than not, an animal will be within a certain weight group, fathers will be within a certain height, and so on. 
+Reflecting back on the citation information and things relating to Pareto distributions, it's common to see in things such as "Research paper citations" and income. There's a skew in the way the data is represented. Since a human height can't be 0 cm, it the father son's height data didn't follow this trend. We see the skew because of the clustering around 0 citations for the MAG dataset. 
+
+# 2 Explore Central Limit Thereom
+_Central Limit Theorem_ states that the means of random numbers tend to be normally distributed if the sample size gets large, and the variance of the mean tends to be 1/S (Var(X)), where S is the sample size and X is the random variable means. This portion will be exploring this theorem. 
+
+## Calculating the expected value and variance of this random variable
+The problem set gave this set of values **-1, -1, 1, -1, 1, 1, 1, -1, 1, -1**. It was generated using a probability of 0.5 for x=1, and 0.5 for x=-1.\
+**Two possible values of x**: 1 & -1\
+**P(1)** = 0.5\
+**P(-1)** = 0.5\
+**Mean of data** = `r mean(c(-1, -1, 1, -1, 1, 1, 1, -1, 1, -1))`\
+**x(1) - mean** = 1\
+**x(-1) - mean** = -1\
+**(x(1) - mean) * P(1)** = 0.5\
+**(x(-1) - mean) * P(-1)** = 0.5\
+Adding these two values together (0.5 + 0.5) is 1, so the **variance** = 1.
+
+### Conducting further experiments
+To further view random variable distribution, I'll be using a size N = 1000. 
+```{r}
+rand_nums <- sample(c(-1, 1), 1000, replace=TRUE)
+```
+
+### Graphing our new set of data
+```{r}
+hist(rand_nums, breaks=30)
+```
+We can see both values have a similar frequency. Because of the number of outcomes only being limited to 2 states (1 and -1), we appear to have a **Bernoulli** distribution. 
+
+### Calculating mean and variance of the data
+```{r}
+cat("The mean of the data is", mean(rand_nums), "\n")
+cat("The variance of the data is", var(rand_nums), "\n")
+```
+Comparing these values to the calculated values previously, we can see they're _very_ close. The calculated mean in the sample was 0 and the variance was 1. Both of these values for our new data set are just slightly larger than the initial values we calculated. 
+
+### Creating 1000 pairs of random numbers. 
+```{r}
+rand_pairs_means <- c() #To hold 1000 means of pairs of random numbers 
+for(i in 1:1000) {
+  rand_pairs_means[i] <- mean(sample(c(-1, 1), 2, replace=TRUE)) #Create 2 random variables, average them, then store
+}
+```
+
+### Visualizing the new graph 
+```{r}
+hist(rand_pairs_means, breaks=3, xlab="Value", main="Average of tuple-size: 2")
+```
+Disregarding the gap formed in the 0.5 spot, the majority seem to be centered at a value of 0. Values of -1 and 1 seem to be about equal as well. It seems to resemble a bell curve despite only 3 main plots. 
+
+### Computing the mean of the "mean of pairs" and the variance
+```{r}
+cat("The mean of means is", mean(rand_pairs_means), "\n")
+cat("The variance is:", var(rand_pairs_means), "\n")
+```
+According to the _Central Limit Theorem_, the variance is now half of the previous variance we got before (Our variance before was ~1). Looking at our average, it is approximately 0 - same as last time. 
+
+# Now let's see the Central Limit Theorem with a different, wider set of numbers.
+```{r}
+for (i in 1:1000) {
+  rand_pairs_means[i] <- mean(sample(c(-1, 1), 5, replace=TRUE)) #range from -2 to 2, 5 per sample. Also overwrites the previous random pairs
+}
+```
+
+### Plotting the new data
+```{r}
+hist(rand_pairs_means, breaks=8, xlab="Value", main="Average of tuple-size: 5")
+```
+As we can see, this graph also shows a bell curve, with most values clustering around 0. 
+
+### Mean and variance
+```{r}
+cat("The mean is", mean(rand_pairs_means), "\n")
+cat("The variance is", var(rand_pairs_means), "\n")
+```
+
+
+```{r}
+tuple_sizes <- c(25, 1000) 
+for (tuple_size in tuple_sizes) {
+  for (j in 1:1000) {
+    rand_pairs_means[j] <- mean(sample(c(-1, 1), tuple_size, replace=TRUE))
+  }
+  hist(rand_pairs_means, breaks=round(tuple_size * 1.5), xlab="Value", main=paste("Averages of tuple-size:", tuple_size))
+  cat("For tuple-size:", tuple_size, "\n")
+  cat("The mean is", mean(rand_pairs_means), "\n")
+  cat("The variance is", var(rand_pairs_means), "\n\n")
+}
+```
+The experiment is repeated with tuples of size 25 and 1000. Both these graphs look _normal_ as well. It's evident that as the tuple-size increases, the shape of the histogram looks to be more normal. 
+A question occurs: **Why does the distribution look more normal as we take the mean of a large sample of individual values?**\
+As there's a higher tuple size, the number of possible values for the average also increases. This also means that there are more data points. Each of these graphs has 1000 average of tuples. These 1000 are then distributed among these possible values. Let's take an example with the first few values. When tuple size was only 2, the possible average values were -1/2, 0/2, and 1/2. These 1000 tuple average values\
+Next, if we take a size of 5, the possible average values are -5/5, -4/5, -3/5, -2/5, -1/5, 0/5, 1/5, 2/5, 3/5, 4/5, and 5/5.\
+There are far, it follows a trend that the possible number of values in this experiment is: **(Size_Of_Tuple * 2) + 1**. As the size goes up, the number of possible values for the average increases by this formula - and so, the number of columns increase and form a "more normal" curve.

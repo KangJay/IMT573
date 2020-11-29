@@ -1,0 +1,82 @@
+---
+title: "inc05a"
+author: "Ji H. Kang"
+date: "10/26/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+```
+
+```{r}
+titanic <- read.csv("../../Data/titanic.csv.bz2")
+head(titanic, 2)
+```
+
+```{r}
+mean(titatnic$age, na.rm=TRUE)
+```
+
+
+```{r}
+mean(titanic$embarked =="S")
+#~70% of passengers boarded in South Hampton
+```
+
+```{r}
+mean(titatnic$embarked %in% c("S", "C"))
+#~90% of passengers boarded in South Hampton or Cherbourg
+```
+
+```{r}
+mean(titanic$sex == "female")
+```
+
+```{r}
+median(titanic$age, na.rm=TRUE)
+```
+
+# Exercise 
+* Find mean fare, and median fare 
+* which one is larger, by how much 
+```{r}
+fare_mean <- mean(titanic$fare, na.rm=TRUE) 
+fare_median <- median(titanic$fare, na.rm=TRUE)
+fare_mean %>% 
+  cat("Mean:", ., "\n")
+fare_median %>% 
+  cat("Median:", .,"\n")
+```
+
+# Mode: The most common value 
+```{r}
+modeest::mlv(titanic$age, na.rm=TRUE, method="mfv") #mfv = most frequent value
+```
+
+# Mode of fare 
+```{r}
+modeest::mlv(titanic$fare, na.rm=TRUE, method="mfv")
+```
+
+# Variability 
+```{r}
+min(titanic$age, na.rm=TRUE) 
+max(titanic$age, na.rm=TRUE)
+range(titanic$age, na.rm=TRUE)
+```
+
+```{r}
+range(titanic$fare, na.rm=TRUE)
+```
+
+```{r}
+data <- c(0, 0, 1, 1)
+var(data) 
+# x^2 = 0, 0, 1, 1. Average = 0.5 
+# 0.5^2 = 0.25 
+# variance = 0.25 
+# 
+```
+

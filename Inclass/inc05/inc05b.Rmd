@@ -1,0 +1,49 @@
+---
+title: "inc06b"
+author: "Ji H. Kang"
+date: "10/28/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+```
+
+# Normal random variable 
+```{r cars}
+x <- rnorm(1000) 
+hist(x, breaks=30, col="lightblue")
+```
+
+# Binomial process 
+```{r cars}
+x <- rbinom(1000, 1, 0.5) # 10 binomials, 1 coin to toss, 0.5 chance for either option
+hist(x, breaks=30, col="lightblue")
+```
+
+Toss 3 coins 
+```{r cars}
+x <- rbinom(10000, 25, 0.5)
+hist(x, breaks=60, col="lightblue")
+```
+# Pareto 
+```{r}
+x <- VGAM::rpareto(100, shape=100)
+hist(x, breaks=30, col="lightblue")
+
+```
+```{r}
+R <- 10000  # how many experiments (repetitions)
+means <- numeric(R)  # empty vector for means
+for(i in 1:R) {
+   x <- VGAM::rpareto(1000, shape=10)
+   means[i] <- mean(x)
+}
+hist(means, breaks=100, col="lightblue")
+```
+
+
