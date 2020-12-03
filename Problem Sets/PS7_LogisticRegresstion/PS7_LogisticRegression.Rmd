@@ -7,8 +7,8 @@ output: html_document
 
 ```{r load data and libraries, message=FALSE}
 library(tidyverse) #includes dplyr
+library(plyr)
 titanic <- read.csv("../../Data/titanic.csv.bz2")
-wvs <- read.delim("../../Data/wvs-logit.csv.bz2") #wvs = world value survey
 ```
 
 # 1 Titanic: What Happened During Her Last Hours? 
@@ -45,6 +45,7 @@ For this report, *survived*, *pclass*, *sex*, and *age* are definitely going to 
 
 ## 1.2 Logistic Regression 
 Since there was an emphasis on women and children being saved first, _sex_ and _age_ would play a large factor. According to anecdotal accounts, even lifeboats that were half full were lowered prematurely because they had already evacuated all the women and children for that specific area - leaving men stranded on the ship that could've had a spot on a lifeboat. Additionally, 1st and 2nd class women and children had boarding lodges closer to the lifeboats. Based on the reports, 3rd class passengers seemed to not understand English well which led to misunderstanding or being unable to comprehend evacuation instructions. This would emphasize _pclass_ as well. One variable I believe that would have an impact is _parch_, the number of parents/children on board. Using a hypothetical situation, a single-traveling parent with his/her children would ideally be given priority as well as they are the sole caretaker of the child/children. This would work inversely with the parents as well. It can be considered an ethical case study but it would follow the natural train of thought to save parents along with their children.\
+So if a person has any of the following: age is considered a child (younger than 14 in our case), sex is female, and pclass is 1 or 2, then the survival rate goes up. Based on the report earlier, some men were left stranded despite some lifeboats were half-full which would lead me to believe that males have a lower survival rate. It can also be expected that the elder (possibly older than 60) would not be prioritized as a inverse of prioritizing children first.\
 
 ### Creating a new variable 'child'
 **child** is given a value of 1 if the passenger was younger than 14 years old and 0 if they are 14 or older.
@@ -56,4 +57,187 @@ One problem arises in doing a logistic regression using _pclass_ as a predictor.
 titanic <- mutate(titanic, pclass = factor(pclass))
 ```
 
+### Estimating a Mulitple Logistic Regression Model
+```{r multiple logistic regression}
+log_model <- glm(survived ~ pclass + sex + child, family=binomial(), data=titanic)
+summary(log_model)
+```
+We can see the intercept has a value of 2.1257 with _sexfemale_ and _pclass1_ being excluded. This means that our reference case is females with a ticket class equal to 1. Being a male, indicated by _sexmale_, decreases the logit value by -2.5246. Being a male **decreases** the probability of survival as a result. It can also be seen that if you are a child, the value increases by 1.2260 so being a child (under 14 years old) increases your likelihood of survival. With pclass2 equaling -0.9797 and pclass3 equaling -1.8897. This confirms the anecdotal reports of pclass3 passengers having a lower rate of survival as a result. This doesn't confirm whether the language barrier, placement of pclass3 passengers, or some other factor is the reason why though.\
+This regression model shows that being female, young, and a 1st class passenger all increase your chances at survival. Any other predictor is shown to decrease your odds. 
 
+### Utilizing "parch" as an additional factor
+```{r glm + parch}
+log_model <- glm(survived ~ pclass + sex + child + parch, family=binomial(), data=titanic)
+summary(log_model)
+```
+Adding _parch_, the number of parent and children you have on-board, does some interesting things. It increases our intercept which signifies the former relation with an added benefit. A young child, that's female, in first class has an even higher probability of survival if they have any other family members on board essentially. It doesn't signify that those other family members have a higher survival probability however. The relation of being male, in 2nd or 3rd class, and an adult all decrease probability chance by approximately the same margin.
+One thing to note is that the probability of surviving actually decreases for each parent or sibling you have on board. Perhaps this could indicate that a family would rather be together with the Titanic sinking rather than have only a few members of the family survive, leaving the rest with the ship.
+
+### Utilziing "sibsp" as an additional factor 
+```{r}
+log_model <- glm(survived ~ pclass + sex + child + sibsp, family=binomial(), data=titanic)
+summary(log_model)
+```
+_sibsp_ indicates the number of siblings and spouses on board per passenger. The intercept is even higher indicating that a female child in first class has the highest probability of surviving. The same relation holds true as shown with _parch_. Those without any family on board had the highest chance of surviving. While it doesn't indicate the reason why, I believe it is the same case as _parch_. Family members wouldn't abandon or leave another behind to survive. Those who have siblings or a spouse on the ship had a log value of 0.4671 **lower** chance of surviving. 
+
+## Summary 
+(7pt) Based on the results above, explain what can you tell about the
+last hours on Titanic. Are the survivors’ accounts broadly accurate?
+Did the order break down? Can you tell anything else interesting?
+
+To recap, the report stated\
+1. There were boats for 1,178 people only with ~2,200 passenger and crew\ 
+2. Crew was untrained for emergency situations\ 
+3. No broadcasting system so spread of information was slow (Had to go door-to-door)\
+4. 1st and 2nd class women and children were prioritized for spots on boats\ 
+5. With little knowledge on how many people could fit on a boat, many boats (half filled) were lowered, leaving men on board.\ 
+6. 3rd Class passengers received less direction and information\
+
+Based on the regression models produced, many of these factors ring true. 3rd class passengers were supposedly located in an area that was harder to reach than 1st and 2nd class passengers. This, along with the fact that information spread door-to-door and how many 3rd class passengers didn't fully understand English, meant 3rd class passengers received much less guidance on how to evacuate than other passengers. pclass3 has the lowest coefficient (negative) out of all the other classes. With 1st class being reference, 2nd class having a value of -0.9797, and 3rd class having a value of -1.8897. While it affirms the anecdotal report of 3rd class passengers survival chances, it doesn't indicate whether perhaps the location of their cabin, the inability to understand English, or both is the reason as to why they have the lowest chances.\ 
+Moving onto _sex_, the reference for the model was 1st class females. This means that if you're a male, the sexmale predictor gets a coefficient value of 1 and with a slope of -2.5246, it emphasizes that males had a much lower probability of surviving than females.\ 
+As expected, being a child increases the probability of survival by a significant amount. For context, in the base logistic regression done (the first case), the reference was a first class woman. Every predictor except _child_ decreases survival probability. With pclass2 being lower than child in magnitude, it further emphasizes the anecdotal reports to be true. That 1st and 2nd class woman and children were prioritized. I believe "prioritized" isn't an entirely true term since there is a disparity between 1st and 2nd class passenger's survival probability.\
+One notable prediction I made prior to doing the regressions was that those with family members onboard, denoted by _sibsp_ and _parch_, would have a higher survival rate since I believed families would be prioritized to be saved together. To my surprise, having parents, children, siblings, and/or spouses on board actually decreased the probability of survival. As noted in my previous explanation, I believe that families chose to rather go down together with the ship than split the family into who survives and who dies.\ 
+While the data proves some things such as women and children having a higher survival, it doesn't entirely confirm other factors of the story. While 3rd class passengers had the lowest probability of survival out of the classes, it doesn't confirm nor deny the reasons as to why. Was it really because of their cabin location, the majority's inability to fluently understand English, or a mix of both? Was it because placements in lifeboats were done in a round robin style prioritizing those 1st + 2nd class women and children? I believe the effects, like the survival rate of certain demographics being higher or lower, are true but the reasons (Like the inability of 3rd class passengers to understand English) as to why some of it happened isn't able to be confirmed from this data alone.
+
+# 2. Religiousness and Attitude Toward Women 
+Next, we'll be doing similar logistic regression work with World Value Survey data. This is aimed to find out if those who have conservative attitudes toward women are also more religious. 
+The readme file reads as...
+
+**believeInGod**\ 
+Do you believe in God?\
+  1: yes, 2: no\
+
+**womanJob** 
+Having a job is the best way for a woman to be an independent person.\
+  1: agree .. 3: disagree\
+
+**environmentImportant** 
+looking after after the environment is important to that person; to care for nature and save life resourses\
+  1: very much like me ... 6: not at all like me\
+
+**education** 
+What is the highest educational level that you have attained?\
+  1: No formal education;\
+  2: Incomplete primary school;
+  3: Complete primary school;\
+  4: Incomplete secondary school: technical/vocational type;\
+  5: Complete secondary school: technical/vocational type\
+  6: Incomplete secondary: university-preparatory type\
+  7: Complete secondary: university-preparatory type\
+  8: Some university-level education, without degree\
+  9: University-level education, with degree\
+
+**age** 
+in years
+
+```{r}
+wvs <- read.delim("../../Data/wvs-logit.csv.bz2") #wvs = world value 
+summary(wvs)
+cat("There are", nrow(wvs), "observations in this dataset\n")
+```
+According to a summary table of the World Value Survey dataset, there doesn't appear to be any invalid values (NA or negative values). There are 75,061 observations prior to cleaning up. For the sake of a sanity check, we'll go through the process to make sure all data is sound. One thing to note is that it seems "continent" sometimes is left blank. We can see there is a "". We will be removing these invalid fields.
+```{r data cleaning}
+wvs <- wvs %>% 
+  filter(believeInGod >= 0 & age >= 0 & education >= 0 & womanJob >= 0 &
+           environmentImportant >= 0 & continent != "")
+cat("The final size of the dataset is", nrow(wvs), "\n")
+```
+
+Some of the variable coding is in a format that's not completely ideal. We'll be recoding the data in a way to change the scale to start from 0 instead. One thing to note is that I believe **education** is a categorical value. While there is a hierarchy in the order (Higher up you go, the higher level of education you've obtained), the differences between each level is not consistent. For example, a university-level education without a degree has variability within that specific category. One person may be one month off from a degree, dropped out in the beginning of their upper level education, dropped out halfway through. This ordering would suggest a quantitative scheme but since the data doesn't indicate that each level has equal spacing from the next, I believe education is categorical and shall treat it as such.\ 
+To sum up, the ordering of these values must be changed. Currently for _believeInGod_, 1 is a yes and 2 is a no. This recoding will change this relation to 1 is a yes and 0 is a no. For _environmentImportant_, 1 = very much while 6 = not at all... but this relation will be flipped and decremented to be 0 = not at all and 5 = very much. Similar fashion with womanJob. It is currently 1 = agree, and 3 is disagree. The recoding will change this to 0 = disagree and 2 = agree - with 1 presumably being "unsure" or "neutral".
+```{r recoding data}
+wvs$believeInGod <- 2 - wvs$believeInGod
+wvs$believeInGod <- as.factor(wvs$believeInGod)
+# Need to flip the ordering of environmentImportant and decrement by 1. 
+# Currently it is 1 is "very much" and 6 is "not at all". This needs to be.. 
+# 0 = not at all increasing to 5 being very much. 
+# Original | New
+#   1 | 5
+#   2 | 4
+#   3 | 3
+#   4 | 2
+#   5 | 1
+#   6 | 0
+cat("To make sure the data is correct after the changes, I'll be printing out the current sums of each environmentImportant value before and after.\n\n")
+envBefore <- table(wvs$environmentImportant)
+for (i in 1:length(envBefore)) {
+  cat("Number of ", i, "s (Will be ", length(envBefore) - i, 
+      " in the recoded): ", envBefore[i], ".\n", sep="")
+}
+original <- c(1, 2, 3, 4, 5, 6) #List of original values
+mapping <- c(5, 4, 3, 2, 1, 0) # Mapping of the original values to new ones. 
+wvs$environmentImportant <- mapvalues(wvs$environmentImportant,
+                                       from=original, 
+                                       to = mapping)
+cat("\nNow for the changes after: \n\n")
+envAfter <- table(wvs$environmentImportant) 
+for (i in 1:length(envAfter)) {
+  cat("Number of ", i - 1, "s (Was ", length(envAfter) + 1 - i, 
+      " in the original: ", envAfter[i], ".\n", sep="")
+}
+wvs$environmentImportant <- as.factor(wvs$environmentImportant) #categorical
+# Now to decrement Education and make it categorical. 
+wvs$education <- as.factor(wvs$education - 1)
+# Now to convert womanJob in a similar fashion. 0 would be disagree to 2 being agree. 
+original <- c(1, 2, 3)
+mapping <- c(2, 1, 0)
+wvs$womanJob <- mapvalues(wvs$womanJob, 
+                          from=original, 
+                          to=mapping) 
+wvs$womanJob <- as.factor(wvs$womanJob)
+```
+### Is believeInGod a good measure of "religiosity"?
+As shown, there's been a degree of low to high in _education_ and _environmentImportant_. _believeInGod_ stands apart from these two because it's binary, a simple yes or no. There's no indication of how religiously devout someone is. Someone who attends church, an agnostic who may not be sure about God, and a missionary who devotes his/her/their entire life to spreading religion may all indicate yes but there's variability in how religious someone is. Inversely, for those who do not believe could be agnostic or atheist. There's degrees in severity that isn't reflected. One thing to note is someone who comes from the other end of the secular spectrum, a satanist, believes there is a God but does not worship or follow Christianity or Catholic principles but based on the question, they would most likely indicate yes. As a measure of equating believing in god to "religiosity" introduces a lot of ambiguity as seen in these specific cases. 
+
+### Is womanJob a good proxy for "attitude toward women"? 
+Conservative views about women are that they play subserviant role in society. That men should bring in the household income and women should tend to house chores and children. The current mapping this report is making is that people who are religious (believe in god) also share conservative views such as this outdated gender norm. It's widely known that many people with conservative views are usually of the Christianity or Catholic denomination but equally, there's a large number of liberal people who also believe in God. While I think _womanJob_ may be a good indicator, I don't think it's the only factor since the question is subjective. The question asked if having a job is the **best** way for a woman to be independent. This question isn't exactly a good indication since it's based on perspective. You could be progressive and believe that the best indicator for a woman to be independent is if they have their own apartment/condo/house. If this was formulated to reflect conservative views, a new question could be "Do you believe women should perform domestic tasks in the household while men work for the household's income?". While I personally don't agree with the message, I believe it's a stronger reflection of conservative views of gender roles in society.\
+
+Some other things I believe could be changed is... I would ask questions in a similar fashion to how education is mapped out. This would include questions to map to various categories of increasing levels like...
+"Have not attended church, not religious"\ 
+"Have not attended church, is religious"\ 
+"Have attended church, but not religious"\ 
+"Have attended church, is religious"\
+"Currently attends church, not religious" in the case they're curious about the belief\ 
+"Currently attends church, is religious"\ 
+and branching off into questions into higher degrees of belief such as "Have you ever gone on a mission trip for 3 months or longer"?\
+Then reformat the womanJob survey to be binary instead for the logistic regression.\
+Also if I were to redesign this question in particular, I would map it towards something more tangible. As mentioned, there is variability in believeInGod - it doesn't show the various levels of how devout someone may be to religion. In the recent election, it's been stated numerous times that the college-educated shared more progressive views such as the independence of women. Perhaps it'd be interesting seeing the relation to education level and views on women being independent. 
+
+## Logistical Modeling 
+```{r modeling}
+m <- glm(believeInGod ~ womanJob, family=binomial(), data=wvs)
+summary(m)
+```
+The current way the model is set up is that believeInGod is the base case with womanJob = 0 being the reference. To reiterate, data recoding was done so that womanJob has the following scale: 0 = disagree, 1 = neutral, and 2 = agree in the context of women having a job is the best way to be an independent person. With the intercept representing believing in God. With womanJob = 1 and womanJob = 2, we see estimated slope values of -0.18218 and -0.06375 respectively. This would indicate that those who are neutral or unsure and those who agree that having a job is the best way for a woman to be an independent person are less likely to also believe in God. The intercept and womanJob1 are statistically significant at the 0 level and womanJob2 is statistically significant at the 0.01 level. 
+
+### How does 'age' affect the probability to be religious? 
+```{r womanjob+age}
+m <- glm(believeInGod ~ womanJob + age, family=binomial(), data=wvs) 
+summary(m)
+```
+Adding **age** as a factor to the model highlights some interesting things. The relationship between intercept, womanjob0, womanjob1, and womanjob2 hasn't changed except for the actual log odds values but **age** can be seen as a negative slope. With a value of -0.0115209. As someone gets older, they're less likely to believe in God. It seems that younger people tend to be more religious than older. Perhaps this is due to life experience and some contextual knowledge they gain from living in society longer than others. 
+
+### Adding 'education', 'environmentImportant', and 'continent' to the model 
+```{r full model}
+m <- glm(believeInGod ~ womanJob + age + education + environmentImportant + continent,
+         family=binomial(), data=wvs)
+summary(m)
+```
+One important thing to note is that womanJob1 and womanJob2 are not considered statistically significant anymore. Additionally, education1, and environmentImportant 1 & 2 are also not statistically significant as well.\ 
+With environmentImportant 3 to 5, it is statistially significant and shows a positive correlation. Those who believe that perserving the environment is important are also more likely to believe in God. Inversely, those who are in America, Asia, or Europe are less likely to believe in God. With the reference case using 'Africa', people from Africa are more likely to believe in God. This seems to be true as according to thelastwell.org, Africa has the highest number of Christians per population than any other continent in the world.\
+
+With the statistically significant education levels, it also indicates there's a lower probability of believing in God regardless of education level except for level 1 (not statistically significant).
+
+**Revisiting the previous question of gender roles answered previously**, this would indicate that the womanJob scaling doesn't actually have an impact on whether or not a person is likely to believe in God. 
+```{r choosing a different reference}
+m <- glm(believeInGod ~ relevel(womanJob, ref=2) + age + education + environmentImportant + continent,
+         family=binomial(), data=wvs)
+summary(m)
+```
+a. Choosing womanJob = 1 as a new reference, it still shows that there the predictor is not statistically significant and doesn't affect the log odds in a meaningful way.\
+b. **environmentImportant** responses for 1 and 2 are not statistically significant. However, values for 3 and above are. This indicates that people who care about the environment are more religious than those who do not. Can see that values 3 to 5 increase the log odds value by 0.149685, 0.303018, and 0.730323 respectively.\
+c. Across the board, people who are educated are less likely to believe in God. While the level of education doesn't seem to correlate with the magnitude that people are less likely to believe, all values for education 0 to 8 are negative which lowers the log odds value.\
+d. The most religious continent appears to be Africa while the least religious seems to be Europe.\ 
+
+## How Long Did I spend on this PS? 
+I would estimate around ~5-6 hours. This one seemed lengthier but all the while meaningful! 

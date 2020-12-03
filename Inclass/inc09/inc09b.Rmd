@@ -1,0 +1,82 @@
+# Validation
+
+```{r}
+hv <- read.csv("../../Data/house-votes-84.csv.bz2",
+               header=FALSE,
+               col.names=c("party",
+                           paste0("v", 1:16)))
+head(hv, 3)
+```
+
+Convert it to a cleaner form for analysis
+```{r}
+library(tidyverse)
+hv <- hv %>%
+   mutate(across(v1:v16, function(x) x == "y")) %>%
+   mutate(party = party == "republican")
+head(hv, 3)
+```
+
+Do training validation split
+```{r}
+i <- sample(nrow(hv), 0.8*nrow(hv))
+                           # training index
+Xt <- hv[i,]  # training data
+Xv <- hv[-i,]  # validation data
+dim(Xt)
+dim(Xv)
+```
+
+Train the model and compute accuracy on
+**training data** 
+```{r}
+m <- glm(party ~ ., data=Xt, family=binomial())
+                           # use _training_ data!!!
+haty <- predict(m, type="response") > 0.5
+                           # predict republicans
+mean(haty == Xt$party)
+```
+
+Compute accuracy on **validation data**.
+Note: only validate, do not train!
+```{r}
+haty <- predict(m, newdata=Xv, type="response") > 0.5
+mean(haty == Xv$party)
+```
+
+## Now we do some tricks
+
+Add random votes to the data
+
+```{r}
+## cbind: add column-wise
+M <- sample(c(0,1), nrow(hv)*300, replace=TRUE) %>%
+   matrix(nrow=nrow(hv))
+hv2 <- cbind(hv, M)
+```
+
+And now do training-validation 
+```{r}
+i <- sample(nrow(hv2), 0.8*nrow(hv2))
+                           # training indices
+Xt <- hv2[i,]  # training data
+Xv <- hv2[-i,]
+```
+
+Train the model on **training data**
+```{r}
+m <- glm(party ~ ., data=Xt, family=binomial())
+                           # use _training_ data!!!
+haty <- predict(m, type="response") > 0.5
+                           # predict republicans
+At <- mean(haty == Xt$party)
+cat("Training accuracy", At, "\n")
+```
+
+Compute accuracy on **validation data**.
+Note: only validate, do not train!
+```{r}
+haty <- predict(m, newdata=Xv, type="response") > 0.5
+Av <- mean(haty == Xv$party)
+cat("Validation accuracy", Av, "\n")
+```

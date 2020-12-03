@@ -48,6 +48,7 @@ Z-values are essentially the same as t-values but with infinite degrees of freed
 ## Interpretation: Marginal effects 
 ```{r}
 library(margins) 
+Treatment
 m <- glm(treat ~ age + ethn, family=binomial(), data=Treatment)
 me <- margins(m)
 summary(me)

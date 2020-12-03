@@ -1,0 +1,81 @@
+---
+title: "inc09a"
+author: "Ji H. Kang"
+date: "11/30/2020"
+output: html_document
+---
+```{r}
+
+```
+
+Logistical Regression Review 
+```{r}
+data(Treatment, package="Ecdat")
+m <- glm(treat ~ age, data=Treatment, family=binomial())
+summary(m)
+```
+
+For interpreting, use marginal effects:
+```{r}
+me <- margins::margins(m)
+summary(me)
+```
+
+## Example 1: Predict Linear Regression 
+```{r}
+data(iris)
+m <- lm(Sepal.Width ~ Sepal.Length, 
+        data=iris,
+        subset=Species == "setosa")
+yhat <- predict(m) 
+yhat #yhat are predicted values 
+```
+Plot how do width depend on the length 
+```{r}
+setosa <- iris[iris$Species == "setosa",]
+plot(setosa$Sepal.Length, setosa$Sepal.Width,
+     pch=16, cex=2) #pch=16 is a black dot
+points(setosa$Sepal.Length, yhat, col="red", pch=16, cex=2) #yhat is what we predict, setosa$Sepal.length is the true 
+# Plot true values 
+# pch: Point shape 
+# cex: Point size 
+# points: Add points to existing plot 
+```
+## Predicting Logistic Regression 
+
+Revisit the treatment model, add re74 
+```{r}
+data(Treatment, package="Ecdat") 
+m <- glm(treat ~ age + re74, 
+         data=Treatment, 
+         family=binomial()) 
+# Predict probability 
+phat <- predict(m, type="response")
+phat[1:10]
+```
+Predict Category: 
+```{r}
+yhat <- phat > 0.5 
+yhat[1:10]
+```
+
+## Confusion Matrix: Cross table of predicted and actual values 
+```{r}
+table(Treatment$treat, yhat) #column is predicted, row is actual
+```
+```{r}
+actual <- c(1, 0, 1, 1, 0, 0, 0, 1, 1, 1)
+predicted <- c(0, 0, 1, 1, 0, 0, 1, 1, 0, 1)
+table(actual, predicted)
+```
+### Accuracy 
+Accuracy = (TT + TN / T)
+```{r}
+mean(Treatment$treat == yhat)
+Metrics::accuracy(actual, predicted)
+```
+Recall: the percentage of actual positives identified 
+Recall = (TP / (TP + FN)) = TP / P 
+```{r}
+Metrics::recall(actual, predicted)
+```

@@ -1,0 +1,24 @@
+believeInGod: Do you believe in God?
+  1: yes, 2: no
+
+womanJob: Having a job is the best way for a woman to be an
+  independent person.
+  1: agree .. 3: disagree
+
+environmentImportant: looking after after the environment is
+  important to that person; to care for nature and save
+  life resourses
+  1: very much like me ... 6: not at all like me
+
+education: What is the highest educational level that you have attained?
+  1: No formal education; 2: Incomplete primary school; 3: Complete primary school;
+  4: Incomplete secondary school: technical/vocational type; 
+  5: Complete secondary school: technical/vocational type
+  6: Incomplete secondary: university-preparatory type
+  7: Complete secondary: university-preparatory type
+  8: Some university-level education, without degree
+  9: University-level education, with degree
+
+age: in years
+
+continent: "Africa"   "Asia"     "Europe"   "Americas" ""

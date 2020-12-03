@@ -1,0 +1,101 @@
+---
+title: "Lab 8 Validation"
+author: "Ji H. Kang"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+# 1 Loading Data and 2 Selecting columns and removing missing observations
+```{r load data and libraries, message=FALSE}
+library(tidyverse)
+titanic <- read.csv("../../Data/titanic.csv.bz2") %>% 
+  select(survived, age, pclass, sex, sibsp, parch, fare)
+titanic <- titanic[complete.cases(titanic),]
+```
+
+# 3 Doing the Following 
+a. Split the data into training/validation split (80/20)
+```{r splitting into training/validation}
+inds <- sample(nrow(titanic), 0.8*nrow(titanic))
+xt <- titanic[inds,]
+xv <- titanic[-inds,]
+cat("Dimensions of training data is:", dim(xt), "\n")
+cat("Dimensions of validation data is:", dim(xv), "\n")
+```
+
+b. Train logistic model on training data using all the variables 
+```{r training model}
+m <- glm(survived ~ ., data=xt, family=binomial())
+haty <- predict(m, type="response") > 0.5 
+```
+c. Compute and report accuracy on both training and validation data 
+```{r accuracy}
+cat("Accuracy of training data is:", mean(haty == xt$survived), "\n")
+haty <- predict(m, newdata=xv, type="response") > 0.5
+cat("Accuracy of validation data is:", mean(haty == xv$survived), "\n")
+```
+
+# 4. Adding 500 columns of randomly generated data to the existing titanic data 
+```{r adding new data}
+M <- sample(c(0, 1), nrow(titanic) * 500, replace=TRUE) %>% 
+  matrix(nrow=nrow(titanic))
+titanic2 <- cbind(titanic, M)
+```
+
+# 5. Rerunning Task 3 with our added columns 
+```{r function for automation}
+run_task_3 <- function(N) {
+  set.seed(0) # Set a seed so I can expect similar results each time
+  cat("Running Task 3 with N =", N, "\n\n")
+  # 7 columns for the pre-existing columns (survived, age, pclass, etc.). 
+  # Add N to 7 to control how many of the added columns are used. 
+  num_col <- N + 7
+  sub_titanic <- titanic2 %>% 
+    select(1:num_col)
+  # Splitting data
+  inds <- sample(nrow(sub_titanic), 0.8 * nrow(sub_titanic))
+  xt <- sub_titanic[inds,]
+  xv <- sub_titanic[-inds,]
+  
+  # Train logisitical model 
+  m <- glm(survived ~ ., data=xt, family=binomial())
+  haty <- predict(m, type="response") > 0.5 
+  cat("Accuracy of training data is:", mean(haty == xt$survived), "\n")
+  haty <- predict(m, newdata=xv, type="response") > 0.5
+  cat("Accuracy of validation data:", mean(haty == xv$survived), "\n")
+  cat("\n===============================================\n\n")
+}
+
+options(warn=-1)
+# These are the N sizes I've chosen
+N_sizes <- c(2, 5, 10, 20, 40, 50, 100, 200, 300, 400, 500)
+for (N in N_sizes) {
+  run_task_3(N)
+}
+options(warn=0)
+```
+It's being shown very clear what we saw in class. As the number of added columns of randomly generated data goes up, the training accuracy increases but the validation accuracy decreases. As N increases, the accuracy of training on those N columns increases but when it's being validated, it's overfitted from the training data. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Ji H. Kang" />
 
 
-<title>PS7: Logistic Regression</title>
+<title>inc09b.utf8</title>
 
 <script>/*! jQuery v1.11.3 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license */
 !function(a,b){"object"==typeof module&&"object"==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error("jQuery requires a window with a document");return b(a)}:b(a)}("undefined"!=typeof window?window:this,function(a,b){var c=[],d=c.slice,e=c.concat,f=c.push,g=c.indexOf,h={},i=h.toString,j=h.hasOwnProperty,k={},l="1.11.3",m=function(a,b){return new m.fn.init(a,b)},n=/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,o=/^-ms-/,p=/-([\da-z])/gi,q=function(a,b){return b.toUpperCase()};m.fn=m.prototype={jquery:l,constructor:m,selector:"",length:0,toArray:function(){return d.call(this)},get:function(a){return null!=a?0>a?this[a+this.length]:this[a]:d.call(this)},pushStack:function(a){var b=m.merge(this.constructor(),a);return b.prevObject=this,b.context=this.context,b},each:function(a,b){return m.each(this,a,b)},map:function(a){return this.pushStack(m.map(this,function(b,c){return a.call(b,c,b)}))},slice:function(){return this.pushStack(d.apply(this,arguments))},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},eq:function(a){var b=this.length,c=+a+(0>a?b:0);return this.pushStack(c>=0&&b>c?[this[c]]:[])},end:function(){return this.prevObject||this.constructor(null)},push:f,sort:c.sort,splice:c.splice},m.extend=m.fn.extend=function(){var a,b,c,d,e,f,g=arguments[0]||{},h=1,i=arguments.length,j=!1;for("boolean"==typeof g&&(j=g,g=arguments[h]||{},h++),"object"==typeof g||m.isFunction(g)||(g={}),h===i&&(g=this,h--);i>h;h++)if(null!=(e=arguments[h]))for(d in e)a=g[d],c=e[d],g!==c&&(j&&c&&(m.isPlainObject(c)||(b=m.isArray(c)))?(b?(b=!1,f=a&&m.isArray(a)?a:[]):f=a&&m.isPlainObject(a)?a:{},g[d]=m.extend(j,f,c)):void 0!==c&&(g[d]=c));return g},m.extend({expando:"jQuery"+(l+Math.random()).replace(/\D/g,""),isReady:!0,error:function(a){throw new Error(a)},noop:function(){},isFunction:function(a){return"function"===m.type(a)},isArray:Array.isArray||function(a){return"array"===m.type(a)},isWindow:function(a){return null!=a&&a==a.window},isNumeric:function(a){return!m.isArray(a)&&a-parseFloat(a)+1>=0},isEmptyObject:function(a){var b;for(b in a)return!1;return!0},isPlainObject:function(a){var b;if(!a||"object"!==m.type(a)||a.nodeType||m.isWindow(a))return!1;try{if(a.constructor&&!j.call(a,"constructor")&&!j.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}if(k.ownLast)for(b in a)return j.call(a,b);for(b in a);return void 0===b||j.call(a,b)},type:function(a){return null==a?a+"":"object"==typeof a||"function"==typeof a?h[i.call(a)]||"object":typeof a},globalEval:function(b){b&&m.trim(b)&&(a.execScript||function(b){a.eval.call(a,b)})(b)},camelCase:function(a){return a.replace(o,"ms-").replace(p,q)},nodeName:function(a,b){return a.nodeName&&a.nodeName.toLowerCase()===b.toLowerCase()},each:function(a,b,c){var d,e=0,f=a.length,g=r(a);if(c){if(g){for(;f>e;e++)if(d=b.apply(a[e],c),d===!1)break}else for(e in a)if(d=b.apply(a[e],c),d===!1)break}else if(g){for(;f>e;e++)if(d=b.call(a[e],e,a[e]),d===!1)break}else for(e in a)if(d=b.call(a[e],e,a[e]),d===!1)break;return a},trim:function(a){return null==a?"":(a+"").replace(n,"")},makeArray:function(a,b){var c=b||[];return null!=a&&(r(Object(a))?m.merge(c,"string"==typeof a?[a]:a):f.call(c,a)),c},inArray:function(a,b,c){var d;if(b){if(g)return g.call(b,a,c);for(d=b.length,c=c?0>c?Math.max(0,d+c):c:0;d>c;c++)if(c in b&&b[c]===a)return c}return-1},merge:function(a,b){var c=+b.length,d=0,e=a.length;while(c>d)a[e++]=b[d++];if(c!==c)while(void 0!==b[d])a[e++]=b[d++];return a.length=e,a},grep:function(a,b,c){for(var d,e=[],f=0,g=a.length,h=!c;g>f;f++)d=!b(a[f],f),d!==h&&e.push(a[f]);return e},map:function(a,b,c){var d,f=0,g=a.length,h=r(a),i=[];if(h)for(;g>f;f++)d=b(a[f],f,c),null!=d&&i.push(d);else for(f in a)d=b(a[f],f,c),null!=d&&i.push(d);return e.apply([],i)},guid:1,proxy:function(a,b){var c,e,f;return"string"==typeof b&&(f=a[b],b=a,a=f),m.isFunction(a)?(c=d.call(arguments,2),e=function(){return a.apply(b||this,c.concat(d.call(arguments)))},e.guid=a.guid=a.guid||m.guid++,e):void 0},now:function(){return+new Date},support:k}),m.each("Boolean Number String Function Array Date RegExp Object Error".split(" "),function(a,b){h["[object "+b+"]"]=b.toLowerCase()});function r(a){var b="length"in a&&a.length,c=m.type(a);return"function"===c||m.isWindow(a)?!1:1===a.nodeType&&b?!0:"array"===c||0===b||"number"==typeof b&&b>0&&b-1 in a}var s=function(a){var b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u="sizzle"+1*new Date,v=a.document,w=0,x=0,y=ha(),z=ha(),A=ha(),B=function(a,b){return a===b&&(l=!0),0},C=1<<31,D={}.hasOwnProperty,E=[],F=E.pop,G=E.push,H=E.push,I=E.slice,J=function(a,b){for(var c=0,d=a.length;d>c;c++)if(a[c]===b)return c;return-1},K="checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",L="[\\x20\\t\\r\\n\\f]",M="(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",N=M.replace("w","w#"),O="\\["+L+"*("+M+")(?:"+L+"*([*^$|!~]?=)"+L+"*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|("+N+"))|)"+L+"*\\]",P=":("+M+")(?:\\((('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|((?:\\\\.|[^\\\\()[\\]]|"+O+")*)|.*)\\)|)",Q=new RegExp(L+"+","g"),R=new RegExp("^"+L+"+|((?:^|[^\\\\])(?:\\\\.)*)"+L+"+$","g"),S=new RegExp("^"+L+"*,"+L+"*"),T=new RegExp("^"+L+"*([>+~]|"+L+")"+L+"*"),U=new RegExp("="+L+"*([^\\]'\"]*?)"+L+"*\\]","g"),V=new RegExp(P),W=new RegExp("^"+N+"$"),X={ID:new RegExp("^#("+M+")"),CLASS:new RegExp("^\\.("+M+")"),TAG:new RegExp("^("+M.replace("w","w*")+")"),ATTR:new RegExp("^"+O),PSEUDO:new RegExp("^"+P),CHILD:new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\("+L+"*(even|odd|(([+-]|)(\\d*)n|)"+L+"*(?:([+-]|)"+L+"*(\\d+)|))"+L+"*\\)|)","i"),bool:new RegExp("^(?:"+K+")$","i"),needsContext:new RegExp("^"+L+"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\("+L+"*((?:-\\d)?\\d*)"+L+"*\\)|)(?=[^-]|$)","i")},Y=/^(?:input|select|textarea|button)$/i,Z=/^h\d$/i,$=/^[^{]+\{\s*\[native \w/,_=/^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,aa=/[+~]/,ba=/'|\\/g,ca=new RegExp("\\\\([\\da-f]{1,6}"+L+"?|("+L+")|.)","ig"),da=function(a,b,c){var d="0x"+b-65536;return d!==d||c?b:0>d?String.fromCharCode(d+65536):String.fromCharCode(d>>10|55296,1023&d|56320)},ea=function(){m()};try{H.apply(E=I.call(v.childNodes),v.childNodes),E[v.childNodes.length].nodeType}catch(fa){H={apply:E.length?function(a,b){G.apply(a,I.call(b))}:function(a,b){var c=a.length,d=0;while(a[c++]=b[d++]);a.length=c-1}}}function ga(a,b,d,e){var f,h,j,k,l,o,r,s,w,x;if((b?b.ownerDocument||b:v)!==n&&m(b),b=b||n,d=d||[],k=b.nodeType,"string"!=typeof a||!a||1!==k&&9!==k&&11!==k)return d;if(!e&&p){if(11!==k&&(f=_.exec(a)))if(j=f[1]){if(9===k){if(h=b.getElementById(j),!h||!h.parentNode)return d;if(h.id===j)return d.push(h),d}else if(b.ownerDocument&&(h=b.ownerDocument.getElementById(j))&&t(b,h)&&h.id===j)return d.push(h),d}else{if(f[2])return H.apply(d,b.getElementsByTagName(a)),d;if((j=f[3])&&c.getElementsByClassName)return H.apply(d,b.getElementsByClassName(j)),d}if(c.qsa&&(!q||!q.test(a))){if(s=r=u,w=b,x=1!==k&&a,1===k&&"object"!==b.nodeName.toLowerCase()){o=g(a),(r=b.getAttribute("id"))?s=r.replace(ba,"\\$&"):b.setAttribute("id",s),s="[id='"+s+"'] ",l=o.length;while(l--)o[l]=s+ra(o[l]);w=aa.test(a)&&pa(b.parentNode)||b,x=o.join(",")}if(x)try{return H.apply(d,w.querySelectorAll(x)),d}catch(y){}finally{r||b.removeAttribute("id")}}}return i(a.replace(R,"$1"),b,d,e)}function ha(){var a=[];function b(c,e){return a.push(c+" ")>d.cacheLength&&delete b[a.shift()],b[c+" "]=e}return b}function ia(a){return a[u]=!0,a}function ja(a){var b=n.createElement("div");try{return!!a(b)}catch(c){return!1}finally{b.parentNode&&b.parentNode.removeChild(b),b=null}}function ka(a,b){var c=a.split("|"),e=a.length;while(e--)d.attrHandle[c[e]]=b}function la(a,b){var c=b&&a,d=c&&1===a.nodeType&&1===b.nodeType&&(~b.sourceIndex||C)-(~a.sourceIndex||C);if(d)return d;if(c)while(c=c.nextSibling)if(c===b)return-1;return a?1:-1}function ma(a){return function(b){var c=b.nodeName.toLowerCase();return"input"===c&&b.type===a}}function na(a){return function(b){var c=b.nodeName.toLowerCase();return("input"===c||"button"===c)&&b.type===a}}function oa(a){return ia(function(b){return b=+b,ia(function(c,d){var e,f=a([],c.length,b),g=f.length;while(g--)c[e=f[g]]&&(c[e]=!(d[e]=c[e]))})})}function pa(a){return a&&"undefined"!=typeof a.getElementsByTagName&&a}c=ga.support={},f=ga.isXML=function(a){var b=a&&(a.ownerDocument||a).documentElement;return b?"HTML"!==b.nodeName:!1},m=ga.setDocument=function(a){var b,e,g=a?a.ownerDocument||a:v;return g!==n&&9===g.nodeType&&g.documentElement?(n=g,o=g.documentElement,e=g.defaultView,e&&e!==e.top&&(e.addEventListener?e.addEventListener("unload",ea,!1):e.attachEvent&&e.attachEvent("onunload",ea)),p=!f(g),c.attributes=ja(function(a){return a.className="i",!a.getAttribute("className")}),c.getElementsByTagName=ja(function(a){return a.appendChild(g.createComment("")),!a.getElementsByTagName("*").length}),c.getElementsByClassName=$.test(g.getElementsByClassName),c.getById=ja(function(a){return o.appendChild(a).id=u,!g.getElementsByName||!g.getElementsByName(u).length}),c.getById?(d.find.ID=function(a,b){if("undefined"!=typeof b.getElementById&&p){var c=b.getElementById(a);return c&&c.parentNode?[c]:[]}},d.filter.ID=function(a){var b=a.replace(ca,da);return function(a){return a.getAttribute("id")===b}}):(delete d.find.ID,d.filter.ID=function(a){var b=a.replace(ca,da);return function(a){var c="undefined"!=typeof a.getAttributeNode&&a.getAttributeNode("id");return c&&c.value===b}}),d.find.TAG=c.getElementsByTagName?function(a,b){return"undefined"!=typeof b.getElementsByTagName?b.getElementsByTagName(a):c.qsa?b.querySelectorAll(a):void 0}:function(a,b){var c,d=[],e=0,f=b.getElementsByTagName(a);if("*"===a){while(c=f[e++])1===c.nodeType&&d.push(c);return d}return f},d.find.CLASS=c.getElementsByClassName&&function(a,b){return p?b.getElementsByClassName(a):void 0},r=[],q=[],(c.qsa=$.test(g.querySelectorAll))&&(ja(function(a){o.appendChild(a).innerHTML="<a id='"+u+"'></a><select id='"+u+"-\f]' msallowcapture=''><option selected=''></option></select>",a.querySelectorAll("[msallowcapture^='']").length&&q.push("[*^$]="+L+"*(?:''|\"\")"),a.querySelectorAll("[selected]").length||q.push("\\["+L+"*(?:value|"+K+")"),a.querySelectorAll("[id~="+u+"-]").length||q.push("~="),a.querySelectorAll(":checked").length||q.push(":checked"),a.querySelectorAll("a#"+u+"+*").length||q.push(".#.+[+~]")}),ja(function(a){var b=g.createElement("input");b.setAttribute("type","hidden"),a.appendChild(b).setAttribute("name","D"),a.querySelectorAll("[name=d]").length&&q.push("name"+L+"*[*^$|!~]?="),a.querySelectorAll(":enabled").length||q.push(":enabled",":disabled"),a.querySelectorAll("*,:x"),q.push(",.*:")})),(c.matchesSelector=$.test(s=o.matches||o.webkitMatchesSelector||o.mozMatchesSelector||o.oMatchesSelector||o.msMatchesSelector))&&ja(function(a){c.disconnectedMatch=s.call(a,"div"),s.call(a,"[s!='']:x"),r.push("!=",P)}),q=q.length&&new RegExp(q.join("|")),r=r.length&&new RegExp(r.join("|")),b=$.test(o.compareDocumentPosition),t=b||$.test(o.contains)?function(a,b){var c=9===a.nodeType?a.documentElement:a,d=b&&b.parentNode;return a===d||!(!d||1!==d.nodeType||!(c.contains?c.contains(d):a.compareDocumentPosition&&16&a.compareDocumentPosition(d)))}:function(a,b){if(b)while(b=b.parentNode)if(b===a)return!0;return!1},B=b?function(a,b){if(a===b)return l=!0,0;var d=!a.compareDocumentPosition-!b.compareDocumentPosition;return d?d:(d=(a.ownerDocument||a)===(b.ownerDocument||b)?a.compareDocumentPosition(b):1,1&d||!c.sortDetached&&b.compareDocumentPosition(a)===d?a===g||a.ownerDocument===v&&t(v,a)?-1:b===g||b.ownerDocument===v&&t(v,b)?1:k?J(k,a)-J(k,b):0:4&d?-1:1)}:function(a,b){if(a===b)return l=!0,0;var c,d=0,e=a.parentNode,f=b.parentNode,h=[a],i=[b];if(!e||!f)return a===g?-1:b===g?1:e?-1:f?1:k?J(k,a)-J(k,b):0;if(e===f)return la(a,b);c=a;while(c=c.parentNode)h.unshift(c);c=b;while(c=c.parentNode)i.unshift(c);while(h[d]===i[d])d++;return d?la(h[d],i[d]):h[d]===v?-1:i[d]===v?1:0},g):n},ga.matches=function(a,b){return ga(a,null,null,b)},ga.matchesSelector=function(a,b){if((a.ownerDocument||a)!==n&&m(a),b=b.replace(U,"='$1']"),!(!c.matchesSelector||!p||r&&r.test(b)||q&&q.test(b)))try{var d=s.call(a,b);if(d||c.disconnectedMatch||a.document&&11!==a.document.nodeType)return d}catch(e){}return ga(b,n,null,[a]).length>0},ga.contains=function(a,b){return(a.ownerDocument||a)!==n&&m(a),t(a,b)},ga.attr=function(a,b){(a.ownerDocument||a)!==n&&m(a);var e=d.attrHandle[b.toLowerCase()],f=e&&D.call(d.attrHandle,b.toLowerCase())?e(a,b,!p):void 0;return void 0!==f?f:c.attributes||!p?a.getAttribute(b):(f=a.getAttributeNode(b))&&f.specified?f.value:null},ga.error=function(a){throw new Error("Syntax error, unrecognized expression: "+a)},ga.uniqueSort=function(a){var b,d=[],e=0,f=0;if(l=!c.detectDuplicates,k=!c.sortStable&&a.slice(0),a.sort(B),l){while(b=a[f++])b===a[f]&&(e=d.push(f));while(e--)a.splice(d[e],1)}return k=null,a},e=ga.getText=function(a){var b,c="",d=0,f=a.nodeType;if(f){if(1===f||9===f||11===f){if("string"==typeof a.textContent)return a.textContent;for(a=a.firstChild;a;a=a.nextSibling)c+=e(a)}else if(3===f||4===f)return a.nodeValue}else while(b=a[d++])c+=e(b);return c},d=ga.selectors={cacheLength:50,createPseudo:ia,match:X,attrHandle:{},find:{},relative:{">":{dir:"parentNode",first:!0}," ":{dir:"parentNode"},"+":{dir:"previousSibling",first:!0},"~":{dir:"previousSibling"}},preFilter:{ATTR:function(a){return a[1]=a[1].replace(ca,da),a[3]=(a[3]||a[4]||a[5]||"").replace(ca,da),"~="===a[2]&&(a[3]=" "+a[3]+" "),a.slice(0,4)},CHILD:function(a){return a[1]=a[1].toLowerCase(),"nth"===a[1].slice(0,3)?(a[3]||ga.error(a[0]),a[4]=+(a[4]?a[5]+(a[6]||1):2*("even"===a[3]||"odd"===a[3])),a[5]=+(a[7]+a[8]||"odd"===a[3])):a[3]&&ga.error(a[0]),a},PSEUDO:function(a){var b,c=!a[6]&&a[2];return X.CHILD.test(a[0])?null:(a[3]?a[2]=a[4]||a[5]||"":c&&V.test(c)&&(b=g(c,!0))&&(b=c.indexOf(")",c.length-b)-c.length)&&(a[0]=a[0].slice(0,b),a[2]=c.slice(0,b)),a.slice(0,3))}},filter:{TAG:function(a){var b=a.replace(ca,da).toLowerCase();return"*"===a?function(){return!0}:function(a){return a.nodeName&&a.nodeName.toLowerCase()===b}},CLASS:function(a){var b=y[a+" "];return b||(b=new RegExp("(^|"+L+")"+a+"("+L+"|$)"))&&y(a,function(a){return b.test("string"==typeof a.className&&a.className||"undefined"!=typeof a.getAttribute&&a.getAttribute("class")||"")})},ATTR:function(a,b,c){return function(d){var e=ga.attr(d,a);return null==e?"!="===b:b?(e+="","="===b?e===c:"!="===b?e!==c:"^="===b?c&&0===e.indexOf(c):"*="===b?c&&e.indexOf(c)>-1:"$="===b?c&&e.slice(-c.length)===c:"~="===b?(" "+e.replace(Q," ")+" ").indexOf(c)>-1:"|="===b?e===c||e.slice(0,c.length+1)===c+"-":!1):!0}},CHILD:function(a,b,c,d,e){var f="nth"!==a.slice(0,3),g="last"!==a.slice(-4),h="of-type"===b;return 1===d&&0===e?function(a){return!!a.parentNode}:function(b,c,i){var j,k,l,m,n,o,p=f!==g?"nextSibling":"previousSibling",q=b.parentNode,r=h&&b.nodeName.toLowerCase(),s=!i&&!h;if(q){if(f){while(p){l=b;while(l=l[p])if(h?l.nodeName.toLowerCase()===r:1===l.nodeType)return!1;o=p="only"===a&&!o&&"nextSibling"}return!0}if(o=[g?q.firstChild:q.lastChild],g&&s){k=q[u]||(q[u]={}),j=k[a]||[],n=j[0]===w&&j[1],m=j[0]===w&&j[2],l=n&&q.childNodes[n];while(l=++n&&l&&l[p]||(m=n=0)||o.pop())if(1===l.nodeType&&++m&&l===b){k[a]=[w,n,m];break}}else if(s&&(j=(b[u]||(b[u]={}))[a])&&j[0]===w)m=j[1];else while(l=++n&&l&&l[p]||(m=n=0)||o.pop())if((h?l.nodeName.toLowerCase()===r:1===l.nodeType)&&++m&&(s&&((l[u]||(l[u]={}))[a]=[w,m]),l===b))break;return m-=e,m===d||m%d===0&&m/d>=0}}},PSEUDO:function(a,b){var c,e=d.pseudos[a]||d.setFilters[a.toLowerCase()]||ga.error("unsupported pseudo: "+a);return e[u]?e(b):e.length>1?(c=[a,a,"",b],d.setFilters.hasOwnProperty(a.toLowerCase())?ia(function(a,c){var d,f=e(a,b),g=f.length;while(g--)d=J(a,f[g]),a[d]=!(c[d]=f[g])}):function(a){return e(a,0,c)}):e}},pseudos:{not:ia(function(a){var b=[],c=[],d=h(a.replace(R,"$1"));return d[u]?ia(function(a,b,c,e){var f,g=d(a,null,e,[]),h=a.length;while(h--)(f=g[h])&&(a[h]=!(b[h]=f))}):function(a,e,f){return b[0]=a,d(b,null,f,c),b[0]=null,!c.pop()}}),has:ia(function(a){return function(b){return ga(a,b).length>0}}),contains:ia(function(a){return a=a.replace(ca,da),function(b){return(b.textContent||b.innerText||e(b)).indexOf(a)>-1}}),lang:ia(function(a){return W.test(a||"")||ga.error("unsupported lang: "+a),a=a.replace(ca,da).toLowerCase(),function(b){var c;do if(c=p?b.lang:b.getAttribute("xml:lang")||b.getAttribute("lang"))return c=c.toLowerCase(),c===a||0===c.indexOf(a+"-");while((b=b.parentNode)&&1===b.nodeType);return!1}}),target:function(b){var c=a.location&&a.location.hash;return c&&c.slice(1)===b.id},root:function(a){return a===o},focus:function(a){return a===n.activeElement&&(!n.hasFocus||n.hasFocus())&&!!(a.type||a.href||~a.tabIndex)},enabled:function(a){return a.disabled===!1},disabled:function(a){return a.disabled===!0},checked:function(a){var b=a.nodeName.toLowerCase();return"input"===b&&!!a.checked||"option"===b&&!!a.selected},selected:function(a){return a.parentNode&&a.parentNode.selectedIndex,a.selected===!0},empty:function(a){for(a=a.firstChild;a;a=a.nextSibling)if(a.nodeType<6)return!1;return!0},parent:function(a){return!d.pseudos.empty(a)},header:function(a){return Z.test(a.nodeName)},input:function(a){return Y.test(a.nodeName)},button:function(a){var b=a.nodeName.toLowerCase();return"input"===b&&"button"===a.type||"button"===b},text:function(a){var b;return"input"===a.nodeName.toLowerCase()&&"text"===a.type&&(null==(b=a.getAttribute("type"))||"text"===b.toLowerCase())},first:oa(function(){return[0]}),last:oa(function(a,b){return[b-1]}),eq:oa(function(a,b,c){return[0>c?c+b:c]}),even:oa(function(a,b){for(var c=0;b>c;c+=2)a.push(c);return a}),odd:oa(function(a,b){for(var c=1;b>c;c+=2)a.push(c);return a}),lt:oa(function(a,b,c){for(var d=0>c?c+b:c;--d>=0;)a.push(d);return a}),gt:oa(function(a,b,c){for(var d=0>c?c+b:c;++d<b;)a.push(d);return a})}},d.pseudos.nth=d.pseudos.eq;for(b in{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})d.pseudos[b]=ma(b);for(b in{submit:!0,reset:!0})d.pseudos[b]=na(b);function qa(){}qa.prototype=d.filters=d.pseudos,d.setFilters=new qa,g=ga.tokenize=function(a,b){var c,e,f,g,h,i,j,k=z[a+" "];if(k)return b?0:k.slice(0);h=a,i=[],j=d.preFilter;while(h){(!c||(e=S.exec(h)))&&(e&&(h=h.slice(e[0].length)||h),i.push(f=[])),c=!1,(e=T.exec(h))&&(c=e.shift(),f.push({value:c,type:e[0].replace(R," ")}),h=h.slice(c.length));for(g in d.filter)!(e=X[g].exec(h))||j[g]&&!(e=j[g](e))||(c=e.shift(),f.push({value:c,type:g,matches:e}),h=h.slice(c.length));if(!c)break}return b?h.length:h?ga.error(a):z(a,i).slice(0)};function ra(a){for(var b=0,c=a.length,d="";c>b;b++)d+=a[b].value;return d}function sa(a,b,c){var d=b.dir,e=c&&"parentNode"===d,f=x++;return b.first?function(b,c,f){while(b=b[d])if(1===b.nodeType||e)return a(b,c,f)}:function(b,c,g){var h,i,j=[w,f];if(g){while(b=b[d])if((1===b.nodeType||e)&&a(b,c,g))return!0}else while(b=b[d])if(1===b.nodeType||e){if(i=b[u]||(b[u]={}),(h=i[d])&&h[0]===w&&h[1]===f)return j[2]=h[2];if(i[d]=j,j[2]=a(b,c,g))return!0}}}function ta(a){return a.length>1?function(b,c,d){var e=a.length;while(e--)if(!a[e](b,c,d))return!1;return!0}:a[0]}function ua(a,b,c){for(var d=0,e=b.length;e>d;d++)ga(a,b[d],c);return c}function va(a,b,c,d,e){for(var f,g=[],h=0,i=a.length,j=null!=b;i>h;h++)(f=a[h])&&(!c||c(f,d,e))&&(g.push(f),j&&b.push(h));return g}function wa(a,b,c,d,e,f){return d&&!d[u]&&(d=wa(d)),e&&!e[u]&&(e=wa(e,f)),ia(function(f,g,h,i){var j,k,l,m=[],n=[],o=g.length,p=f||ua(b||"*",h.nodeType?[h]:h,[]),q=!a||!f&&b?p:va(p,m,a,h,i),r=c?e||(f?a:o||d)?[]:g:q;if(c&&c(q,r,h,i),d){j=va(r,n),d(j,[],h,i),k=j.length;while(k--)(l=j[k])&&(r[n[k]]=!(q[n[k]]=l))}if(f){if(e||a){if(e){j=[],k=r.length;while(k--)(l=r[k])&&j.push(q[k]=l);e(null,r=[],j,i)}k=r.length;while(k--)(l=r[k])&&(j=e?J(f,l):m[k])>-1&&(f[j]=!(g[j]=l))}}else r=va(r===g?r.splice(o,r.length):r),e?e(null,g,r,i):H.apply(g,r)})}function xa(a){for(var b,c,e,f=a.length,g=d.relative[a[0].type],h=g||d.relative[" "],i=g?1:0,k=sa(function(a){return a===b},h,!0),l=sa(function(a){return J(b,a)>-1},h,!0),m=[function(a,c,d){var e=!g&&(d||c!==j)||((b=c).nodeType?k(a,c,d):l(a,c,d));return b=null,e}];f>i;i++)if(c=d.relative[a[i].type])m=[sa(ta(m),c)];else{if(c=d.filter[a[i].type].apply(null,a[i].matches),c[u]){for(e=++i;f>e;e++)if(d.relative[a[e].type])break;return wa(i>1&&ta(m),i>1&&ra(a.slice(0,i-1).concat({value:" "===a[i-2].type?"*":""})).replace(R,"$1"),c,e>i&&xa(a.slice(i,e)),f>e&&xa(a=a.slice(e)),f>e&&ra(a))}m.push(c)}return ta(m)}function ya(a,b){var c=b.length>0,e=a.length>0,f=function(f,g,h,i,k){var l,m,o,p=0,q="0",r=f&&[],s=[],t=j,u=f||e&&d.find.TAG("*",k),v=w+=null==t?1:Math.random()||.1,x=u.length;for(k&&(j=g!==n&&g);q!==x&&null!=(l=u[q]);q++){if(e&&l){m=0;while(o=a[m++])if(o(l,g,h)){i.push(l);break}k&&(w=v)}c&&((l=!o&&l)&&p--,f&&r.push(l))}if(p+=q,c&&q!==p){m=0;while(o=b[m++])o(r,s,g,h);if(f){if(p>0)while(q--)r[q]||s[q]||(s[q]=F.call(i));s=va(s)}H.apply(i,s),k&&!f&&s.length>0&&p+b.length>1&&ga.uniqueSort(i)}return k&&(w=v,j=t),r};return c?ia(f):f}return h=ga.compile=function(a,b){var c,d=[],e=[],f=A[a+" "];if(!f){b||(b=g(a)),c=b.length;while(c--)f=xa(b[c]),f[u]?d.push(f):e.push(f);f=A(a,ya(e,d)),f.selector=a}return f},i=ga.select=function(a,b,e,f){var i,j,k,l,m,n="function"==typeof a&&a,o=!f&&g(a=n.selector||a);if(e=e||[],1===o.length){if(j=o[0]=o[0].slice(0),j.length>2&&"ID"===(k=j[0]).type&&c.getById&&9===b.nodeType&&p&&d.relative[j[1].type]){if(b=(d.find.ID(k.matches[0].replace(ca,da),b)||[])[0],!b)return e;n&&(b=b.parentNode),a=a.slice(j.shift().value.length)}i=X.needsContext.test(a)?0:j.length;while(i--){if(k=j[i],d.relative[l=k.type])break;if((m=d.find[l])&&(f=m(k.matches[0].replace(ca,da),aa.test(j[0].type)&&pa(b.parentNode)||b))){if(j.splice(i,1),a=f.length&&ra(j),!a)return H.apply(e,f),e;break}}}return(n||h(a,o))(f,b,!p,e,aa.test(a)&&pa(b.parentNode)||b),e},c.sortStable=u.split("").sort(B).join("")===u,c.detectDuplicates=!!l,m(),c.sortDetached=ja(function(a){return 1&a.compareDocumentPosition(n.createElement("div"))}),ja(function(a){return a.innerHTML="<a href='#'></a>","#"===a.firstChild.getAttribute("href")})||ka("type|href|height|width",function(a,b,c){return c?void 0:a.getAttribute(b,"type"===b.toLowerCase()?1:2)}),c.attributes&&ja(function(a){return a.innerHTML="<input/>",a.firstChild.setAttribute("value",""),""===a.firstChild.getAttribute("value")})||ka("value",function(a,b,c){return c||"input"!==a.nodeName.toLowerCase()?void 0:a.defaultValue}),ja(function(a){return null==a.getAttribute("disabled")})||ka(K,function(a,b,c){var d;return c?void 0:a[b]===!0?b.toLowerCase():(d=a.getAttributeNode(b))&&d.specified?d.value:null}),ga}(a);m.find=s,m.expr=s.selectors,m.expr[":"]=m.expr.pseudos,m.unique=s.uniqueSort,m.text=s.getText,m.isXMLDoc=s.isXML,m.contains=s.contains;var t=m.expr.match.needsContext,u=/^<(\w+)\s*\/?>(?:<\/\1>|)$/,v=/^.[^:#\[\.,]*$/;function w(a,b,c){if(m.isFunction(b))return m.grep(a,function(a,d){return!!b.call(a,d,a)!==c});if(b.nodeType)return m.grep(a,function(a){return a===b!==c});if("string"==typeof b){if(v.test(b))return m.filter(b,a,c);b=m.filter(b,a)}return m.grep(a,function(a){return m.inArray(a,b)>=0!==c})}m.filter=function(a,b,c){var d=b[0];return c&&(a=":not("+a+")"),1===b.length&&1===d.nodeType?m.find.matchesSelector(d,a)?[d]:[]:m.find.matches(a,m.grep(b,function(a){return 1===a.nodeType}))},m.fn.extend({find:function(a){var b,c=[],d=this,e=d.length;if("string"!=typeof a)return this.pushStack(m(a).filter(function(){for(b=0;e>b;b++)if(m.contains(d[b],this))return!0}));for(b=0;e>b;b++)m.find(a,d[b],c);return c=this.pushStack(e>1?m.unique(c):c),c.selector=this.selector?this.selector+" "+a:a,c},filter:function(a){return this.pushStack(w(this,a||[],!1))},not:function(a){return this.pushStack(w(this,a||[],!0))},is:function(a){return!!w(this,"string"==typeof a&&t.test(a)?m(a):a||[],!1).length}});var x,y=a.document,z=/^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/,A=m.fn.init=function(a,b){var c,d;if(!a)return this;if("string"==typeof a){if(c="<"===a.charAt(0)&&">"===a.charAt(a.length-1)&&a.length>=3?[null,a,null]:z.exec(a),!c||!c[1]&&b)return!b||b.jquery?(b||x).find(a):this.constructor(b).find(a);if(c[1]){if(b=b instanceof m?b[0]:b,m.merge(this,m.parseHTML(c[1],b&&b.nodeType?b.ownerDocument||b:y,!0)),u.test(c[1])&&m.isPlainObject(b))for(c in b)m.isFunction(this[c])?this[c](b[c]):this.attr(c,b[c]);return this}if(d=y.getElementById(c[2]),d&&d.parentNode){if(d.id!==c[2])return x.find(a);this.length=1,this[0]=d}return this.context=y,this.selector=a,this}return a.nodeType?(this.context=this[0]=a,this.length=1,this):m.isFunction(a)?"undefined"!=typeof x.ready?x.ready(a):a(m):(void 0!==a.selector&&(this.selector=a.selector,this.context=a.context),m.makeArray(a,this))};A.prototype=m.fn,x=m(y);var B=/^(?:parents|prev(?:Until|All))/,C={children:!0,contents:!0,next:!0,prev:!0};m.extend({dir:function(a,b,c){var d=[],e=a[b];while(e&&9!==e.nodeType&&(void 0===c||1!==e.nodeType||!m(e).is(c)))1===e.nodeType&&d.push(e),e=e[b];return d},sibling:function(a,b){for(var c=[];a;a=a.nextSibling)1===a.nodeType&&a!==b&&c.push(a);return c}}),m.fn.extend({has:function(a){var b,c=m(a,this),d=c.length;return this.filter(function(){for(b=0;d>b;b++)if(m.contains(this,c[b]))return!0})},closest:function(a,b){for(var c,d=0,e=this.length,f=[],g=t.test(a)||"string"!=typeof a?m(a,b||this.context):0;e>d;d++)for(c=this[d];c&&c!==b;c=c.parentNode)if(c.nodeType<11&&(g?g.index(c)>-1:1===c.nodeType&&m.find.matchesSelector(c,a))){f.push(c);break}return this.pushStack(f.length>1?m.unique(f):f)},index:function(a){return a?"string"==typeof a?m.inArray(this[0],m(a)):m.inArray(a.jquery?a[0]:a,this):this[0]&&this[0].parentNode?this.first().prevAll().length:-1},add:function(a,b){return this.pushStack(m.unique(m.merge(this.get(),m(a,b))))},addBack:function(a){return this.add(null==a?this.prevObject:this.prevObject.filter(a))}});function D(a,b){do a=a[b];while(a&&1!==a.nodeType);return a}m.each({parent:function(a){var b=a.parentNode;return b&&11!==b.nodeType?b:null},parents:function(a){return m.dir(a,"parentNode")},parentsUntil:function(a,b,c){return m.dir(a,"parentNode",c)},next:function(a){return D(a,"nextSibling")},prev:function(a){return D(a,"previousSibling")},nextAll:function(a){return m.dir(a,"nextSibling")},prevAll:function(a){return m.dir(a,"previousSibling")},nextUntil:function(a,b,c){return m.dir(a,"nextSibling",c)},prevUntil:function(a,b,c){return m.dir(a,"previousSibling",c)},siblings:function(a){return m.sibling((a.parentNode||{}).firstChild,a)},children:function(a){return m.sibling(a.firstChild)},contents:function(a){return m.nodeName(a,"iframe")?a.contentDocument||a.contentWindow.document:m.merge([],a.childNodes)}},function(a,b){m.fn[a]=function(c,d){var e=m.map(this,b,c);return"Until"!==a.slice(-5)&&(d=c),d&&"string"==typeof d&&(e=m.filter(d,e)),this.length>1&&(C[a]||(e=m.unique(e)),B.test(a)&&(e=e.reverse())),this.pushStack(e)}});var E=/\S+/g,F={};function G(a){var b=F[a]={};return m.each(a.match(E)||[],function(a,c){b[c]=!0}),b}m.Callbacks=function(a){a="string"==typeof a?F[a]||G(a):m.extend({},a);var b,c,d,e,f,g,h=[],i=!a.once&&[],j=function(l){for(c=a.memory&&l,d=!0,f=g||0,g=0,e=h.length,b=!0;h&&e>f;f++)if(h[f].apply(l[0],l[1])===!1&&a.stopOnFalse){c=!1;break}b=!1,h&&(i?i.length&&j(i.shift()):c?h=[]:k.disable())},k={add:function(){if(h){var d=h.length;!function f(b){m.each(b,function(b,c){var d=m.type(c);"function"===d?a.unique&&k.has(c)||h.push(c):c&&c.length&&"string"!==d&&f(c)})}(arguments),b?e=h.length:c&&(g=d,j(c))}return this},remove:function(){return h&&m.each(arguments,function(a,c){var d;while((d=m.inArray(c,h,d))>-1)h.splice(d,1),b&&(e>=d&&e--,f>=d&&f--)}),this},has:function(a){return a?m.inArray(a,h)>-1:!(!h||!h.length)},empty:function(){return h=[],e=0,this},disable:function(){return h=i=c=void 0,this},disabled:function(){return!h},lock:function(){return i=void 0,c||k.disable(),this},locked:function(){return!i},fireWith:function(a,c){return!h||d&&!i||(c=c||[],c=[a,c.slice?c.slice():c],b?i.push(c):j(c)),this},fire:function(){return k.fireWith(this,arguments),this},fired:function(){return!!d}};return k},m.extend({Deferred:function(a){var b=[["resolve","done",m.Callbacks("once memory"),"resolved"],["reject","fail",m.Callbacks("once memory"),"rejected"],["notify","progress",m.Callbacks("memory")]],c="pending",d={state:function(){return c},always:function(){return e.done(arguments).fail(arguments),this},then:function(){var a=arguments;return m.Deferred(function(c){m.each(b,function(b,f){var g=m.isFunction(a[b])&&a[b];e[f[1]](function(){var a=g&&g.apply(this,arguments);a&&m.isFunction(a.promise)?a.promise().done(c.resolve).fail(c.reject).progress(c.notify):c[f[0]+"With"](this===d?c.promise():this,g?[a]:arguments)})}),a=null}).promise()},promise:function(a){return null!=a?m.extend(a,d):d}},e={};return d.pipe=d.then,m.each(b,function(a,f){var g=f[2],h=f[3];d[f[1]]=g.add,h&&g.add(function(){c=h},b[1^a][2].disable,b[2][2].lock),e[f[0]]=function(){return e[f[0]+"With"](this===e?d:this,arguments),this},e[f[0]+"With"]=g.fireWith}),d.promise(e),a&&a.call(e,e),e},when:function(a){var b=0,c=d.call(arguments),e=c.length,f=1!==e||a&&m.isFunction(a.promise)?e:0,g=1===f?a:m.Deferred(),h=function(a,b,c){return function(e){b[a]=this,c[a]=arguments.length>1?d.call(arguments):e,c===i?g.notifyWith(b,c):--f||g.resolveWith(b,c)}},i,j,k;if(e>1)for(i=new Array(e),j=new Array(e),k=new Array(e);e>b;b++)c[b]&&m.isFunction(c[b].promise)?c[b].promise().done(h(b,k,c)).fail(g.reject).progress(h(b,j,i)):--f;return f||g.resolveWith(k,c),g.promise()}});var H;m.fn.ready=function(a){return m.ready.promise().done(a),this},m.extend({isReady:!1,readyWait:1,holdReady:function(a){a?m.readyWait++:m.ready(!0)},ready:function(a){if(a===!0?!--m.readyWait:!m.isReady){if(!y.body)return setTimeout(m.ready);m.isReady=!0,a!==!0&&--m.readyWait>0||(H.resolveWith(y,[m]),m.fn.triggerHandler&&(m(y).triggerHandler("ready"),m(y).off("ready")))}}});function I(){y.addEventListener?(y.removeEventListener("DOMContentLoaded",J,!1),a.removeEventListener("load",J,!1)):(y.detachEvent("onreadystatechange",J),a.detachEvent("onload",J))}function J(){(y.addEventListener||"load"===event.type||"complete"===y.readyState)&&(I(),m.ready())}m.ready.promise=function(b){if(!H)if(H=m.Deferred(),"complete"===y.readyState)setTimeout(m.ready);else if(y.addEventListener)y.addEventListener("DOMContentLoaded",J,!1),a.addEventListener("load",J,!1);else{y.attachEvent("onreadystatechange",J),a.attachEvent("onload",J);var c=!1;try{c=null==a.frameElement&&y.documentElement}catch(d){}c&&c.doScroll&&!function e(){if(!m.isReady){try{c.doScroll("left")}catch(a){return setTimeout(e,50)}I(),m.ready()}}()}return H.promise(b)};var K="undefined",L;for(L in m(k))break;k.ownLast="0"!==L,k.inlineBlockNeedsLayout=!1,m(function(){var a,b,c,d;c=y.getElementsByTagName("body")[0],c&&c.style&&(b=y.createElement("div"),d=y.createElement("div"),d.style.cssText="position:absolute;border:0;width:0;height:0;top:0;left:-9999px",c.appendChild(d).appendChild(b),typeof b.style.zoom!==K&&(b.style.cssText="display:inline;margin:0;border:0;padding:1px;width:1px;zoom:1",k.inlineBlockNeedsLayout=a=3===b.offsetWidth,a&&(c.style.zoom=1)),c.removeChild(d))}),function(){var a=y.createElement("div");if(null==k.deleteExpando){k.deleteExpando=!0;try{delete a.test}catch(b){k.deleteExpando=!1}}a=null}(),m.acceptData=function(a){var b=m.noData[(a.nodeName+" ").toLowerCase()],c=+a.nodeType||1;return 1!==c&&9!==c?!1:!b||b!==!0&&a.getAttribute("classid")===b};var M=/^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,N=/([A-Z])/g;function O(a,b,c){if(void 0===c&&1===a.nodeType){var d="data-"+b.replace(N,"-$1").toLowerCase();if(c=a.getAttribute(d),"string"==typeof c){try{c="true"===c?!0:"false"===c?!1:"null"===c?null:+c+""===c?+c:M.test(c)?m.parseJSON(c):c}catch(e){}m.data(a,b,c)}else c=void 0}return c}function P(a){var b;for(b in a)if(("data"!==b||!m.isEmptyObject(a[b]))&&"toJSON"!==b)return!1;
@@ -371,490 +370,90 @@ summary {
 
 
 
-<h1 class="title toc-ignore">PS7: Logistic Regression</h1>
-<h4 class="author">Ji H. Kang</h4>
-<h4 class="date">01 December, 2020</h4>
 
 </div>
 
 
-<pre class="r"><code>library(tidyverse) #includes dplyr
-library(plyr)
-titanic &lt;- read.csv(&quot;../../Data/titanic.csv.bz2&quot;)</code></pre>
-<div id="titanic-what-happened-during-her-last-hours" class="section level1">
-<h1>1 Titanic: What Happened During Her Last Hours?</h1>
-<p>The Titanic did not carry enough life boats for all the passengers aboard. It’s stated that there were boats for 1,178 people but had ~2,2000 people passengers and crew members onbaord. These lifeboats weren’t intended for life-saving purposes but for the purpose of transferring passengers to other ships nearby. With no continegency plan or formal training, the crew members were unsure of how to handle a catastrophic situation such as collision; and as a result, only ~700 people were able to get to the boats. With most information being anecdotal from the survivors, it’s hard to quantitatively determine if the statements are completely true.</p>
-</div>
-<div id="titanic-data" class="section level1">
-<h1>1.1 Titanic Data</h1>
-<p>The variables in the data set include:<br />
-<strong>survived</strong> : Survived (1) or died (0)<br />
-<strong>pclass</strong> : Passengers class<br />
-<strong>name</strong> : Passengers name<br />
-<strong>sex</strong> : Passengers sex<br />
-<strong>age</strong> : Passengers age<br />
-<strong>sibsp</strong> : Number of siblings/spouses aboard<br />
-<strong>parch</strong> : Number of parents/children aboard<br />
-<strong>ticket</strong> : Ticket number<br />
-<strong>fare</strong> : Fare<br />
-<strong>cabin</strong> : Cabin<br />
-<strong>embarked</strong> : Port of embarkation<br />
-<strong>boat</strong> : number of lifeboat the person was found in<br />
-<strong>body</strong> : number of body if body identified<br />
-<strong>home.dest</strong> : the final destination<br />
-This data set encompasses information about 1309 individuals with these specific traits.</p>
-<div id="sanity-checks-on-data" class="section level2">
-<h2>Sanity Checks on Data</h2>
-<pre class="r"><code>summary(titanic)</code></pre>
-<pre><code>##      pclass         survived         name               sex           
-##  Min.   :1.000   Min.   :0.000   Length:1309        Length:1309       
-##  1st Qu.:2.000   1st Qu.:0.000   Class :character   Class :character  
-##  Median :3.000   Median :0.000   Mode  :character   Mode  :character  
-##  Mean   :2.295   Mean   :0.382                                        
-##  3rd Qu.:3.000   3rd Qu.:1.000                                        
-##  Max.   :3.000   Max.   :1.000                                        
-##                                                                       
-##       age              sibsp            parch          ticket         
-##  Min.   : 0.1667   Min.   :0.0000   Min.   :0.000   Length:1309       
-##  1st Qu.:21.0000   1st Qu.:0.0000   1st Qu.:0.000   Class :character  
-##  Median :28.0000   Median :0.0000   Median :0.000   Mode  :character  
-##  Mean   :29.8811   Mean   :0.4989   Mean   :0.385                     
-##  3rd Qu.:39.0000   3rd Qu.:1.0000   3rd Qu.:0.000                     
-##  Max.   :80.0000   Max.   :8.0000   Max.   :9.000                     
-##  NA&#39;s   :263                                                          
-##       fare            cabin             embarked             boat          
-##  Min.   :  0.000   Length:1309        Length:1309        Length:1309       
-##  1st Qu.:  7.896   Class :character   Class :character   Class :character  
-##  Median : 14.454   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   : 33.295                                                           
-##  3rd Qu.: 31.275                                                           
-##  Max.   :512.329                                                           
-##  NA&#39;s   :1                                                                 
-##       body        home.dest        
-##  Min.   :  1.0   Length:1309       
-##  1st Qu.: 72.0   Class :character  
-##  Median :155.0   Mode  :character  
-##  Mean   :160.8                     
-##  3rd Qu.:256.0                     
-##  Max.   :328.0                     
-##  NA&#39;s   :1188</code></pre>
-<p>“NA” signifies a missing value for that observation. If a summary category doesn’t have a NA row, it means there were no missing values for that specific variable. If there are missing values (NAs), then the number next to it signifies how many values within that variable are missing from the dataset.<br />
-For this report, <em>survived</em>, <em>pclass</em>, <em>sex</em>, and <em>age</em> are definitely going to be used.<br />
-<strong>survived</strong> has a minimum value of 0 and a maximum value of 1. This follows the binary options of 1 for survived and 0 for deceased. There are 1188 NAs which indicate that their ticket number was not able to be identified to the body.<br />
-<strong>pclass</strong> has a minimum of 1, and a max of 3. With 1st innerquartile value of 2, and 3rd innerquartile value of 3. This follows the semantic of values of 1, 2, and 3 correlating with the ticket class. There are no missing values here.<br />
-<strong>sex</strong> has only a male or female option represented by characters. The unique values within this variable are “female, male”<br />
-<strong>age</strong> has a minimum of 0.1667 and a maximum of 80. It’s not unrealistic for an infant to be on-board and for a affluent family to be able to purchase a ticket for the infant. There does not seem to be unrealistic values in this variable.<br />
-</p>
-</div>
-<div id="logistic-regression" class="section level2">
-<h2>1.2 Logistic Regression</h2>
-<p>Since there was an emphasis on women and children being saved first, <em>sex</em> and <em>age</em> would play a large factor. According to anecdotal accounts, even lifeboats that were half full were lowered prematurely because they had already evacuated all the women and children for that specific area - leaving men stranded on the ship that could’ve had a spot on a lifeboat. Additionally, 1st and 2nd class women and children had boarding lodges closer to the lifeboats. Based on the reports, 3rd class passengers seemed to not understand English well which led to misunderstanding or being unable to comprehend evacuation instructions. This would emphasize <em>pclass</em> as well. One variable I believe that would have an impact is <em>parch</em>, the number of parents/children on board. Using a hypothetical situation, a single-traveling parent with his/her children would ideally be given priority as well as they are the sole caretaker of the child/children. This would work inversely with the parents as well. It can be considered an ethical case study but it would follow the natural train of thought to save parents along with their children.<br />
-So if a person has any of the following: age is considered a child (younger than 14 in our case), sex is female, and pclass is 1 or 2, then the survival rate goes up. Based on the report earlier, some men were left stranded despite some lifeboats were half-full which would lead me to believe that males have a lower survival rate. It can also be expected that the elder (possibly older than 60) would not be prioritized as a inverse of prioritizing children first.<br />
-</p>
-<div id="creating-a-new-variable-child" class="section level3">
-<h3>Creating a new variable ‘child’</h3>
-<p><strong>child</strong> is given a value of 1 if the passenger was younger than 14 years old and 0 if they are 14 or older.</p>
-<pre class="r"><code>titanic &lt;- mutate(titanic, child = ifelse (age &lt; 14, 1, 0))</code></pre>
-<p>One problem arises in doing a logistic regression using <em>pclass</em> as a predictor. The value of pclass is given as a numerical value and while the ordering does signify the class the passenger’s ticket was, for the purpose of qualitative labels, it is inaccurate for a logistic regression. This insists that the difference between a 1st class and 2nd class passenger is the same as the difference between a 2nd class and 3rd class passenger. There isn’t a reliable way to convert qualitative values into equal quantitative ones. For this reason, pclass is going to be converted to categorical values.</p>
-<pre class="r"><code>titanic &lt;- mutate(titanic, pclass = factor(pclass))</code></pre>
-</div>
-<div id="estimating-a-mulitple-logistic-regression-model" class="section level3">
-<h3>Estimating a Mulitple Logistic Regression Model</h3>
-<pre class="r"><code>log_model &lt;- glm(survived ~ pclass + sex + child, family=binomial(), data=titanic)
-summary(log_model)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = survived ~ pclass + sex + child, family = binomial(), 
-##     data = titanic)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.6023  -0.6704  -0.4395   0.7430   2.1841  
-## 
-## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)   2.1257     0.1884  11.283  &lt; 2e-16 ***
-## pclass2      -0.9797     0.2104  -4.656 3.22e-06 ***
-## pclass3      -1.8897     0.1973  -9.577  &lt; 2e-16 ***
-## sexmale      -2.5246     0.1656 -15.247  &lt; 2e-16 ***
-## child         1.2260     0.2654   4.619 3.85e-06 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 1414.62  on 1045  degrees of freedom
-## Residual deviance:  992.03  on 1041  degrees of freedom
-##   (263 observations deleted due to missingness)
-## AIC: 1002
-## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<p>We can see the intercept has a value of 2.1257 with <em>sexfemale</em> and <em>pclass1</em> being excluded. This means that our reference case is females with a ticket class equal to 1. Being a male, indicated by <em>sexmale</em>, decreases the logit value by -2.5246. Being a male <strong>decreases</strong> the probability of survival as a result. It can also be seen that if you are a child, the value increases by 1.2260 so being a child (under 14 years old) increases your likelihood of survival. With pclass2 equaling -0.9797 and pclass3 equaling -1.8897. This confirms the anecdotal reports of pclass3 passengers having a lower rate of survival as a result. This doesn’t confirm whether the language barrier, placement of pclass3 passengers, or some other factor is the reason why though.<br />
-This regression model shows that being female, young, and a 1st class passenger all increase your chances at survival. Any other predictor is shown to decrease your odds.</p>
-</div>
-<div id="utilizing-parch-as-an-additional-factor" class="section level3">
-<h3>Utilizing “parch” as an additional factor</h3>
-<pre class="r"><code>log_model &lt;- glm(survived ~ pclass + sex + child + parch, family=binomial(), data=titanic)
-summary(log_model)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = survived ~ pclass + sex + child + parch, family = binomial(), 
-##     data = titanic)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.5853  -0.6771  -0.4455   0.7172   2.2334  
-## 
-## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)   2.2206     0.2007  11.067  &lt; 2e-16 ***
-## pclass2      -0.9941     0.2108  -4.715 2.42e-06 ***
-## pclass3      -1.8980     0.1977  -9.599  &lt; 2e-16 ***
-## sexmale      -2.5827     0.1713 -15.075  &lt; 2e-16 ***
-## child         1.3811     0.2870   4.813 1.49e-06 ***
-## parch        -0.1478     0.1004  -1.473    0.141    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 1414.62  on 1045  degrees of freedom
-## Residual deviance:  989.81  on 1040  degrees of freedom
-##   (263 observations deleted due to missingness)
-## AIC: 1001.8
-## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<p>Adding <em>parch</em>, the number of parent and children you have on-board, does some interesting things. It increases our intercept which signifies the former relation with an added benefit. A young child, that’s female, in first class has an even higher probability of survival if they have any other family members on board essentially. It doesn’t signify that those other family members have a higher survival probability however. The relation of being male, in 2nd or 3rd class, and an adult all decrease probability chance by approximately the same margin. One thing to note is that the probability of surviving actually decreases for each parent or sibling you have on board. Perhaps this could indicate that a family would rather be together with the Titanic sinking rather than have only a few members of the family survive, leaving the rest with the ship.</p>
-</div>
-<div id="utilziing-sibsp-as-an-additional-factor" class="section level3">
-<h3>Utilziing “sibsp” as an additional factor</h3>
-<pre class="r"><code>log_model &lt;- glm(survived ~ pclass + sex + child + sibsp, family=binomial(), data=titanic)
-summary(log_model)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = survived ~ pclass + sex + child + sibsp, family = binomial(), 
-##     data = titanic)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.7620  -0.6990  -0.4661   0.6761   2.6811  
-## 
-## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)   2.4133     0.2056  11.738  &lt; 2e-16 ***
-## pclass2      -1.0537     0.2136  -4.932 8.14e-07 ***
-## pclass3      -1.9339     0.1996  -9.688  &lt; 2e-16 ***
-## sexmale      -2.6445     0.1722 -15.358  &lt; 2e-16 ***
-## child         1.8458     0.3158   5.844 5.10e-09 ***
-## sibsp        -0.4671     0.1105  -4.226 2.38e-05 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 1414.62  on 1045  degrees of freedom
-## Residual deviance:  972.13  on 1040  degrees of freedom
-##   (263 observations deleted due to missingness)
-## AIC: 984.13
-## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<p><em>sibsp</em> indicates the number of siblings and spouses on board per passenger. The intercept is even higher indicating that a female child in first class has the highest probability of surviving. The same relation holds true as shown with <em>parch</em>. Those without any family on board had the highest chance of surviving. While it doesn’t indicate the reason why, I believe it is the same case as <em>parch</em>. Family members wouldn’t abandon or leave another behind to survive. Those who have siblings or a spouse on the ship had a log value of 0.4671 <strong>lower</strong> chance of surviving.</p>
-</div>
-</div>
-<div id="summary" class="section level2">
-<h2>Summary</h2>
-<p>(7pt) Based on the results above, explain what can you tell about the last hours on Titanic. Are the survivors’ accounts broadly accurate? Did the order break down? Can you tell anything else interesting?</p>
-<p>To recap, the report stated<br />
-1. There were boats for 1,178 people only with ~2,200 passenger and crew  2. Crew was untrained for emergency situations  3. No broadcasting system so spread of information was slow (Had to go door-to-door)<br />
-4. 1st and 2nd class women and children were prioritized for spots on boats  5. With little knowledge on how many people could fit on a boat, many boats (half filled) were lowered, leaving men on board.  6. 3rd Class passengers received less direction and information<br />
-</p>
-<p>Based on the regression models produced, many of these factors ring true. 3rd class passengers were supposedly located in an area that was harder to reach than 1st and 2nd class passengers. This, along with the fact that information spread door-to-door and how many 3rd class passengers didn’t fully understand English, meant 3rd class passengers received much less guidance on how to evacuate than other passengers. pclass3 has the lowest coefficient (negative) out of all the other classes. With 1st class being reference, 2nd class having a value of -0.9797, and 3rd class having a value of -1.8897. While it affirms the anecdotal report of 3rd class passengers survival chances, it doesn’t indicate whether perhaps the location of their cabin, the inability to understand English, or both is the reason as to why they have the lowest chances.  Moving onto <em>sex</em>, the reference for the model was 1st class females. This means that if you’re a male, the sexmale predictor gets a coefficient value of 1 and with a slope of -2.5246, it emphasizes that males had a much lower probability of surviving than females.  As expected, being a child increases the probability of survival by a significant amount. For context, in the base logistic regression done (the first case), the reference was a first class woman. Every predictor except <em>child</em> decreases survival probability. With pclass2 being lower than child in magnitude, it further emphasizes the anecdotal reports to be true. That 1st and 2nd class woman and children were prioritized. I believe “prioritized” isn’t an entirely true term since there is a disparity between 1st and 2nd class passenger’s survival probability.<br />
-One notable prediction I made prior to doing the regressions was that those with family members onboard, denoted by <em>sibsp</em> and <em>parch</em>, would have a higher survival rate since I believed families would be prioritized to be saved together. To my surprise, having parents, children, siblings, and/or spouses on board actually decreased the probability of survival. As noted in my previous explanation, I believe that families chose to rather go down together with the ship than split the family into who survives and who dies.  While the data proves some things such as women and children having a higher survival, it doesn’t entirely confirm other factors of the story. While 3rd class passengers had the lowest probability of survival out of the classes, it doesn’t confirm nor deny the reasons as to why. Was it really because of their cabin location, the majority’s inability to fluently understand English, or a mix of both? Was it because placements in lifeboats were done in a round robin style prioritizing those 1st + 2nd class women and children? I believe the effects, like the survival rate of certain demographics being higher or lower, are true but the reasons (Like the inability of 3rd class passengers to understand English) as to why some of it happened isn’t able to be confirmed from this data alone.</p>
-</div>
-</div>
-<div id="religiousness-and-attitude-toward-women" class="section level1">
-<h1>2. Religiousness and Attitude Toward Women</h1>
-<p>Next, we’ll be doing similar logistic regression work with World Value Survey data. This is aimed to find out if those who have conservative attitudes toward women are also more religious. The readme file reads as…</p>
-<p><strong>believeInGod</strong>  Do you believe in God?<br />
-1: yes, 2: no<br />
-</p>
-<p><strong>womanJob</strong> Having a job is the best way for a woman to be an independent person.<br />
-1: agree .. 3: disagree<br />
-</p>
-<p><strong>environmentImportant</strong> looking after after the environment is important to that person; to care for nature and save life resourses<br />
-1: very much like me … 6: not at all like me<br />
-</p>
-<p><strong>education</strong> What is the highest educational level that you have attained?<br />
-1: No formal education;<br />
-2: Incomplete primary school; 3: Complete primary school;<br />
-4: Incomplete secondary school: technical/vocational type;<br />
-5: Complete secondary school: technical/vocational type<br />
-6: Incomplete secondary: university-preparatory type<br />
-7: Complete secondary: university-preparatory type<br />
-8: Some university-level education, without degree<br />
-9: University-level education, with degree<br />
-</p>
-<p><strong>age</strong> in years</p>
-<pre class="r"><code>wvs &lt;- read.delim(&quot;../../Data/wvs-logit.csv.bz2&quot;) #wvs = world value 
-summary(wvs)</code></pre>
-<pre><code>##   believeInGod        age       education        womanJob    
-##  Min.   :1.000   Min.   :16   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:1.000   1st Qu.:28   1st Qu.:4.000   1st Qu.:1.000  
-##  Median :1.000   Median :40   Median :6.000   Median :1.000  
-##  Mean   :1.143   Mean   :42   Mean   :5.724   Mean   :1.606  
-##  3rd Qu.:1.000   3rd Qu.:54   3rd Qu.:8.000   3rd Qu.:2.000  
-##  Max.   :2.000   Max.   :99   Max.   :9.000   Max.   :3.000  
-##  environmentImportant  continent        
-##  Min.   :1.00         Length:75061      
-##  1st Qu.:2.00         Class :character  
-##  Median :2.00         Mode  :character  
-##  Mean   :2.51                           
-##  3rd Qu.:3.00                           
-##  Max.   :6.00</code></pre>
-<pre class="r"><code>cat(&quot;There are&quot;, nrow(wvs), &quot;observations in this dataset\n&quot;)</code></pre>
-<pre><code>## There are 75061 observations in this dataset</code></pre>
-<p>According to a summary table of the World Value Survey dataset, there doesn’t appear to be any invalid values (NA or negative values). There are 75,061 observations prior to cleaning up. For the sake of a sanity check, we’ll go through the process to make sure all data is sound. One thing to note is that it seems “continent” sometimes is left blank. We can see there is a &quot;&quot;. We will be removing these invalid fields.</p>
-<pre class="r"><code>wvs &lt;- wvs %&gt;% 
-  filter(believeInGod &gt;= 0 &amp; age &gt;= 0 &amp; education &gt;= 0 &amp; womanJob &gt;= 0 &amp;
-           environmentImportant &gt;= 0 &amp; continent != &quot;&quot;)
-cat(&quot;The final size of the dataset is&quot;, nrow(wvs), &quot;\n&quot;)</code></pre>
-<pre><code>## The final size of the dataset is 73761</code></pre>
-<p>Some of the variable coding is in a format that’s not completely ideal. We’ll be recoding the data in a way to change the scale to start from 0 instead. One thing to note is that I believe <strong>education</strong> is a categorical value. While there is a hierarchy in the order (Higher up you go, the higher level of education you’ve obtained), the differences between each level is not consistent. For example, a university-level education without a degree has variability within that specific category. One person may be one month off from a degree, dropped out in the beginning of their upper level education, dropped out halfway through. This ordering would suggest a quantitative scheme but since the data doesn’t indicate that each level has equal spacing from the next, I believe education is categorical and shall treat it as such.  To sum up, the ordering of these values must be changed. Currently for <em>believeInGod</em>, 1 is a yes and 2 is a no. This recoding will change this relation to 1 is a yes and 0 is a no. For <em>environmentImportant</em>, 1 = very much while 6 = not at all… but this relation will be flipped and decremented to be 0 = not at all and 5 = very much. Similar fashion with womanJob. It is currently 1 = agree, and 3 is disagree. The recoding will change this to 0 = disagree and 2 = agree - with 1 presumably being “unsure” or “neutral”.</p>
-<pre class="r"><code>wvs$believeInGod &lt;- 2 - wvs$believeInGod
-wvs$believeInGod &lt;- as.factor(wvs$believeInGod)
-# Need to flip the ordering of environmentImportant and decrement by 1. 
-# Currently it is 1 is &quot;very much&quot; and 6 is &quot;not at all&quot;. This needs to be.. 
-# 0 = not at all increasing to 5 being very much. 
-# Original | New
-#   1 | 5
-#   2 | 4
-#   3 | 3
-#   4 | 2
-#   5 | 1
-#   6 | 0
-cat(&quot;To make sure the data is correct after the changes, I&#39;ll be printing out the current sums of each environmentImportant value before and after.\n\n&quot;)</code></pre>
-<pre><code>## To make sure the data is correct after the changes, I&#39;ll be printing out the current sums of each environmentImportant value before and after.</code></pre>
-<pre class="r"><code>envBefore &lt;- table(wvs$environmentImportant)
-for (i in 1:length(envBefore)) {
-  cat(&quot;Number of &quot;, i, &quot;s (Will be &quot;, length(envBefore) - i, 
-      &quot; in the recoded): &quot;, envBefore[i], &quot;.\n&quot;, sep=&quot;&quot;)
-}</code></pre>
-<pre><code>## Number of 1s (Will be 5 in the recoded): 18360.
-## Number of 2s (Will be 4 in the recoded): 22276.
-## Number of 3s (Will be 3 in the recoded): 17508.
-## Number of 4s (Will be 2 in the recoded): 9744.
-## Number of 5s (Will be 1 in the recoded): 4210.
-## Number of 6s (Will be 0 in the recoded): 1663.</code></pre>
-<pre class="r"><code>original &lt;- c(1, 2, 3, 4, 5, 6) #List of original values
-mapping &lt;- c(5, 4, 3, 2, 1, 0) # Mapping of the original values to new ones. 
-wvs$environmentImportant &lt;- mapvalues(wvs$environmentImportant,
-                                       from=original, 
-                                       to = mapping)
-cat(&quot;\nNow for the changes after: \n\n&quot;)</code></pre>
-<pre><code>## 
-## Now for the changes after:</code></pre>
-<pre class="r"><code>envAfter &lt;- table(wvs$environmentImportant) 
-for (i in 1:length(envAfter)) {
-  cat(&quot;Number of &quot;, i - 1, &quot;s (Was &quot;, length(envAfter) + 1 - i, 
-      &quot; in the original: &quot;, envAfter[i], &quot;.\n&quot;, sep=&quot;&quot;)
-}</code></pre>
-<pre><code>## Number of 0s (Was 6 in the original: 1663.
-## Number of 1s (Was 5 in the original: 4210.
-## Number of 2s (Was 4 in the original: 9744.
-## Number of 3s (Was 3 in the original: 17508.
-## Number of 4s (Was 2 in the original: 22276.
-## Number of 5s (Was 1 in the original: 18360.</code></pre>
-<pre class="r"><code>wvs$environmentImportant &lt;- as.factor(wvs$environmentImportant) #categorical
-# Now to decrement Education and make it categorical. 
-wvs$education &lt;- as.factor(wvs$education - 1)
-# Now to convert womanJob in a similar fashion. 0 would be disagree to 2 being agree. 
-original &lt;- c(1, 2, 3)
-mapping &lt;- c(2, 1, 0)
-wvs$womanJob &lt;- mapvalues(wvs$womanJob, 
-                          from=original, 
-                          to=mapping) 
-wvs$womanJob &lt;- as.factor(wvs$womanJob)</code></pre>
-<div id="is-believeingod-a-good-measure-of-religiosity" class="section level3">
-<h3>Is believeInGod a good measure of “religiosity”?</h3>
-<p>As shown, there’s been a degree of low to high in <em>education</em> and <em>environmentImportant</em>. <em>believeInGod</em> stands apart from these two because it’s binary, a simple yes or no. There’s no indication of how religiously devout someone is. Someone who attends church, an agnostic who may not be sure about God, and a missionary who devotes his/her/their entire life to spreading religion may all indicate yes but there’s variability in how religious someone is. Inversely, for those who do not believe could be agnostic or atheist. There’s degrees in severity that isn’t reflected. One thing to note is someone who comes from the other end of the secular spectrum, a satanist, believes there is a God but does not worship or follow Christianity or Catholic principles but based on the question, they would most likely indicate yes. As a measure of equating believing in god to “religiosity” introduces a lot of ambiguity as seen in these specific cases.</p>
-</div>
-<div id="is-womanjob-a-good-proxy-for-attitude-toward-women" class="section level3">
-<h3>Is womanJob a good proxy for “attitude toward women”?</h3>
-<p>Conservative views about women are that they play subserviant role in society. That men should bring in the household income and women should tend to house chores and children. The current mapping this report is making is that people who are religious (believe in god) also share conservative views such as this outdated gender norm. It’s widely known that many people with conservative views are usually of the Christianity or Catholic denomination but equally, there’s a large number of liberal people who also believe in God. While I think <em>womanJob</em> may be a good indicator, I don’t think it’s the only factor since the question is subjective. The question asked if having a job is the <strong>best</strong> way for a woman to be independent. This question isn’t exactly a good indication since it’s based on perspective. You could be progressive and believe that the best indicator for a woman to be independent is if they have their own apartment/condo/house. If this was formulated to reflect conservative views, a new question could be “Do you believe women should perform domestic tasks in the household while men work for the household’s income?”. While I personally don’t agree with the message, I believe it’s a stronger reflection of conservative views of gender roles in society.<br />
-</p>
-<p>Some other things I believe could be changed is… I would ask questions in a similar fashion to how education is mapped out. This would include questions to map to various categories of increasing levels like… “Have not attended church, not religious”  “Have not attended church, is religious”  “Have attended church, but not religious”  “Have attended church, is religious”<br />
-“Currently attends church, not religious” in the case they’re curious about the belief  “Currently attends church, is religious”  and branching off into questions into higher degrees of belief such as “Have you ever gone on a mission trip for 3 months or longer”?<br />
-Then reformat the womanJob survey to be binary instead for the logistic regression.<br />
-Also if I were to redesign this question in particular, I would map it towards something more tangible. As mentioned, there is variability in believeInGod - it doesn’t show the various levels of how devout someone may be to religion. In the recent election, it’s been stated numerous times that the college-educated shared more progressive views such as the independence of women. Perhaps it’d be interesting seeing the relation to education level and views on women being independent.</p>
-</div>
-<div id="logistical-modeling" class="section level2">
-<h2>Logistical Modeling</h2>
-<pre class="r"><code>m &lt;- glm(believeInGod ~ womanJob, family=binomial(), data=wvs)
-summary(m)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = believeInGod ~ womanJob, family = binomial(), data = wvs)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.9981   0.5404   0.5566   0.5566   0.5879  
-## 
-## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)  1.85012    0.02477  74.690  &lt; 2e-16 ***
-## womanJob1   -0.18218    0.03233  -5.634 1.76e-08 ***
-## womanJob2   -0.06375    0.02837  -2.247   0.0246 *  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 61234  on 73760  degrees of freedom
-## Residual deviance: 61198  on 73758  degrees of freedom
-## AIC: 61204
-## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<p>The current way the model is set up is that believeInGod is the base case with womanJob = 0 being the reference. To reiterate, data recoding was done so that womanJob has the following scale: 0 = disagree, 1 = neutral, and 2 = agree in the context of women having a job is the best way to be an independent person. With the intercept representing believing in God. With womanJob = 1 and womanJob = 2, we see estimated slope values of -0.18218 and -0.06375 respectively. This would indicate that those who are neutral or unsure and those who agree that having a job is the best way for a woman to be an independent person are less likely to also believe in God. The intercept and womanJob1 are statistically significant at the 0 level and womanJob2 is statistically significant at the 0.01 level.</p>
-<div id="how-does-age-affect-the-probability-to-be-religious" class="section level3">
-<h3>How does ‘age’ affect the probability to be religious?</h3>
-<pre class="r"><code>m &lt;- glm(believeInGod ~ womanJob + age, family=binomial(), data=wvs) 
-summary(m)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = believeInGod ~ womanJob + age, family = binomial(), 
-##     data = wvs)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.1153   0.4978   0.5368   0.5846   0.7772  
-## 
-## Coefficients:
-##               Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)  2.3317331  0.0363705  64.111  &lt; 2e-16 ***
-## womanJob1   -0.1716484  0.0324128  -5.296 1.19e-07 ***
-## womanJob2   -0.0410475  0.0284600  -1.442    0.149    
-## age         -0.0115209  0.0006198 -18.589  &lt; 2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 61234  on 73760  degrees of freedom
-## Residual deviance: 60857  on 73757  degrees of freedom
-## AIC: 60865
-## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<p>Adding <strong>age</strong> as a factor to the model highlights some interesting things. The relationship between intercept, womanjob0, womanjob1, and womanjob2 hasn’t changed except for the actual log odds values but <strong>age</strong> can be seen as a negative slope. With a value of -0.0115209. As someone gets older, they’re less likely to believe in God. It seems that younger people tend to be more religious than older. Perhaps this is due to life experience and some contextual knowledge they gain from living in society longer than others.</p>
-</div>
-<div id="adding-education-environmentimportant-and-continent-to-the-model" class="section level3">
-<h3>Adding ‘education’, ‘environmentImportant’, and ‘continent’ to the model</h3>
-<pre class="r"><code>m &lt;- glm(believeInGod ~ womanJob + age + education + environmentImportant + continent,
-         family=binomial(), data=wvs)
-summary(m)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = believeInGod ~ womanJob + age + education + environmentImportant + 
-##     continent, family = binomial(), data = wvs)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -3.4363   0.1341   0.4372   0.6745   1.0437  
-## 
-## Coefficients:
-##                        Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)            5.414637   0.134321  40.311  &lt; 2e-16 ***
-## womanJob1              0.007234   0.033886   0.213   0.8310    
-## womanJob2              0.041486   0.029890   1.388   0.1651    
-## age                   -0.006118   0.000676  -9.050  &lt; 2e-16 ***
-## education1            -0.145428   0.097146  -1.497   0.1344    
-## education2            -1.031274   0.077531 -13.301  &lt; 2e-16 ***
-## education3            -0.444425   0.085176  -5.218 1.81e-07 ***
-## education4            -0.866819   0.075400 -11.496  &lt; 2e-16 ***
-## education5            -0.633598   0.083622  -7.577 3.54e-14 ***
-## education6            -0.871321   0.076162 -11.440  &lt; 2e-16 ***
-## education7            -1.019064   0.081250 -12.542  &lt; 2e-16 ***
-## education8            -1.040637   0.075206 -13.837  &lt; 2e-16 ***
-## environmentImportant1 -0.065743   0.078428  -0.838   0.4019    
-## environmentImportant2 -0.112895   0.072121  -1.565   0.1175    
-## environmentImportant3  0.149685   0.070265   2.130   0.0331 *  
-## environmentImportant4  0.303018   0.070182   4.318 1.58e-05 ***
-## environmentImportant5  0.730323   0.072137  10.124  &lt; 2e-16 ***
-## continentAmericas     -1.878946   0.100000 -18.789  &lt; 2e-16 ***
-## continentAsia         -3.119627   0.094193 -33.119  &lt; 2e-16 ***
-## continentEurope       -3.391817   0.094473 -35.903  &lt; 2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 61234  on 73760  degrees of freedom
-## Residual deviance: 54106  on 73741  degrees of freedom
-## AIC: 54146
-## 
-## Number of Fisher Scoring iterations: 7</code></pre>
-<p>One important thing to note is that womanJob1 and womanJob2 are not considered statistically significant anymore. Additionally, education1, and environmentImportant 1 &amp; 2 are also not statistically significant as well.  With environmentImportant 3 to 5, it is statistially significant and shows a positive correlation. Those who believe that perserving the environment is important are also more likely to believe in God. Inversely, those who are in America, Asia, or Europe are less likely to believe in God. With the reference case using ‘Africa’, people from Africa are more likely to believe in God. This seems to be true as according to thelastwell.org, Africa has the highest number of Christians per population than any other continent in the world.<br />
-</p>
-<p>With the statistically significant education levels, it also indicates there’s a lower probability of believing in God regardless of education level except for level 1 (not statistically significant).</p>
-<p><strong>Revisiting the previous question of gender roles answered previously</strong>, this would indicate that the womanJob scaling doesn’t actually have an impact on whether or not a person is likely to believe in God.</p>
-<pre class="r"><code>m &lt;- glm(believeInGod ~ relevel(womanJob, ref=2) + age + education + environmentImportant + continent,
-         family=binomial(), data=wvs)
-summary(m)</code></pre>
-<pre><code>## 
-## Call:
-## glm(formula = believeInGod ~ relevel(womanJob, ref = 2) + age + 
-##     education + environmentImportant + continent, family = binomial(), 
-##     data = wvs)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -3.4363   0.1341   0.4372   0.6745   1.0437  
-## 
-## Coefficients:
-##                              Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                  5.421871   0.134456  40.325  &lt; 2e-16 ***
-## relevel(womanJob, ref = 2)0 -0.007234   0.033886  -0.213   0.8310    
-## relevel(womanJob, ref = 2)2  0.034252   0.026247   1.305   0.1919    
-## age                         -0.006118   0.000676  -9.050  &lt; 2e-16 ***
-## education1                  -0.145428   0.097146  -1.497   0.1344    
-## education2                  -1.031274   0.077531 -13.301  &lt; 2e-16 ***
-## education3                  -0.444425   0.085176  -5.218 1.81e-07 ***
-## education4                  -0.866819   0.075400 -11.496  &lt; 2e-16 ***
-## education5                  -0.633598   0.083622  -7.577 3.54e-14 ***
-## education6                  -0.871321   0.076162 -11.440  &lt; 2e-16 ***
-## education7                  -1.019064   0.081250 -12.542  &lt; 2e-16 ***
-## education8                  -1.040637   0.075206 -13.837  &lt; 2e-16 ***
-## environmentImportant1       -0.065743   0.078428  -0.838   0.4019    
-## environmentImportant2       -0.112895   0.072121  -1.565   0.1175    
-## environmentImportant3        0.149685   0.070265   2.130   0.0331 *  
-## environmentImportant4        0.303018   0.070182   4.318 1.58e-05 ***
-## environmentImportant5        0.730323   0.072137  10.124  &lt; 2e-16 ***
-## continentAmericas           -1.878946   0.100000 -18.789  &lt; 2e-16 ***
-## continentAsia               -3.119627   0.094193 -33.119  &lt; 2e-16 ***
-## continentEurope             -3.391817   0.094473 -35.903  &lt; 2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 61234  on 73760  degrees of freedom
-## Residual deviance: 54106  on 73741  degrees of freedom
-## AIC: 54146
-## 
-## Number of Fisher Scoring iterations: 7</code></pre>
-<ol style="list-style-type: lower-alpha">
-<li>Choosing womanJob = 1 as a new reference, it still shows that there the predictor is not statistically significant and doesn’t affect the log odds in a meaningful way.<br />
-</li>
-<li><strong>environmentImportant</strong> responses for 1 and 2 are not statistically significant. However, values for 3 and above are. This indicates that people who care about the environment are more religious than those who do not. Can see that values 3 to 5 increase the log odds value by 0.149685, 0.303018, and 0.730323 respectively.<br />
-</li>
-<li>Across the board, people who are educated are less likely to believe in God. While the level of education doesn’t seem to correlate with the magnitude that people are less likely to believe, all values for education 0 to 8 are negative which lowers the log odds value.<br />
-</li>
-<li>The most religious continent appears to be Africa while the least religious seems to be Europe. </li>
-</ol>
-</div>
-</div>
-<div id="how-long-did-i-spend-on-this-ps" class="section level2">
-<h2>How Long Did I spend on this PS?</h2>
-<p>I would estimate around ~5-6 hours. This one seemed lengthier but all the while meaningful!</p>
+<div id="validation" class="section level1">
+<h1>Validation</h1>
+<pre class="r"><code>hv &lt;- read.csv(&quot;../../Data/house-votes-84.csv.bz2&quot;,
+               header=FALSE,
+               col.names=c(&quot;party&quot;,
+                           paste0(&quot;v&quot;, 1:16)))
+head(hv, 3)</code></pre>
+<pre><code>##        party v1 v2 v3 v4 v5 v6 v7 v8 v9 v10 v11 v12 v13 v14 v15 v16
+## 1 republican  n  y  n  y  y  y  n  n  n   y   ?   y   y   y   n   y
+## 2 republican  n  y  n  y  y  y  n  n  n   n   n   y   y   y   n   ?
+## 3   democrat  ?  y  y  ?  y  y  n  n  n   n   y   n   y   y   n   n</code></pre>
+<p>Convert it to a cleaner form for analysis</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.2     v purrr   0.3.4
+## v tibble  3.0.3     v dplyr   1.0.2
+## v tidyr   1.1.2     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>hv &lt;- hv %&gt;%
+   mutate(across(v1:v16, function(x) x == &quot;y&quot;)) %&gt;%
+   mutate(party = party == &quot;republican&quot;)
+head(hv, 3)</code></pre>
+<pre><code>##   party    v1   v2    v3    v4   v5   v6    v7    v8    v9   v10   v11   v12
+## 1  TRUE FALSE TRUE FALSE  TRUE TRUE TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE
+## 2  TRUE FALSE TRUE FALSE  TRUE TRUE TRUE FALSE FALSE FALSE FALSE FALSE  TRUE
+## 3 FALSE FALSE TRUE  TRUE FALSE TRUE TRUE FALSE FALSE FALSE FALSE  TRUE FALSE
+##    v13  v14   v15   v16
+## 1 TRUE TRUE FALSE  TRUE
+## 2 TRUE TRUE FALSE FALSE
+## 3 TRUE TRUE FALSE FALSE</code></pre>
+<p>Do training validation split</p>
+<pre class="r"><code>i &lt;- sample(nrow(hv), 0.8*nrow(hv))
+                           # training index
+Xt &lt;- hv[i,]  # training data
+Xv &lt;- hv[-i,]  # validation data
+dim(Xt)</code></pre>
+<pre><code>## [1] 348  17</code></pre>
+<pre class="r"><code>dim(Xv)</code></pre>
+<pre><code>## [1] 87 17</code></pre>
+<p>Train the model and compute accuracy on <strong>training data</strong></p>
+<pre class="r"><code>m &lt;- glm(party ~ ., data=Xt, family=binomial())
+                           # use _training_ data!!!
+haty &lt;- predict(m, type=&quot;response&quot;) &gt; 0.5
+                           # predict republicans
+mean(haty == Xt$party)</code></pre>
+<pre><code>## [1] 0.9741379</code></pre>
+<p>Compute accuracy on <strong>validation data</strong>. Note: only validate, do not train!</p>
+<pre class="r"><code>haty &lt;- predict(m, newdata=Xv, type=&quot;response&quot;) &gt; 0.5
+mean(haty == Xv$party)</code></pre>
+<pre><code>## [1] 0.954023</code></pre>
+<div id="now-we-do-some-tricks" class="section level2">
+<h2>Now we do some tricks</h2>
+<p>Add random votes to the data</p>
+<pre class="r"><code>## cbind: add column-wise
+M &lt;- sample(c(0,1), nrow(hv)*300, replace=TRUE) %&gt;%
+   matrix(nrow=nrow(hv))
+hv2 &lt;- cbind(hv, M)</code></pre>
+<p>And now do training-validation</p>
+<pre class="r"><code>i &lt;- sample(nrow(hv2), 0.8*nrow(hv2))
+                           # training indices
+Xt &lt;- hv2[i,]  # training data
+Xv &lt;- hv2[-i,]</code></pre>
+<p>Train the model on <strong>training data</strong></p>
+<pre class="r"><code>m &lt;- glm(party ~ ., data=Xt, family=binomial())</code></pre>
+<pre><code>## Warning: glm.fit: algorithm did not converge</code></pre>
+<pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+<pre class="r"><code>                           # use _training_ data!!!
+haty &lt;- predict(m, type=&quot;response&quot;) &gt; 0.5
+                           # predict republicans
+At &lt;- mean(haty == Xt$party)
+cat(&quot;Training accuracy&quot;, At, &quot;\n&quot;)</code></pre>
+<pre><code>## Training accuracy 1</code></pre>
+<p>Compute accuracy on <strong>validation data</strong>. Note: only validate, do not train!</p>
+<pre class="r"><code>haty &lt;- predict(m, newdata=Xv, type=&quot;response&quot;) &gt; 0.5
+Av &lt;- mean(haty == Xv$party)
+cat(&quot;Validation accuracy&quot;, Av, &quot;\n&quot;)</code></pre>
+<pre><code>## Validation accuracy 0.6896552</code></pre>
 </div>
 </div>
 
